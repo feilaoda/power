@@ -1,0 +1,20 @@
+<div class="page-header">
+    <h1>Details of project</h1>
+</div>
+
+
+<table class="table table-bordered">
+    <tbody>
+        <tr><th>name</th><td><%= project.name %></td></tr>
+        <tr><th>description</th><td><%= project.description %></td></tr>
+        <tr><th>permission</th><td><%= project.permission %></td></tr>
+        <tr><th>created</th><td><%= project.created %></td></tr>    
+    </tbody>
+</table>
+
+<div class="well">
+    <%- link_to('<i class="icon-edit icon-white"></i> Edit', path_to.edit_project(project), {class: 'btn btn-primary'}) %>
+    <%- link_to('<i class="icon-remove icon-white"></i> Delete', path_to.project(project), {class: 'btn btn-danger', method: 'delete', remote: true, jsonp: '(function (u) { location.href = u; })'}) %>
+    or
+    <%- link_to('Back to index', path_to.projects()) %>
+</div>
