@@ -1,7 +1,6 @@
 exports.routes = function (map) {
-    map.resources('projects');
-    map.resources('projects');
-    map.resources('projects');
+    map.resources('users');
+    map.resources('tasks');
     map.resources('projects');
 
     // Generic routes. Add all your routes below this line

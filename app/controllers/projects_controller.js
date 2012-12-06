@@ -9,6 +9,8 @@ action('new', function () {
 });
 
 action(function create() {
+    console.log(req.body.Project);
+    req.body.Project.created = Date.now();
     Project.create(req.body.Project, function (err, project) {
         if (err) {
             flash('error', 'Project can not be created');
@@ -25,7 +27,7 @@ action(function create() {
 
 action(function index() {
     this.title = 'Projects index';
-    Project.all(function (err, projects) {
+    Project.find(function (err, projects) {
         render({
             projects: projects
         });
@@ -39,11 +41,12 @@ action(function show() {
 
 action(function edit() {
     this.title = 'Project edit';
+
     render();
 });
 
 action(function update() {
-    this.project.updateAttributes(body.Project, function (err) {
+    this.project.update(body.Project, function (err) {
         if (!err) {
             flash('info', 'Project updated');
             redirect(path_to.project(this.project));
@@ -56,7 +59,7 @@ action(function update() {
 });
 
 action(function destroy() {
-    this.project.destroy(function (error) {
+    this.project.remove(function (error) {
         if (error) {
             flash('error', 'Can not destroy project');
         } else {
@@ -67,11 +70,11 @@ action(function destroy() {
 });
 
 function loadProject() {
-    Project.find(params.id, function (err, project) {
-        if (err || !project) {
+    Project.find({_id: params.id}, function (err, data) {
+        if (err || !data || data.length == 0) {
             redirect(path_to.projects());
         } else {
-            this.project = project;
+            this.project = data[0];
             next();
         }
     }.bind(this));

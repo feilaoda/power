@@ -1,0 +1,30 @@
+<%- errorMessagesFor(user) %>
+<div class="control-group">
+   <%- form.label("username", false, {class: "control-label"}) %>
+   <div class="controls">
+   <% if (action == "edit")  { %>
+    <label><%= user.username %></label>
+   <% }else{ %>
+       <%- form.input("username") %>
+    <% } %>
+   </div>
+</div>
+<div class="control-group">
+   <%- form.label("password", false, {class: "control-label"}) %>
+   <div class="controls">
+       <input type="password" name="User[password]" id="User_password">
+   </div>
+</div>
+<div class="control-group">
+   <%- form.label("Repeat password", false, {class: "control-label"}) %>
+   <div class="controls">
+       <input type="password" name="User[repeat_password]" id="User_repeat_password">
+   </div>
+</div>
+<div class="control-group">
+   <%- form.label("email", false, {class: "control-label"}) %>
+   <div class="controls">
+       <%- form.input("email") %>
+   </div>
+</div>
+

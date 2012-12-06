@@ -13,17 +13,20 @@
         <% if (projects.length > 0) { %>
             <table class="table table-striped">
                 <thead>
-                    <tr>
-                        <th>ID</th>
+                    <tr class="row-fluid">
+                        <th>Name</th>
+                        <th>Permission</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% projects.forEach(function (project) { %>
-                        <tr>
-                            <td><strong><%- link_to('project #' + project.id, path_to.project(project)) %></strong></td>
+                        <tr class="row-fluid">
+                            <td ><%- link_to('<i class="icon-edit"></i> Edit', path_to.edit_project(project), {class: 'btn btn-mini'}) %> 
+                            <strong class="offset0"><%- link_to(project.name, path_to.project(project)) %></strong></td>
+                            <td><%= project.permission %></td>
                             <td>
-                                <%- link_to('<i class="icon-edit"></i> Edit', path_to.edit_project(project), {class: 'btn btn-mini'}) %>
+                                
                                 <%- link_to('<i class="icon-remove icon-white"></i> Delete', path_to.project(project), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>        
                             </td>
                         </tr>

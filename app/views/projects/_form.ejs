@@ -14,12 +14,16 @@
 <div class="control-group">
    <%- form.label("permission", false, {class: "control-label"}) %>
    <div class="controls">
-       <%- form.input("permission") %>
+      <label>
+          <input name="Project[permission]" value="public" type="radio" 
+          <% if (project.permission == "public") { %>checked="checked"<% } %> >
+          Public
+        </label>
+      <label>
+          <input name="Project[permission]" value="private" type="radio" 
+          <% if (project.permission == "private") { %>checked="checked"<% } %> >
+          Private
+        </label>
    </div>
 </div>
-<div class="control-group">
-   <%- form.label("created", false, {class: "control-label"}) %>
-   <div class="controls">
-       <%- form.input("created") %>
-   </div>
-</div>
+
