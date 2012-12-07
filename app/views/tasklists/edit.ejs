@@ -1,0 +1,9 @@
+<div class="page-header"><h1>Edit tasklist</h1></div>
+
+<% form_for(tasklist, {action: path_to.project_tasklist(project, tasklist), method: 'PUT', id: "tasklist_form", class: 'form-horizontal'}, function (form) { %>
+    <%- partial('tasklists/form.ejs', {locals: {form: form, tasklist: tasklist}}) %>
+    <div class="form-actions">
+        <%- form.submit('<i class="icon-ok icon-white"></i> Update tasklist', {class: 'btn btn-primary'}) %> or
+        <%- link_to('Cancel', path_to.project(project), {class: 'btn'}) %>
+    </div>
+<% });%>

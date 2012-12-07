@@ -9,7 +9,8 @@ action('new', function () {
 });
 
 action(function create() {
-    Task.create(req.body.Task, function (err, task) {
+   
+    Task.create({}, function (err, task) {
         if (err) {
             flash('error', 'Task can not be created');
             render('new', {

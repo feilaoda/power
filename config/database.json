@@ -1,10 +1,13 @@
 { "development":
-  { "driver":   "memory"
+  { "driver":   "mongodb"
+  , "host":     "localhost"
+  , "database": "test"
+
   }
 , "test":
-  { "driver":   "memory"
+  { "driver":   "mongodb"
   }
 , "production":
-  { "driver":   "memory"
+  { "driver":   "mongodb"
   }
 }

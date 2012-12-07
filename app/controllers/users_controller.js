@@ -26,7 +26,7 @@ action(function create() {
 
 action(function index() {
     this.title = 'Users index';
-    User.find(function (err, users) {
+    User.all(function (err, users) {
         render({
             users: users
         });
@@ -47,7 +47,7 @@ action(function update() {
     if (body.User.password == ""){
         body.User.password = this.user.password;
     }
-    this.user.update(body.User, function (err) {
+    this.user.updateAttributes(body.User, function (err) {
         if (!err) {
             flash('info', 'User updated');
             redirect(path_to.user(this.user));
@@ -71,11 +71,11 @@ action(function destroy() {
 });
 
 function loadUser() {
-     User.find({_id: params.id}, function (err, data) {
+     User.find(params.id, function (err, data) {
         if (err || !data || data.length == 0) {
             redirect(path_to.users());
         } else {
-            this.user = data[0];
+            this.user = data;
             next();
         }
     }.bind(this));

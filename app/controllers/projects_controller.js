@@ -1,6 +1,8 @@
 load('application');
 
-before(loadProject, {only: ['show', 'edit', 'update', 'destroy']});
+before(loadProject, {only: [ 'edit', 'update', 'destroy']});
+
+before(loadTasks, {only: ['show']});
 
 action('new', function () {
     this.title = 'New project';
@@ -10,7 +12,6 @@ action('new', function () {
 
 action(function create() {
     console.log(req.body.Project);
-    req.body.Project.created = Date.now();
     Project.create(req.body.Project, function (err, project) {
         if (err) {
             flash('error', 'Project can not be created');
@@ -27,7 +28,7 @@ action(function create() {
 
 action(function index() {
     this.title = 'Projects index';
-    Project.find(function (err, projects) {
+    Project.all(function (err, projects) {
         render({
             projects: projects
         });
@@ -36,7 +37,18 @@ action(function index() {
 
 action(function show() {
     this.title = 'Project show';
-    render();
+    // console.log("show project" + this.project);
+    //this.project.tasklists.forEach(function (tasklist){ console.log("show tasklist" + tasklist)});
+    console.log(params);
+    this.newTasklist = new TaskList;
+    
+    TaskList.all({where:{projectId: params.id}}, function(err, tasklists){
+        console.log("tasklist: " + tasklists);
+        render({tasklists:tasklists});  
+    });
+    
+
+    
 });
 
 action(function edit() {
@@ -46,7 +58,7 @@ action(function edit() {
 });
 
 action(function update() {
-    this.project.update(body.Project, function (err) {
+    this.project.updateAttributes(body.Project, function (err) {
         if (!err) {
             flash('info', 'Project updated');
             redirect(path_to.project(this.project));
@@ -59,7 +71,7 @@ action(function update() {
 });
 
 action(function destroy() {
-    this.project.remove(function (error) {
+    this.project.destroy(function (error) {
         if (error) {
             flash('error', 'Can not destroy project');
         } else {
@@ -70,12 +82,41 @@ action(function destroy() {
 });
 
 function loadProject() {
-    Project.find({_id: params.id}, function (err, data) {
-        if (err || !data || data.length == 0) {
+    Project.find(params.id, function (err, data) {
+        if (err || !data) {
             redirect(path_to.projects());
         } else {
-            this.project = data[0];
+            console.log(data);
+            this.project = data;
             next();
         }
     }.bind(this));
+}
+
+function loadTasks() {
+
+    Project.find(params.id, function (err, data) {
+        if (err || !data) {
+            redirect(path_to.projects());
+        } else {
+            this.project = data;
+            next();
+        }
+    }.bind(this));
+
+    //var tasklists = TaskList.all({where: {projectId: params.id}, order: 'id', limit: 100});
+
+    
+    // this.tasklists = this.project.tasklists.find();
+    // TaskList.find({project_id: params.id}, function (err, data) {
+    //     if (err || !data) {
+    //         redirect(path_to.projects());
+    //     } else {
+            
+    //         this.project.tasklists = data;
+    //         console.log("tasklists " + this.project.tasklists);
+    //         next();
+    //     }
+    // }.bind(this));
+
 }

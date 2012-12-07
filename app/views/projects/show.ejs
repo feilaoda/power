@@ -3,18 +3,52 @@
 </div>
 
 
-<table class="table table-bordered">
-    <tbody>
-        <tr><th>name</th><td><%= project.name %></td></tr>
-        <tr><th>description</th><td><%= project.description %></td></tr>
-        <tr><th>permission</th><td><%= project.permission %></td></tr>
-        <tr><th>created</th><td><%= project.created %></td></tr>    
-    </tbody>
-</table>
-
-<div class="well">
-    <%- link_to('<i class="icon-edit icon-white"></i> Edit', path_to.edit_project(project), {class: 'btn btn-primary'}) %>
-    <%- link_to('<i class="icon-remove icon-white"></i> Delete', path_to.project(project), {class: 'btn btn-danger', method: 'delete', remote: true, jsonp: '(function (u) { location.href = u; })'}) %>
-    or
+<div class="row well">
+    
     <%- link_to('Back to index', path_to.projects()) %>
+</div>
+
+
+
+
+<div class="row well">
+    <div class="span11">
+
+        <% if (tasklists.length > 0) { %>
+            <table class="table table-striped">
+                <thead>
+                    <tr class="row-fluid">
+                        <th>Title</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% tasklists.forEach(function (tasklist) { %>
+                        <tr class="row-fluid">
+                            <td><%- link_to('<i class="icon-edit"></i> Edit', path_to.edit_project_tasklist(project, tasklist), {class: 'btn btn-mini'}) %>
+                            <strong class="offset0"><%- link_to(tasklist.title, path_to.project_tasklist(project, tasklist)) %></strong></td>
+                            <td>
+                                
+                                <%- link_to('<i class="icon-remove icon-white"></i> Delete', path_to.project_tasklist(project, tasklist), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>        
+                            </td>
+                        </tr>
+                    <% }); %>        
+                </tbody>
+            </table>
+        <% } else { %>
+            <p class="alert alert-block alert-info">
+                <strong>No tasklists were found.</strong> 
+            </p>
+        <% } %>
+    </div>
+</div>
+
+
+<div class="row well width8">
+<% form_for(newTasklist, {action: path_to.project_tasklists(project), method: 'POST', id: "tasklist_form", class: 'form-horizontal '}, function (form) { %>
+    <%- partial('tasklists/form.ejs', {locals: {form: form, tasklist: newTasklist}}) %>
+    <div class="form-actions">
+        <%- form.submit('<i class="icon-ok icon-white"></i> Create tasklist', {class: 'btn btn-primary'}) %>
+    </div>
+<% });%>
 </div>
