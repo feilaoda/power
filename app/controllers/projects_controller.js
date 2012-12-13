@@ -1,8 +1,7 @@
 load('application');
 
-before(loadProject, {only: [ 'edit', 'update', 'destroy']});
+before(loadProject, {only: [ 'show', 'edit', 'update', 'destroy']});
 
-before(loadTasks, {only: ['show']});
 
 action('new', function () {
     this.title = 'New project';
@@ -42,11 +41,15 @@ action(function show() {
     console.log(params);
     this.newTasklist = new TaskList;
     
-    TaskList.all({where:{projectId: params.id}}, function(err, tasklists){
-        console.log("tasklist: " + tasklists);
-        render({tasklists:tasklists});  
-    });
+    // TaskList.all({where:{projectId: params.id}}, function(err, tasklists){
+    //     console.log("tasklist: " + tasklists);
+    //     render({tasklists:tasklists});  
+    // });
     
+    this.project.tasklists(function(err, tasklists){
+        
+        render({tasklists:tasklists}); 
+    });
 
     
 });

@@ -2,10 +2,18 @@
     <h1><%= project.name %></h1>
 </div>
 
-
-<div class="row well">
-    
-    <%- link_to('Back to index', path_to.projects()) %>
+<div class="navbar navbar-inverse">
+<div class="navbar-inner">
+<div class="nav-collapse">
+    <ul class="nav">
+        <li><%- link_to('Back to index', path_to.projects()) %>
+        </li>
+        <li>
+            <%- link_to('Settings', path_to.projects()) %>
+        </li>
+    </ul>
+</div>
+</div>
 </div>
 
 
@@ -32,6 +40,40 @@
                                 <%- link_to('<i class="icon-remove icon-white"></i> Delete', path_to.project_tasklist(project, tasklist), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>        
                             </td>
                         </tr>
+
+                        <tr class="row-fluid">
+                        <td colspan=2>
+                            <% var tasks = [] %>
+
+                                <div class="row">
+                                    <div class="span12">
+                                        <% if (tasks.length > 0) { %>
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% tasks.forEach(function (task) { %>
+                                                        <tr>
+                                                            <td><strong><%- link_to('task #' + task.id, path_to.task(task)) %></strong></td>
+                                                            <td>
+                                                                <%- link_to('<i class="icon-edit"></i> Edit', path_to.edit_task(task), {class: 'btn btn-mini'}) %>
+                                                                <%- link_to('<i class="icon-remove icon-white"></i> Delete', path_to.task(task), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>        
+                                                            </td>
+                                                        </tr>
+                                                    <% }); %>        
+                                                </tbody>
+                                            </table>
+                                        <% }  %>
+                                    </div>
+                                </div>
+
+                        </td>
+                        </tr>
+
                     <% }); %>        
                 </tbody>
             </table>

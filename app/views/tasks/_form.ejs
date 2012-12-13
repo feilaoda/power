@@ -1,16 +1,13 @@
 <%- errorMessagesFor(task) %>
+<input type="hidden" name="tasklist_id" value="<%= tasklistId %>" >
 <div class="control-group">
    <%- form.label("title", false, {class: "control-label"}) %>
    <div class="controls">
        <%- form.input("title") %>
    </div>
 </div>
-<div class="control-group">
-   <%- form.label("project", false, {class: "control-label"}) %>
-   <div class="controls">
-       <%- form.input("project") %>
-   </div>
-</div>
+
+
 <div class="control-group">
    <%- form.label("user", false, {class: "control-label"}) %>
    <div class="controls">
@@ -23,9 +20,11 @@
        <%- form.input("finishTime") %>
    </div>
 </div>
+
+
 <div class="control-group">
-   <%- form.label("created", false, {class: "control-label"}) %>
+   <%- form.label("status", false, {class: "control-label"}) %>
    <div class="controls">
-       <%- form.input("created") %>
+       <%- form.input("status") %>
    </div>
 </div>

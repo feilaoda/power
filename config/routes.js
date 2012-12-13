@@ -1,10 +1,12 @@
 exports.routes = function (map) {
-    map.resources('tasks');
-    map.resources('tasks');
 
 
     map.resources('projects', function (project) {
         project.resources('tasklists');
+    });
+
+    map.resources('projects', function (project) {
+        project.resources('tasks');
     });
 
     map.resources('tasklists');

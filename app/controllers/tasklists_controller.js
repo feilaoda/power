@@ -54,17 +54,24 @@ action(function index() {
 
 action(function show() {
     this.title = 'TaskList show';
-    TaskList.find(params.id, function (err, data) {
-        if (err || !data) {
-            redirect(path_to.tasklists());
-        } else {
-            this.tasklist = data;
-            console.log(data);
-            console.log(this.tasklist.project());
-            this.project = this.tasklist.project();
-            render();
-        }
-    }.bind(this));
+    // TaskList.find(params.id, function (err, data) {
+    //     if (err || !data) {
+    //         redirect(path_to.tasklists());
+    //     } else {
+    //         this.tasklist = data;
+    //         console.log(data);
+            
+    //         this.project = this.tasklist.project();
+    //         console.log(this.project);
+    //         //this.tasks = this.tasklist.tasks();
+    //         render();
+    //     }
+    // }.bind(this));
+    
+    this.tasklist.tasks(function(err, tasks){
+        task = new Task;
+        render({newTask: task, tasks:tasks}); 
+    })
 
 });
 

@@ -88,7 +88,6 @@ schema('mongodb', { url: dburl }, function(){
             property('username',{type: String, index: true});
             property('email',{type: String, index: true});
             property('password',{type: String});
-            
             property('createTime',{type:String, default:Date.now});
         });
 
@@ -96,8 +95,8 @@ schema('mongodb', { url: dburl }, function(){
         define('Task', function(){
             property('title',{type: String, index:true});
             property('createTime',{type:Date, default:Date.now});
-            property('finishTime',{type: String});
-            property('done',{type: Boolean, default: false, index: true });
+            property('finishTime',{type: String});            
+            property('status',{type: String, default: 'todo', index: true });
         });
 
         var TaskList = define('TaskList', function(){
@@ -105,7 +104,6 @@ schema('mongodb', { url: dburl }, function(){
             
             property('createTime',{type:String, default:Date.now});
         });
-
 
         var Project = define('Project', function(){
             property('name',{type: String, index:true});            
@@ -117,6 +115,10 @@ schema('mongodb', { url: dburl }, function(){
         Project.hasMany(TaskList, {as: 'tasklists', foreignKey: 'projectId'});
         TaskList.belongsTo(Project, {as: 'project', foreignKey: 'projectId'});
 
+        Project.hasMany(Task, {as: 'tasks', foreignKey: 'projectId'});
+        TaskList.hasMany(Task, {as: 'tasks', foreignKey: 'tasklistId'});
+        Task.belongsTo(Project, {as: 'project', foreignKey: 'projectId'});
+        Task.belongsTo(TaskList, {as: 'tasklist', foreignKey: 'tasklistId'});
 
     });
 
