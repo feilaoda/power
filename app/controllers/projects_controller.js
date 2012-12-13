@@ -28,7 +28,7 @@ action(function create() {
 action(function index() {
     this.title = 'Projects index';
     Project.all(function (err, projects) {
-        render({
+        render("all.json.ejs", {
             projects: projects
         });
     });

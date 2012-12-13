@@ -3,3 +3,4 @@
 .row-fluid .offset0:first-child{margin-left:1%;*margin-left:1%;}
 .row {margin-left: 0;}
 .width8{width:770px;}
+.done-true { text-decoration: line-through;  color: grey; }

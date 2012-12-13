@@ -18,7 +18,6 @@
 
 
 
-
 <div class="row well">
     <div class="span11">
 
@@ -84,6 +83,46 @@
         <% } %>
     </div>
 </div>
+
+
+
+<div ng-controller="TodoCtrl">
+      <span>{{remaining()}} of {{todos.length}} remaining</span>
+      [ <a href="" ng-click="archive()">archive</a> ]
+      <ul class="unstyled">
+        <li ng-repeat="todo in todos">
+          <input type="checkbox" ng-model="todo.done">
+          <span class="done-{{todo.done}}">{{todo.text}}</span>
+        </li>
+      </ul>
+      <form ng-submit="addTodo()">
+        <input type="text" ng-model="todoText"  size="30"
+               placeholder="add new todo here">
+        <input class="btn-primary" type="submit" value="add">
+      </form>
+</div>
+
+
+
+<div ng-controller="TaskListController">
+      <span>{{remaining()}} of {{tasklists.length}} remaining</span>
+     
+      <ul class="unstyled">
+        <li ng-repeat="tasklist in tasklists">
+          <span class="status-{{tasklist.status}}">
+
+          <a href="/projects/#/tasklists/{{tasklist.id}}">{{tasklist.title}}</a>
+            
+          </span>
+        </li>
+      </ul>
+      <form ng-submit="addTaskList()">
+        <input type="text" ng-model="todoText"  size="30"
+               placeholder="add new todo here">
+        <input class="btn-primary" type="submit" value="add">
+      </form>
+</div>
+
 
 
 <div class="row well width8">

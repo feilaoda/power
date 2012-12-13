@@ -1,0 +1,10 @@
+[
+<% if (projects.length > 0) { %>
+{
+    <% projects.forEach(function (project) { %>
+    "id" = <%= project.id %>, 
+    "name" = <%= project.name %>
+    <% }); %>  
+}
+<% } %>
+]

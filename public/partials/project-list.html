@@ -1,0 +1,79 @@
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span2">
+      <!--Sidebar content-->
+
+      Search: <input ng-model="query">
+      Sort by:
+      <select ng-model="orderProp">
+        <option value="name">Alphabetical</option>
+        <option value="age">Newest</option>
+      </select>
+
+    </div>
+    <div class="span10">
+      <!--Body content-->
+
+      <ul class="phones">
+        <li ng-repeat="phone in phones | filter:query | orderBy:orderProp" class="thumbnail">
+          <a href="#/phones/{{phone.id}}" class="thumb"><img ng-src="{{phone.imageUrl}}"></a>
+          <a href="#/phones/{{phone.id}}">{{phone.name}}</a>
+          <p>{{phone.snippet}}</p>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="page-header">
+    <h1>Index of project</h1>
+</div>
+
+<div class="row">
+    <div class="span12">
+        <p>New Project</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span12">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="row-fluid">
+                        <th>Name</th>
+                        <th>Permission</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+<li ng-repeat="phone in phones | filter:query | orderBy:orderProp" class="thumbnail">
+          <a href="#/phones/{{phone.id}}" class="thumb"><img ng-src="{{phone.imageUrl}}"></a>
+          <a href="#/phones/{{phone.id}}">{{phone.name}}</a>
+          <p>{{phone.snippet}}</p>
+        </li>
+
+
+        <tr class="row-fluid" ng-repeat="phone in phones | filter:query | orderBy:orderProp">
+                            <td ><a href="#/phones/{{phone.id}}">{{project.name}}</a>
+                            
+                            <td>{{project.permission}}</td>
+                            <td>
+                                delete                                       
+                            </td>
+                        </tr>
+
+
+    
+                </tbody>
+            </table>
+           
+    </div>
+</div>
+
+
+
