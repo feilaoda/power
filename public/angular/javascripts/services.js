@@ -7,9 +7,4 @@ angular.module('projectServices', ['ngResource']).
   });
 });
 
-angular.module('tasklistServices', ['ngResource']).
-    factory('Phone', function($resource){
-  return $resource('api/tasklists/:tasklistId.json', {}, {
-    query: {method:'GET', params:{tasklistId: 'all'}, isArray:true}
-  });
-});
+
