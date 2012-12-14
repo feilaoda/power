@@ -9,6 +9,7 @@ action(function index() {
     });
 });
 
+var step = require('step');
 
 action(function show() {
     this.title = 'Project show';
@@ -30,9 +31,41 @@ action(function show() {
        
 
     // });
+    
+    step(
+        function thefunc1(finishFlag){
+        console.log("func1");
+      },
+      function thefunc2(finishFlag){
+        console.log("finishFlag2");
+      },
+      function thefunc3(finishFlag){
+        console.log("finishFlag3");
+      }
+
+        // function fun1(){
+        //     Project.find(params.id, function (err, data) {
+        //         if (err || !data) {
+        //             res.json({stat:'error', error:err})
+        //         } else {
+        //             console.log(data);
+        //             this.project = data;
+        //             next();
+        //         }
+        //     }.bind(this));
+        // },
+
+        // function fun2(){
+        //     console.log('func2');
+        // },
+
+        // function fun3(){
+        //     console.log('func3');
+        // },
+    );
 
     res.json({project: this.project,  
-        tasklists: this.tasklists});
+        tasklists: this.tasklists, test:'ok'});
 
 });
 
