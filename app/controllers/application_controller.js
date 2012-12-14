@@ -6,3 +6,4 @@ before('protect from forgery', function () {
 publish('requireUser', requireUser);
 function requireUser () {
 }
+

@@ -32,10 +32,11 @@
                 <tbody>
                     <% tasklists.forEach(function (tasklist) { %>
                         <tr class="row-fluid">
+
                             <td><%- link_to('<i class="icon-edit"></i> Edit', path_to.edit_project_tasklist(project, tasklist), {class: 'btn btn-mini'}) %>
                             <strong class="offset0"><%- link_to(tasklist.title, path_to.project_tasklist(project, tasklist)) %></strong></td>
                             <td>
-                                
+                                <%- path_to.api_tasklist(tasklist) %>
                                 <%- link_to('<i class="icon-remove icon-white"></i> Delete', path_to.project_tasklist(project, tasklist), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>        
                             </td>
                         </tr>
@@ -83,46 +84,6 @@
         <% } %>
     </div>
 </div>
-
-
-
-<div ng-controller="TodoCtrl">
-      <span>{{remaining()}} of {{todos.length}} remaining</span>
-      [ <a href="" ng-click="archive()">archive</a> ]
-      <ul class="unstyled">
-        <li ng-repeat="todo in todos">
-          <input type="checkbox" ng-model="todo.done">
-          <span class="done-{{todo.done}}">{{todo.text}}</span>
-        </li>
-      </ul>
-      <form ng-submit="addTodo()">
-        <input type="text" ng-model="todoText"  size="30"
-               placeholder="add new todo here">
-        <input class="btn-primary" type="submit" value="add">
-      </form>
-</div>
-
-
-
-<div ng-controller="TaskListController">
-      <span>{{remaining()}} of {{tasklists.length}} remaining</span>
-     
-      <ul class="unstyled">
-        <li ng-repeat="tasklist in tasklists">
-          <span class="status-{{tasklist.status}}">
-
-          <a href="/projects/#/tasklists/{{tasklist.id}}">{{tasklist.title}}</a>
-            
-          </span>
-        </li>
-      </ul>
-      <form ng-submit="addTaskList()">
-        <input type="text" ng-model="todoText"  size="30"
-               placeholder="add new todo here">
-        <input class="btn-primary" type="submit" value="add">
-      </form>
-</div>
-
 
 
 <div class="row well width8">

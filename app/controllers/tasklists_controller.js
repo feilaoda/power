@@ -45,10 +45,10 @@ action(function create() {
 
 action(function index() {
     this.title = 'TaskLists index';
+    var project_id = req.body.project_id;
+    console.log(req.body);
     TaskList.all(function (err, tasklists) {
-        render({
-            tasklists: tasklists
-        });
+        res.json(tasklists);
     });
 });
 

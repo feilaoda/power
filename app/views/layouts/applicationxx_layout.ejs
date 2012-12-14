@@ -1,27 +1,13 @@
-<!doctype html>
-<html lang="en" ng-app="powerproject">
-<head>
-  <meta charset="utf-8">
-  <title>Google Phone Gallery</title>
-  <%- stylesheet_link_tag('bootstrap.min', 'bootstrap-responsive', 'style') %>
-
-  <script src="/javascripts/angular.min.js"></script>
-  <script src="/javascripts/jquery.min.js"></script>
-  <script src="/angular/javascripts/app.js"></script>
-  <script src="/angular/javascripts/controllers.js"></script>
-  <script src="/angular/javascripts/filters.js"></script>
-  <script src="/angular/javascripts/services.js"></script>
-  <script src="/angular/javascripts/angular-resource.js"></script>
-
-<script src="/javascripts/power.js"></script>
-
-  <%- csrf_meta_tag() %>
-
-</head>
-<body>
- <%- csrf_tag() %>
- <input type="hidden" name="<%= request.csrfParam %>" value="<%= request.csrfToken %>" ng-model="_csrfToken">
-<div class="navbar">
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title><%= title %></title>
+        <%- stylesheet_link_tag('bootstrap.min', 'bootstrap-responsive', 'style') %>
+        <%- javascript_include_tag('jquery.min', 'bootstrap', 'rails', 'application') %>
+        <%- csrf_meta_tag() %>
+    </head>
+    <body>
+        <div class="navbar">
             <div class="navbar-inner">
                 <div class="container">
                     <a class="brand" href="<%- path_to.projects() %>">Projects</a>
@@ -29,7 +15,10 @@
                 </div>
             </div>
         </div>
-         <div class="container">
+
+       
+    
+        <div class="container">
             <% var flash = request.flash('info').pop(); if (flash) { %>
                 <div class="alert alert-info">
                     <a class="close" data-dismiss="alert">×</a>
@@ -46,18 +35,12 @@
             
             <%- body %>
             
+            <hr />
 
-            <div ng-view>
-              
-            </div>
 
             <footer>
                 <p>&copy; Company 2012</p>
             </footer>
         </div>
-
-
-  
-
-</body>
+    </body>
 </html>

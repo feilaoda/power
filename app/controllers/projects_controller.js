@@ -29,6 +29,7 @@ action(function index() {
     this.title = 'Projects index';
     Project.all(function (err, projects) {
         render({
+            token: req.csrfToken, 
             projects: projects
         });
     });

@@ -1,33 +1,23 @@
-
-
-
-
 <div class="page-header">
-    <h1>Index of project</h1>
+    <h1>{{ model.tasklist.title }}</h1>
 </div>
 
-<div class="row">
-    <div class="span12">
-        <p>New Project</p>
-    </div>
-</div>
 
 <div class="row">
     <div class="span12">
             <table class="table table-striped">
                 <thead>
                     <tr class="row-fluid">
-                        <th>Name</th>
-                        <th>Permission</th>
+                        <th>title</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
 
-        <tr class="row-fluid" ng-repeat="project in projects | filter:query | orderBy:orderProp">
-                            <td ><a href="#/projects/{{project.id}}">{{project.name}}</a>
-                            
-                            <td>{{project.permission}}</td>
+        <tr class="row-fluid" ng-repeat="task in model.tasks | filter:query | orderBy:orderProp">
+                            <td ><a href="#/projects/{{model.projectId}}/tasks/{{task.id}}">{{task.title}}</a>
+                            <td>{{task.status}}</td>
                             <td>
                                 delete                                       
                             </td>
@@ -38,6 +28,3 @@
            
     </div>
 </div>
-
-
-

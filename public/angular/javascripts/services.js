@@ -1,10 +1,66 @@
 
 
 angular.module('projectServices', ['ngResource']).
-    factory('Phone', function($resource){
-  return $resource('api/projects/:projectId.json', {}, {
-    query: {method:'GET', params:{projectId: 'all'}, isArray:true}
+    factory('Project', function($resource){
+    var Project = $resource('api/projects/:projectId',
+        {},
+        {
+            query: {method:'GET', params:{projectId: ''}, isArray:true},
+            update: {method: 'PUT'}
+        });
+
+    Project.prototype.update = function(cb){
+        return Project.update({id: this._id.$oid},
+            angular.extend({}, this, {_id:undefined}), cb);
+    };
+
+    Project.prototype.destroy = function(cb) {
+        return Project.remove({id: this._id.$oid}, cb);
+      };
+
+    return Project;
+
+    });
+
+angular.module('tasklistServices', ['ngResource']).
+    factory('TaskList', function($resource){
+        var TaskList = $resource('api/tasklists/:tasklistId', {}, {
+            query: {method:'GET', params:{tasklistId: ''}, isArray:true},
+            update: {method: 'PUT'}
+        });
+
+        TaskList.prototype.save = function() {
+            TaskList.save($scope.project, function(project) {
+                
+            });
+        };
+
+
+        TaskList.prototype.update = function(cb){
+            alert(this._id.$oid);
+            return TaskList.update({id: this._id.$oid},
+                    angular.extend({}, this, {_id:undefined}), cb);
+
+        };
+
+        TaskList.prototype.destroy = function(cb) {
+            return TaskList.remove({id: this._id.$oid}, cb);
+        };
+
+        return TaskList;
+    });
+
+angular.module('taskServices', ['ngResource']).
+    factory('Task', function($resource){
+  return $resource('api/tasks/:taskId', {}, {
+    query: {method:'GET', params:{taskId: ''}, isArray:true}
   });
 });
 
+angular.module('tokenServices', ['ngResource']).
+    factory('Token', function($resource){
+  return $resource('api/tokens', {}, {
+    query: {method:'GET', params:{}, isArray:true}
+  });
+});
 
