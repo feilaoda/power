@@ -1,6 +1,8 @@
 load('application');
 
 before(loadProject, {only: [ 'show', 'edit', 'update', 'destroy']});
+var mongodb = require('mongodb');
+var ObjectID = mongodb.ObjectID;
 
 
 action('new', function () {
@@ -41,16 +43,16 @@ action(function show() {
     //this.project.tasklists.forEach(function (tasklist){ console.log("show tasklist" + tasklist)});
     console.log(params);
     this.newTasklist = new TaskList;
-    
-    // TaskList.all({where:{projectId: params.id}}, function(err, tasklists){
-    //     console.log("tasklist: " + tasklists);
-    //     render({tasklists:tasklists});  
-    // });
-    
-    this.project.tasklists(function(err, tasklists){
-        
-        render({tasklists:tasklists}); 
+    var projectId = new ObjectID(params.id);
+    TaskList.all({where:{projectId: projectId}}, function(err, tasklists){
+        console.log("tasklist: " + tasklists);
+        render({tasklists:tasklists});  
     });
+    
+    // this.project.tasklists(function(err, tasklists){
+        
+    //     render({tasklists:tasklists}); 
+    // });
 
     
 });
@@ -86,7 +88,8 @@ action(function destroy() {
 });
 
 function loadProject() {
-    Project.find(params.id, function (err, data) {
+    console.log(params);
+    Project.find(new  ObjectID(params.id), function (err, data) {
         if (err || !data) {
             redirect(path_to.projects());
         } else {

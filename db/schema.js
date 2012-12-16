@@ -104,6 +104,11 @@ schema('mongodb', { url: dburl }, function(){
             
             property('createTime',{type:String, default:Date.now});
         });
+        
+        TaskList.prototype.to_dict = function to_dict(){
+            return {id: this.id, title: this.title};
+        }
+
 
         var Project = define('Project', function(){
             property('name',{type: String, index:true});            

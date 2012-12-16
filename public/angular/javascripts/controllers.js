@@ -16,14 +16,20 @@ function ProjectDetailCtrl($scope, $location,  $routeParams, Project, TaskList, 
   Project.get({projectId: $routeParams.projectId}, function(model) {
     $scope.model = model;
     // $scope.token = model.token;
+    $scope.projectId = model.project.id;
     $scope.tasklist = new TaskList({project_id:model.project.id});
   });
 
  
 
   $scope.saveTaskList = function(){
-    $scope.tasklist.authenticity_token = $scope.csrfToken;
-    TaskList.save($scope.tasklist, function(tasklist){
+
+    var data = {title: $scope.tasklist.title, authenticity_token: $scope.csrfToken,
+      projectId: $scope.projectId};
+
+    alert(data.title+ data.projectId);
+
+    TaskList.save(data, function(tasklist){
         $("#tasklistForm").hide();
     });
   }

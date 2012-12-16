@@ -3,6 +3,30 @@
 </div>
 
 
+
+<a href="javascript:;" onclick="show('taskForm')" class="btn">Add a new Task</a>
+
+<div id="taskForm" class="row well width8 hidde">
+
+<form name="taskForm">
+  <div class="control-group" ng-class="{error: taskForm.name.$invalid}">
+    <label>Title</label>
+    <input type="hidden" name="authenticity_token" value="{{csrfToken}}" ng-model="csrfToken">
+    <input type="hidden" name="projectId" ng-model="task.projectId">
+    <input type="hidden" name="tasklistId" ng-model="task.tasklistId">
+    
+    <input type="text" name="title" ng-model="task.title" required>
+    <span ng-show="taskForm.title.$error.required" class="help-inline">
+        Required</span>
+  </div>
+<a href="javascript:;" onclick="hide('taskForm')" class="btn">Cancel</a>
+  <button ng-click="saveTask()" ng-disabled="taskForm.$invalid"
+          class="btn btn-primary">Save</button>
+</form>
+
+</div>
+
+
 <div class="row">
     <div class="span12">
             <table class="table table-striped">

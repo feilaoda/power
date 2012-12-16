@@ -30,18 +30,19 @@
                 <thead>
                     <tr class="row-fluid">
                         <th>Name</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
 
-        <tr class="row-fluid" ng-repeat="tasklist in model.tasklists | filter:query | orderBy:orderProp">
+                <tr class="row-fluid" ng-repeat="tasklist in model.tasklists | filter:query | orderBy:orderProp">
                             <td ><a href="#/projects/{{model.project.id}}/tasklists/{{tasklist.id}}">{{tasklist.title}}</a>
-                         
-                            <td>
-                                delete                                       
-                            </td>
-                        </tr>
+                          <ul>
+                                    <li ng-repeat="task in tasklist.tasks"> {{task.title}} </li>
+                                </ul>   
+                                
+
+
+                 </tr>
     
                 </tbody>
             </table>
