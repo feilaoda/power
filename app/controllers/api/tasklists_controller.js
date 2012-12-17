@@ -16,9 +16,8 @@ action(function show() {
     var tl = this.tasklist;
     var pid = this.tasklist.project();
     this.tasklist.tasks(function(err, tasks){
-        res.json({projectId: pid,
+        res.json({project:{id: pid },
             tasklist: tl,  
-            token: req.csrfToken,
             tasks: tasks});
     });
 });
@@ -27,6 +26,10 @@ action(function show() {
 action(function create() {
     //data['projectId'] = params.project_id;
     console.log(req.body);
+    if(req.body.title == undefined){
+        return res.json({stat:"error", error:"title is required"});
+    }
+
     var projectId = req.body.projectId;
     console.log(projectId);
     Project.find(new ObjectID(projectId), function(err, project){

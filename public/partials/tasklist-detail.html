@@ -2,7 +2,9 @@
     <h1>{{ model.tasklist.title }}</h1>
 </div>
 
-
+<div>
+<h4><a href="#/projects/{{projectId}}/" onclick="show('taskForm')" >Back to project</a></h4>
+</div>
 
 <a href="javascript:;" onclick="show('taskForm')" class="btn">Add a new Task</a>
 
@@ -11,10 +13,6 @@
 <form name="taskForm">
   <div class="control-group" ng-class="{error: taskForm.name.$invalid}">
     <label>Title</label>
-    <input type="hidden" name="authenticity_token" value="{{csrfToken}}" ng-model="csrfToken">
-    <input type="hidden" name="projectId" ng-model="task.projectId">
-    <input type="hidden" name="tasklistId" ng-model="task.tasklistId">
-    
     <input type="text" name="title" ng-model="task.title" required>
     <span ng-show="taskForm.title.$error.required" class="help-inline">
         Required</span>
@@ -40,7 +38,7 @@
                 <tbody>
 
         <tr class="row-fluid" ng-repeat="task in model.tasks | filter:query | orderBy:orderProp">
-                            <td ><a href="#/projects/{{model.projectId}}/tasks/{{task.id}}">{{task.title}}</a>
+                            <td ><a href="#/projects/{{model.project.id}}/tasks/{{task.id}}">{{task.title}}</a>
                             <td>{{task.status}}</td>
                             <td>
                                 delete                                       

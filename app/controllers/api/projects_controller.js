@@ -29,8 +29,6 @@ function loadTaskLists(projectId, callback){
     Step(
         function loadTaskList(){
             TaskList.all({where: {projectId: projectId}}, this);
-
-
         },
 
         function loadTasks(err, data){
@@ -85,23 +83,30 @@ action(function show() {
 
         function loadTasks(err, data){
             if(err) throw err;
-            
-            // tasklists = data;
+            //tasklists = data;
             console.log("tasklist count is: " + data.length);
             data.forEach(function(tasklist){
                 tasklists[tasklist.id] = tasklist.to_dict(); // {id: tasklist.id, title: tasklist.title};
             });
             var parallel = this.parallel;
-            data.forEach(function(tasklist){
-                tasklist.tasks(parallel());
-            });
+            if(data.length>0){
+                console.log(data);
+                data.forEach(function(tasklist){
+                    console.log(tasklist);
+                    // tasklist.tasks(parallel());
+                    var tasklistObjectId = new ObjectID(tasklist.id);
+                    Task.all({where: {tasklistId:tasklistObjectId}}, parallel());
+                });
+            }else{
+                return [];
+            }
         },
 
         function parseTasks(err){
-            // console.log(Array.prototype.slice.call(arguments,1));
+            console.log(Array.prototype.slice.call(arguments,1));
             var tasks = [];
             Array.prototype.slice.call(arguments,1).forEach(function (data) {
-
+                // console.log(data);
                 if (data != undefined && data.length > 0){
                     var tasklistId = data[0].tasklistId;
                     if (tasklistId != undefined){
@@ -110,33 +115,13 @@ action(function show() {
                             tls['tasks'] = data;
                         }
                     }
-
-                    // data.forEach(function(task){
-                    //     var tasklistid = task.tasklistId;
-                    //     console.log(tasklists[tasklistid]);
-
-                    //     if (tasklistid != undefined){
-                    //         if (tasklists[tasklistid].tasks === undefined){
-                    //             tasklists[tasklistid].tasks = [];
-                    //         }
-                    //         else{
-                    //             tasklists[tasklistid].tasks.push(task);
-                    //         }
-                    //     }
-                    // });
                 }
               });
 
             // return tasks;
             console.log(tasklists);
+
             res.json({project: {id: projectId},tasklists: tasklists});
-        },
-
-        function finalize(err){
-            console.log("finalize");
-            // console.log(tasks);
-
-            //res.json({tasklists: tasklists, tasks: tasks});
         }
     
 

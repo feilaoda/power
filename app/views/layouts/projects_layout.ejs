@@ -7,20 +7,13 @@
 
   <script src="/javascripts/angular.min.js"></script>
   <script src="/javascripts/jquery.min.js"></script>
-  <script src="/angular/javascripts/app.js"></script>
-  <script src="/angular/javascripts/controllers.js"></script>
-  <script src="/angular/javascripts/filters.js"></script>
-  <script src="/angular/javascripts/services.js"></script>
-  <script src="/angular/javascripts/angular-resource.js"></script>
 
-<script src="/javascripts/power.js"></script>
 
   <%- csrf_meta_tag() %>
 
 </head>
 <body>
- <%- csrf_tag() %>
- <input type="hidden" name="<%= request.csrfParam %>" value="<%= request.csrfToken %>" ng-model="_csrfToken">
+
 <div class="navbar">
             <div class="navbar-inner">
                 <div class="container">
@@ -29,6 +22,7 @@
                 </div>
             </div>
         </div>
+
          <div class="container">
             <% var flash = request.flash('info').pop(); if (flash) { %>
                 <div class="alert alert-info">
@@ -43,21 +37,29 @@
                     <%- flash %>
                 </div>
             <% }; %>
-            
+              
             <%- body %>
             
-
+            <%- csrf_tag() %>
             <div ng-view>
-              
+             
             </div>
 
             <footer>
                 <p>&copy; Company 2012</p>
             </footer>
+
         </div>
 
 
-  
+    
+              <script src="/angular/javascripts/app.js"></script>
+  <script src="/angular/javascripts/controllers.js"></script>
+  <script src="/angular/javascripts/filters.js"></script>
+  <script src="/angular/javascripts/services.js"></script>
+  <script src="/angular/javascripts/angular-resource.js"></script>
+
+<script src="/javascripts/power.js"></script>
 
 </body>
 </html>

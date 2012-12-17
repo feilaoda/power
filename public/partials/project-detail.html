@@ -7,17 +7,15 @@
 <div id="tasklistForm" class="row well width8 hidde">
 
 <form name="tasklistForm">
-  <div class="control-group" ng-class="{error: myForm.name.$invalid}">
+  <div class="control-group" ng-class="{error: tasklistForm.title.$invalid}">
     <label>Title</label>
-    <input type="hidden" name="authenticity_token" value="{{csrfToken}}" ng-model="csrfToken">
-
-    <input type="hidden" name="projectId" ng-model="tasklist.projectId">
-    <input type="text" name="title" ng-model="tasklist.title" required>
+    <input type="hidden" name="authenticity_token" ng-model="csrfToken">
+    <input type="text" name="title" ng-model="newTasklist.title" required>
     <span ng-show="tasklistForm.title.$error.required" class="help-inline">
         Required</span>
   </div>
 <a href="javascript:;" onclick="hide('tasklistForm')" class="btn">Cancel</a>
-  <button ng-click="saveTaskList()" ng-disabled="tasklistForm.$invalid"
+  <button ng-click="saveTaskList()" ng-disabled="tasklistForm.title.$invalid"
           class="btn btn-primary">Save</button>
 </form>
 
@@ -34,12 +32,28 @@
                 </thead>
                 <tbody>
 
-                <tr class="row-fluid" ng-repeat="tasklist in model.tasklists | filter:query | orderBy:orderProp">
-                            <td ><a href="#/projects/{{model.project.id}}/tasklists/{{tasklist.id}}">{{tasklist.title}}</a>
-                          <ul>
+                <tr class="row-fluid" ng-repeat="tasklist in tasklists | filter:query | orderBy:orderProp"  >
+                            <td ><a href="#/projects/{{projectId}}/tasklists/{{tasklist.id}}">{{tasklist.title}}</a>
+                        <ul>
                                     <li ng-repeat="task in tasklist.tasks"> {{task.title}} </li>
-                                </ul>   
-                                
+                        </ul>   
+                        <div>
+                            <a href="javascript:;" onclick="show('taskForm{{tasklist.id}}')" >Add a new Task</a>
+                            <div id="taskForm{{tasklist.id}}" class="row well width8 hidde">
+                            <form name="taskForm{{tasklist.id}}">
+                              <div class="control-group" ng-class="{error:taskForm{{tasklist.id}}.title.$invalid}">
+                                <label>Title</label>
+                                <input type="text" name="title" ng-model="tasks[tasklist.id].title" required>
+                                <span ng-show="true" class="help-inline">
+                                    Required</span>
+                              </div>
+                              <a href="javascript:;" onclick="hide('taskForm{{tasklist.id}}')" class="btn">Cancel</a>
+                              <button ng-click="saveTask(tasklist.id)" ng-disabled="taskForm{{tasklist.id}}.title.$invalid"
+                                      class="btn btn-primary">Save</button>
+                            </form>
+
+                            </div>
+                        </div>
 
 
                  </tr>

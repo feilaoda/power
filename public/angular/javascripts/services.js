@@ -29,11 +29,6 @@ angular.module('tasklistServices', ['ngResource']).
             update: {method: 'PUT'}
         });
 
-        TaskList.prototype.save = function() {
-            TaskList.save($scope.project, function(project) {
-                
-            });
-        };
 
 
         TaskList.prototype.update = function(cb){
@@ -52,10 +47,25 @@ angular.module('tasklistServices', ['ngResource']).
 
 angular.module('taskServices', ['ngResource']).
     factory('Task', function($resource){
-  return $resource('api/tasks/:taskId', {}, {
-    query: {method:'GET', params:{taskId: ''}, isArray:true}
-  });
-});
+        var Task = $resource('api/tasks/:taskId', {}, {
+            query: {method:'GET', params:{taskId: ''}, isArray:true}
+        });
+
+
+        // Task.prototype.update = function(cb){
+        //     alert(this._id.$oid);
+        //     return Task.update({id: this._id.$oid},
+        //             angular.extend({}, this, {_id:undefined}), cb);
+
+        // };
+
+        // Task.prototype.destroy = function(cb) {
+        //     return Task.remove({id: this._id.$oid}, cb);
+        // };
+
+        return Task;
+
+    });
 
 angular.module('tokenServices', ['ngResource']).
     factory('Token', function($resource){
