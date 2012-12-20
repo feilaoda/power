@@ -1,1 +1,0 @@
-power is a web based project management system.
