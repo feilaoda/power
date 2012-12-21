@@ -10,7 +10,7 @@ class App.TasklistsController extends App.ApplicationController
         return @render text:{stat: 'fail', error: '404'}
 
       @tasklist.set('projectId', project.get('id'))
-      @tasklist.save (err, tasklist) =>
+      @tasklist.save (err) =>
         if err
           @render json:{stat: 'fail'}
         else

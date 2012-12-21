@@ -19,7 +19,7 @@ class App.TasksController extends App.ApplicationController
 
       @task.set('tasklistId', tasklistId)
       @task.set('projectId', project.get('id'))
-      @task.save (err, task) =>
+      @task.save (err) =>
         if err
           @render json:{stat: 'fail'}
         else

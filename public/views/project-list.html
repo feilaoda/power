@@ -6,11 +6,28 @@
     <h1>Index of project</h1>
 </div>
 
-<div class="row">
-    <div class="span12">
-        <p>New Project</p>
-    </div>
+ 
+
+<a href="javascript:;" onclick="show('projectForm')" class="btn">Add a new Project</a>
+
+<div id="projectForm" class="row well width8 display">
+
+<form name="projectForm">
+  <div class="control-group" ng-class="{error: projectForm.title.$invalid}">
+    <label>Title</label>
+    <input id="input_projectForm" type="text" name="title" ng-model="newProject.title" required>
+    <span ng-show="projectForm.title.$error.required" class="help-inline">
+        Required</span>
+  </div>
+
+  <button ng-click="save()" ng-disabled="projectForm.title.$invalid"
+          class="btn btn-primary">Save</button>
+  <a href="javascript:;" onclick="hide('projectForm')" class="btn">Cancel</a>
+</form>
+
 </div>
+
+
 
 <div class="row">
     <div class="span12">
@@ -24,14 +41,14 @@
                 </thead>
                 <tbody>
 
-        <tr class="row-fluid" ng-repeat="project in projects | filter:query | orderBy:orderProp">
-                            <td ><a href="#/projects/{{project.id}}">{{project.title}}</a>
-                            
-                            <td>{{project.permission}}</td>
-                            <td>
-                                delete                                       
-                            </td>
-                        </tr>
+                <tr class="row-fluid" ng-repeat="project in projects | filter:query | orderBy:orderProp">
+                <td ><a href="#/projects/{{project.id}}">{{project.title}}</a>
+                
+                <td>{{project.permission}}</td>
+                <td>
+                    <a href ng-click="delete(project.id)">delete</a>
+                </td>
+                </tr>
     
                 </tbody>
             </table>

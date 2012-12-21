@@ -1,22 +1,44 @@
 
 
 function ProjectListCtrl($scope, Project) {
+  $scope.projects = {};
   Project.query(function(projects){
-    $scope.projects = projects;
+
+    projects.forEach(function(project){
+      $scope.projects[project.id] = project;
+    });
+    
   });
+  $scope.newProject = new Project();
   $scope.orderProp = '-id';
 
-  $scope.saveProject = function() {
-    Project.save($scope.project, function(project) {
-        
+  $scope.save = function() {
+    var post_data = {title: $scope.newProject.title, };
+
+    Project.save(post_data, function(json) {
+        if(json.stat == 'ok'){
+          hide("projectForm");
+          $scope.projects[json.project.id] = json.project;
+          $scope.newProject = new Project();
+        }
     });
-  }
+  };
+
+  $scope.delete = function(id){
+    Project.remove({id:id}, function(json){
+      if(json.stat == 'ok'){
+        delete $scope.projects[json.project.id];
+      }
+    });
+  };
 
 }
 
 function UserListCtrl($scope, User) {
 
 }
+
+
 
 function ProjectDetailCtrl($scope, $http, $location,  $routeParams, Project, TaskList, Task) {
   $scope.orderProp = 'id';
@@ -25,6 +47,7 @@ function ProjectDetailCtrl($scope, $http, $location,  $routeParams, Project, Tas
     $scope.model = json;
     $scope.projectId = $routeParams.projectId;
     $scope.newTasklist = new TaskList();
+    $scope.project = json.project;
     $scope.tasks = {};
     $scope.tasklists = json.tasklists;
     

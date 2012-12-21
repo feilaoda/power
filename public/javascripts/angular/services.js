@@ -2,23 +2,23 @@
 
 angular.module('projectServices', ['ngResource']).
     factory('Project', function($resource){
-    var Project = $resource('projects/:id',{},
-        {
-            get: {method:'GET', params:{id: ''}},
-            query: {method:'GET', params:{id: ''}, isArray:true},
-            update: {method: 'PUT'}
-        });
+        var Project = $resource('projects/:id',{},
+            {
+                get: {method:'GET', params:{id: ''}},
+                query: {method:'GET', params:{id: ''}, isArray:true},
+                update: {method: 'PUT'}
+            });
 
-    Project.prototype.update = function(cb){
-        return Project.update({id: this._id.$oid},
-            angular.extend({}, this, {_id:undefined}), cb);
-    };
+        Project.prototype.update = function(cb){
+            return Project.update({id: this._id.$oid},
+                angular.extend({}, this, {_id:undefined}), cb);
+        };
 
-    Project.prototype.destroy = function(cb) {
-        return Project.remove({id: this._id.$oid}, cb);
-      };
+        Project.prototype.destroy = function(cb) {
+            return Project.remove({id: this._id.$oid}, cb);
+          };
 
-    return Project;
+        return Project;
 
     });
 
