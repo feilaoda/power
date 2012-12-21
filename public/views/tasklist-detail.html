@@ -1,10 +1,11 @@
 <div class="page-header">
-    <h4>{{ tasklist.title }}</h4>
+    <h3>{{ tasklist.title }}</h3>
+    <div>
+    <h4><a href="#/projects/{{projectId}}/" onclick="show('taskForm')" >Back to project</a></h4>
+    </div>
 </div>
 
-<div>
-<h4><a href="#/projects/{{projectId}}/" onclick="show('taskForm')" >Back to project</a></h4>
-</div>
+
 
 <a href="javascript:;" onclick="show('taskForm')" class="btn">Add a new Task</a>
 

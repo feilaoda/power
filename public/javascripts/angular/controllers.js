@@ -36,19 +36,19 @@ function ProjectDetailCtrl($scope, $http, $location,  $routeParams, Project, Tas
      
   });
 
-  // $scope.taskDone = function(tasklistId, taskId){
-  //   $http({method: 'POST', url: "/api/tasks", data: post_data}).
-  //     success(function(data, status) {
-  //       if(data.stat == "ok"){
-  //         hide("taskForm"+tasklistId);
-  //         //$("#taskForm"+tasklistId).hide();
-  //       }
+  $scope.taskDone = function(tasklistId, task){
+    $http({method: 'POST', url: "/tasks/"+task.id+"/changes", data: {value: task.status}}).
+      success(function(data, status) {
+        if(data.stat == "ok"){
+          hide("taskForm"+tasklistId);
+          //$("#taskForm"+tasklistId).hide();
+        }
         
-  //     }).
-  //     error(function(data, status) {
+      }).
+      error(function(data, status) {
        
-  //   });
-  // };
+    });
+  };
 
   $scope.saveTaskList = function(){
 
@@ -136,7 +136,9 @@ function TaskListDetailCtrl($scope, $routeParams, TaskList, Task) {
 }
 
 function TaskDetailCtrl($scope, $routeParams, Task) {
-  $scope.model = Task.get({projectId: $routeParams.projectId, taskId: $routeParams.taskId}, function(project) {
+  $scope.projectId = $routeParams.projectId;
+  Task.get({projectId: $routeParams.projectId, taskId: $routeParams.taskId}, function(json) {
+    $scope.task = json.task;
   });
 
 }

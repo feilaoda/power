@@ -1,10 +1,12 @@
 <div class="page-header">
     <h1>{{ model.project.name }}</h1>
+    <div>
+  <h4><a href="#/projects">Back to projects</a></h4>
+  </div>
+
 </div>
 
-<div>
-<h4><a href="#/projects">Back to projects</a></h4>
-</div>
+
 
 <a href="javascript:;" onclick="show('tasklistForm')" class="btn">Add a new Tasklist</a>
 
@@ -41,8 +43,8 @@
                             <td ><a href="#/projects/{{projectId}}/tasklists/{{tasklist.id}}">{{tasklist.title}}</a>
                         <ul>
                             <li ng-repeat="task in tasklist.tasks" id="task{{task.id}}">
-                                <input type="checkbox" ng-model="task.done" ng-click="taskDone(tasklist.id, task.id)" class="ng-pristine ng-valid">
-                                <span class="done-{{task.done}}"> {{task.title}} </span> 
+                                <input type="checkbox" ng-model="task.status" ng-true-value="done" ng-false-value="todo" ng-click="taskDone(tasklist.id, task)" class="ng-pristine ng-valid" >
+                                <span class="status-{{task.status}}"> {{task.title}} </span> 
                             </li>
                         </ul>   
                         <div>

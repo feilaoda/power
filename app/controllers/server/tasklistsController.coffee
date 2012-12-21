@@ -7,7 +7,7 @@ class App.TasklistsController extends App.ApplicationController
     @tasklist = App.Tasklist.build(title: @params.title)
     App.Project.find @params.projectId, (error, project) =>
       if error or project == null
-        @render text:{stat: 'fail', error: '404'}
+        return @render text:{stat: 'fail', error: '404'}
 
       @tasklist.set('projectId', project.get('id'))
       @tasklist.save (err, tasklist) =>
@@ -23,7 +23,7 @@ class App.TasklistsController extends App.ApplicationController
     #     @render json:{stat: 'fail', error: '404'}
     App.Tasklist.find @params.id, (error, tasklist) =>
       if error or tasklist == null
-        @render json:{stat: 'fail', error: '404'}
+        return @render json:{stat: 'fail', error: '404'}
       console.log("tasklist ", tasklist)
       @tasklist = tasklist
       App.Task.where(tasklistId: @params.id).all (error, tasks) =>

@@ -2,6 +2,7 @@ function show(id){
   $("#"+id).show();
   $("#add_"+id).hide();
   $("#input_"+id).val("");
+  $("#input_"+id).select();
   return false;
 }
 function hide(id){
