@@ -1,5 +1,6 @@
-var __hasProp = {}.hasOwnProperty,
-  __extends =   function(child, parent) {
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends =   function(child, parent) {
     if (typeof parent.__extend == 'function') return parent.__extend(child);
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } 
     function ctor() { this.constructor = child; } 
@@ -10,27 +11,29 @@ var __hasProp = {}.hasOwnProperty,
     return child; 
 };
 
-App.Tasklist = (function(_super) {
-  var Tasklist;
+  App.Tasklist = (function(_super) {
+    var Tasklist;
 
-  function Tasklist() {
-    return Tasklist.__super__.constructor.apply(this, arguments);
-  }
+    function Tasklist() {
+      return Tasklist.__super__.constructor.apply(this, arguments);
+    }
 
-  Tasklist = __extends(Tasklist, _super);
+    Tasklist = __extends(Tasklist, _super);
 
-  Tasklist.field('title', {
-    type: 'String'
-  });
+    Tasklist.field('title', {
+      type: 'String'
+    });
 
-  Tasklist.belongsTo('project', {
-    type: 'Project'
-  });
+    Tasklist.belongsTo('project', {
+      type: 'Project'
+    });
 
-  Tasklist.hasMany('tasks');
+    Tasklist.hasMany('tasks');
 
-  Tasklist.timestamps();
+    Tasklist.timestamps();
 
-  return Tasklist;
+    return Tasklist;
 
-})(Tower.Model);
+  })(Tower.Model);
+
+}).call(this);

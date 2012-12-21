@@ -2,12 +2,11 @@ module.exports =
   javascripts:
     application: [
       '/app/config/shared/application'
-      # "/config/environments/#{Tower.env}"
       '/app/config/client/bootstrap'
       '/app/config/client/watch'
       '/app/config/shared/routes'
       '/app/controllers/client/applicationController'
-      '/templates'
+      #'/templates'
       '/app/views/client/layout/application'
       '/app/models/shared/project'
       '/app/views/client/projects/form'
@@ -38,9 +37,9 @@ module.exports =
       
     ]
 
-    lib: [
+    # lib: [
 
-    ]
+    # ]
 
     vendor: [
       '/vendor/javascripts/jquery.min'
@@ -92,15 +91,15 @@ module.exports =
       '/app/stylesheets/client/application'
     ]
 
-    lib: [
+    # lib: [
 
-    ]
+    # ]
 
     vendor: [
       '/vendor/stylesheets/bootstrap/bootstrap'
       '/vendor/stylesheets/prettify'
     ]
 
-    development: [
-      # '/vendor/stylesheets/mocha'
-    ]
+    # development: [
+    #   # '/vendor/stylesheets/mocha'
+    # ]

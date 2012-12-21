@@ -24,6 +24,8 @@ task 'watch', ->
 task 'build', ->
   spawnGrunt()
 
+
+
 # This uploads all of your assets
 task 'assets:upload', ->
   invoke 'assets:upload:s3'

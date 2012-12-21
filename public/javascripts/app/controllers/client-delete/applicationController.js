@@ -11,27 +11,17 @@
     return child; 
 };
 
-  App.Project = (function(_super) {
-    var Project;
+  App.ApplicationController = (function(_super) {
+    var ApplicationController;
 
-    function Project() {
-      return Project.__super__.constructor.apply(this, arguments);
+    function ApplicationController() {
+      return ApplicationController.__super__.constructor.apply(this, arguments);
     }
 
-    Project = __extends(Project, _super);
+    ApplicationController = __extends(ApplicationController, _super);
 
-    Project.field('title', {
-      type: 'String'
-    });
+    return ApplicationController;
 
-    Project.hasMany('tasklists');
-
-    Project.hasMany('tasks');
-
-    Project.timestamps();
-
-    return Project;
-
-  })(Tower.Model);
+  })(Tower.Controller);
 
 }).call(this);

@@ -11,7 +11,7 @@ form .fields textarea {
 .display {
   display: none;
 }
-.status-done {
+.done-true {
   text-decoration: line-through;
   color: #808080;
 }

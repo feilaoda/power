@@ -1,24 +1,27 @@
+(function() {
 
-module.exports = {
-  facebook: {
-    key: '',
-    secret: '',
-    development: {
+  module.exports = {
+    facebook: {
+      key: '',
+      secret: '',
+      development: {
+        key: '',
+        secret: ''
+      },
+      production: {
+        key: '',
+        secret: ''
+      }
+    },
+    twitter: {
       key: '',
       secret: ''
     },
-    production: {
+    s3: {
       key: '',
-      secret: ''
+      secret: '',
+      bucket: 'cloud.power.com'
     }
-  },
-  twitter: {
-    key: '',
-    secret: ''
-  },
-  s3: {
-    key: '',
-    secret: '',
-    bucket: 'cloud.power.com'
-  }
-};
+  };
+
+}).call(this);

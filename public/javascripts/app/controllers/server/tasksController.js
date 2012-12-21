@@ -1,9 +1,10 @@
-var __defineProperty = function(clazz, key, value) {
+(function() {
+  var __defineProperty = function(clazz, key, value) {
   if (typeof clazz.__defineProperty == 'function') return clazz.__defineProperty(key, value);
   return clazz.prototype[key] = value;
 },
-  __hasProp = {}.hasOwnProperty,
-  __extends =   function(child, parent) {
+    __hasProp = {}.hasOwnProperty,
+    __extends =   function(child, parent) {
     if (typeof parent.__extend == 'function') return parent.__extend(child);
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } 
     function ctor() { this.constructor = child; } 
@@ -14,57 +15,123 @@ var __defineProperty = function(clazz, key, value) {
     return child; 
 };
 
-App.TasksController = (function(_super) {
-  var TasksController;
+  App.TasksController = (function(_super) {
+    var TasksController;
 
-  function TasksController() {
-    return TasksController.__super__.constructor.apply(this, arguments);
-  }
+    function TasksController() {
+      return TasksController.__super__.constructor.apply(this, arguments);
+    }
 
-  TasksController = __extends(TasksController, _super);
+    TasksController = __extends(TasksController, _super);
 
-  TasksController.param('title');
+    TasksController.param('title');
 
-  TasksController.scope('all');
+    TasksController.scope('all');
 
-  __defineProperty(TasksController,  "create", function() {
-    var tasklistId,
-      _this = this;
-    this.task = App.Task.build({
-      title: this.params.title,
-      status: 'todo'
+    TasksController.beforeAction('setContentType');
+
+    __defineProperty(TasksController,  "setContentType", function() {
+      return this.headers['Content-Type'] = "application/json; charset=UTF-8";
     });
-    tasklistId = this.params.tasklistId;
-    return App.Project.find(this.params.projectId, function(error, project) {
-      if (error || project === null) {
-        _this.render({
-          json: {
-            stat: 'fail',
-            error: '404'
-          }
-        });
-      }
-      _this.task.set('tasklistId', tasklistId);
-      _this.task.set('projectId', project.get('id'));
-      return _this.task.save(function(err, task) {
-        if (err) {
+
+    __defineProperty(TasksController,  "show", function() {
+      var _this = this;
+      console.log(this.params);
+      return App.Task.find(this.params.id, function(error, task) {
+        if (error || task === null) {
           return _this.render({
             json: {
-              stat: 'fail'
-            }
-          });
-        } else {
-          return _this.render({
-            json: {
-              stat: 'ok',
-              task: _this.task
+              stat: 'fail',
+              error: '404'
             }
           });
         }
+        return _this.render({
+          json: {
+            stat: 'ok',
+            task: task
+          }
+        });
       });
     });
-  });
 
-  return TasksController;
+    __defineProperty(TasksController,  "create", function() {
+      var tasklistId,
+        _this = this;
+      this.task = App.Task.build({
+        title: this.params.title,
+        status: 'todo'
+      });
+      tasklistId = this.params.tasklistId;
+      return App.Project.find(this.params.projectId, function(error, project) {
+        if (error || project === null) {
+          return _this.render({
+            json: {
+              stat: 'fail',
+              error: '404'
+            }
+          });
+        }
+        _this.task.set('tasklistId', tasklistId);
+        _this.task.set('projectId', project.get('id'));
+        return _this.task.save(function(err) {
+          if (err) {
+            return _this.render({
+              json: {
+                stat: 'fail'
+              }
+            });
+          } else {
+            return _this.render({
+              json: {
+                stat: 'ok',
+                task: _this.task
+              }
+            });
+          }
+        });
+      });
+    });
 
-})(App.ApplicationController);
+    __defineProperty(TasksController,  "changes", function() {
+      var _this = this;
+      return App.Task.find(this.params.taskId, function(error, task) {
+        var status;
+        if (error || task === null) {
+          return _this.render({
+            json: {
+              stat: 'fail',
+              error: '404'
+            }
+          });
+        }
+        if (_this.params.value === 'done') {
+          status = 'done';
+        } else {
+          status = 'todo';
+        }
+        return task.updateAttributes({
+          status: status
+        }, function(error) {
+          if (error) {
+            return _this.render({
+              json: {
+                stat: 'fail',
+                error: 'save task error'
+              }
+            });
+          }
+          return _this.render({
+            json: {
+              stat: 'ok'
+            }
+          });
+        });
+      });
+    });
+
+    return TasksController;
+
+  })(App.ApplicationController);
+
+}).call(this);

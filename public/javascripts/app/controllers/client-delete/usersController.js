@@ -1,5 +1,9 @@
 (function() {
-  var __hasProp = {}.hasOwnProperty,
+  var __defineProperty = function(clazz, key, value) {
+  if (typeof clazz.__defineProperty == 'function') return clazz.__defineProperty(key, value);
+  return clazz.prototype[key] = value;
+},
+    __hasProp = {}.hasOwnProperty,
     __extends =   function(child, parent) {
     if (typeof parent.__extend == 'function') return parent.__extend(child);
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } 
@@ -20,18 +24,14 @@
 
     UsersController = __extends(UsersController, _super);
 
-    UsersController.param('username');
-
-    UsersController.param('email');
-
-    UsersController.param('password');
-
-    UsersController.param('createTime');
-
     UsersController.scope('all');
+
+    __defineProperty(UsersController,  "destroy", function() {
+      return this.get('resource').destroy();
+    });
 
     return UsersController;
 
-  })(App.ApplicationController);
+  })(Tower.Controller);
 
 }).call(this);

@@ -1,9 +1,10 @@
-var __defineProperty = function(clazz, key, value) {
+(function() {
+  var __defineProperty = function(clazz, key, value) {
   if (typeof clazz.__defineProperty == 'function') return clazz.__defineProperty(key, value);
   return clazz.prototype[key] = value;
 },
-  __hasProp = {}.hasOwnProperty,
-  __extends =   function(child, parent) {
+    __hasProp = {}.hasOwnProperty,
+    __extends =   function(child, parent) {
     if (typeof parent.__extend == 'function') return parent.__extend(child);
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } 
     function ctor() { this.constructor = child; } 
@@ -14,101 +15,109 @@ var __defineProperty = function(clazz, key, value) {
     return child; 
 };
 
-App.TasklistsController = (function(_super) {
-  var TasklistsController;
+  App.TasklistsController = (function(_super) {
+    var TasklistsController;
 
-  function TasklistsController() {
-    return TasklistsController.__super__.constructor.apply(this, arguments);
-  }
+    function TasklistsController() {
+      return TasklistsController.__super__.constructor.apply(this, arguments);
+    }
 
-  TasklistsController = __extends(TasklistsController, _super);
+    TasklistsController = __extends(TasklistsController, _super);
 
-  TasklistsController.param('title');
+    TasklistsController.param('title');
 
-  TasklistsController.param('projectId', {
-    exact: true
-  });
-
-  TasklistsController.scope('all');
-
-  __defineProperty(TasklistsController,  "create", function() {
-    var _this = this;
-    this.tasklist = App.Tasklist.build({
-      title: this.params.title
+    TasklistsController.param('projectId', {
+      exact: true
     });
-    return App.Project.find(this.params.projectId, function(error, project) {
-      if (error || project === null) {
-        _this.render({
-          text: {
-            stat: 'fail',
-            error: '404'
-          }
-        });
-      }
-      _this.tasklist.set('projectId', project.get('id'));
-      return _this.tasklist.save(function(err, tasklist) {
-        if (err) {
+
+    TasklistsController.scope('all');
+
+    TasklistsController.beforeAction('setContentType');
+
+    __defineProperty(TasklistsController,  "setContentType", function() {
+      return this.headers['Content-Type'] = "application/json; charset=UTF-8";
+    });
+
+    __defineProperty(TasklistsController,  "create", function() {
+      var _this = this;
+      this.tasklist = App.Tasklist.build({
+        title: this.params.title
+      });
+      return App.Project.find(this.params.projectId, function(error, project) {
+        if (error || project === null) {
           return _this.render({
-            json: {
-              stat: 'fail'
-            }
-          });
-        } else {
-          return _this.render({
-            json: {
-              stat: 'ok',
-              tasklist: _this.tasklist
+            text: {
+              stat: 'fail',
+              error: '404'
             }
           });
         }
-      });
-    });
-  });
-
-  __defineProperty(TasklistsController,  "show", function() {
-    var _this = this;
-    return App.Tasklist.find(this.params.id, function(error, tasklist) {
-      if (error || tasklist === null) {
-        _this.render({
-          json: {
-            stat: 'fail',
-            error: '404'
+        _this.tasklist.set('projectId', project.get('id'));
+        return _this.tasklist.save(function(err) {
+          if (err) {
+            return _this.render({
+              json: {
+                stat: 'fail'
+              }
+            });
+          } else {
+            return _this.render({
+              json: {
+                stat: 'ok',
+                tasklist: _this.tasklist
+              }
+            });
           }
         });
-      }
-      console.log("tasklist ", tasklist);
-      _this.tasklist = tasklist;
-      return App.Task.where({
-        tasklistId: _this.params.id
-      }).all(function(error, tasks) {
-        var json_data, json_tasks, t, _i, _len;
-        if (error) {
-          _this.render({
+      });
+    });
+
+    __defineProperty(TasklistsController,  "show", function() {
+      var _this = this;
+      return App.Tasklist.find(this.params.id, function(error, tasklist) {
+        if (error || tasklist === null) {
+          return _this.render({
             json: {
               stat: 'fail',
               error: '404'
             }
           });
         }
-        json_data = _this.tasklist.toJSON();
-        console.log(tasks);
-        json_tasks = [];
-        for (_i = 0, _len = tasks.length; _i < _len; _i++) {
-          t = tasks[_i];
-          console.log(t.toJSON());
-          json_tasks.push(t.toJSON());
-        }
-        json_data['tasks'] = json_tasks;
-        return _this.render({
-          json: {
-            stat: 'ok',
-            tasklist: json_data
+        console.log("tasklist ", tasklist);
+        _this.tasklist = tasklist;
+        return App.Task.where({
+          tasklistId: _this.params.id
+        }).all(function(error, tasks) {
+          var json_data, json_tasks, t, _i, _len;
+          if (error) {
+            _this.render({
+              json: {
+                stat: 'fail',
+                error: '404'
+              }
+            });
           }
+          json_data = _this.tasklist.toJSON();
+          console.log(tasks);
+          json_tasks = [];
+          for (_i = 0, _len = tasks.length; _i < _len; _i++) {
+            t = tasks[_i];
+            console.log(t.toJSON());
+            json_tasks.push(t.toJSON());
+          }
+          json_data['tasks'] = json_tasks;
+          return _this.render({
+            json: {
+              stat: 'ok',
+              tasklist: json_data
+            }
+          });
         });
       });
     });
-  });
 
-  return TasklistsController;
+    return TasklistsController;
 
-})(App.ApplicationController);
+  })(App.ApplicationController);
+
+}).call(this);

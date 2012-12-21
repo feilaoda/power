@@ -11,6 +11,7 @@ html 'ng-app': 'power', ->
     if hasContentFor 'bottom'
       yields 'bottom'
 
-    script "App.bootstrap(#{JSON.stringify(@bootstrapData, null, [])})" if @bootstrapData
+    #script "App.bootstrap(#{JSON.stringify(@bootstrapData, null, [])})" if @bootstrapData
+    script "App.bootstrap([])" if @bootstrapData
 
     
