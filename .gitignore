@@ -6,8 +6,8 @@
 #   git config --global core.excludesfile ~/.gitignore
 
 # Ignore npm packaging
-/.node_modules
-/node_modules
+#/.node_modules
+#/node_modules
 
 # Ignore all logfiles and tempfiles.
 *.log
