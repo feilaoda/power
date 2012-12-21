@@ -5,13 +5,23 @@ class App.ProjectsController extends App.ApplicationController
 
   Step = require('step')
 
-  #@beforeAction 'loadProject' only: 'show'
+  @beforeAction 'setContentType' #, only: ['show', 'index', 'create', 'destroy']
+  setContentType: ->
+    @headers['Content-Type'] = "application/json; charset=UTF-8"
 
-  loadProject: ->
-    App.Project.find @params.id, (error, project) =>
-      if error or project == null
-        return @render json:{stat: 'fail', error: '404'}
-      @project = project
+  # loadProject: ->
+  #   App.Project.find @params.id, (error, project) =>
+  #     if error or project == null
+  #       return @render json:{stat: 'fail', error: '404'}
+  #     @project = project
+
+  index: ->
+    App.Project.all (err, projects) =>
+      if err
+        @render json:{stat: 'fail'}
+      else
+        @render json:{stat: 'ok', projects:projects}
+        
 
 
   create: ->

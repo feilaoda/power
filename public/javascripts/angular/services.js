@@ -5,7 +5,7 @@ angular.module('projectServices', ['ngResource']).
         var Project = $resource('projects/:id',{},
             {
                 get: {method:'GET', params:{id: ''}},
-                query: {method:'GET', params:{id: ''}, isArray:true},
+                query: {method:'GET', params:{id: ''}},
                 update: {method: 'PUT'}
             });
 

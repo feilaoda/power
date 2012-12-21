@@ -3,6 +3,11 @@ class App.TasksController extends App.ApplicationController
 
   @scope 'all'
 
+  @beforeAction 'setContentType'
+  setContentType: ->
+    @headers['Content-Type'] = "application/json; charset=UTF-8"
+
+
   show: ->
     console.log(@params)
     App.Task.find @params.id, (error, task) =>

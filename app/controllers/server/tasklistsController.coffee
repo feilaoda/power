@@ -3,6 +3,11 @@ class App.TasklistsController extends App.ApplicationController
   @param 'projectId', exact: true
   @scope 'all'
 
+  @beforeAction 'setContentType'
+  setContentType: ->
+    @headers['Content-Type'] = "application/json; charset=UTF-8"
+
+
   create: ->
     @tasklist = App.Tasklist.build(title: @params.title)
     App.Project.find @params.projectId, (error, project) =>

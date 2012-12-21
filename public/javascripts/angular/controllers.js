@@ -2,19 +2,23 @@
 
 function ProjectListCtrl($scope, Project) {
   $scope.projects = {};
-  Project.query(function(projects){
 
-    projects.forEach(function(project){
-      $scope.projects[project.id] = project;
-    });
-    
+  Project.query(function(json){
+    if(json.stat == 'ok')
+    {
+      json.projects.forEach(function(project){
+        $scope.projects[project.id] = project;
+      });
+    }
   });
+
   $scope.newProject = new Project();
   $scope.orderProp = '-id';
 
   $scope.save = function() {
-    var post_data = {title: $scope.newProject.title, };
-
+    
+    var post_data = {title: $scope.newProject.title};
+    alert(post_data.title);
     Project.save(post_data, function(json) {
         if(json.stat == 'ok'){
           hide("projectForm");
