@@ -1,0 +1,53 @@
+<div class="page-header">
+    <h4>{{ tasklist.title }}</h4>
+</div>
+
+<div>
+<h4><a href="#/projects/{{projectId}}/" onclick="show('taskForm')" >Back to project</a></h4>
+</div>
+
+<a href="javascript:;" onclick="show('taskForm')" class="btn">Add a new Task</a>
+
+<div id="taskForm" class="row well width8 display">
+
+<form name="taskForm">
+  <div class="control-group" ng-class="{error: taskForm.name.$invalid}">
+    <label>Title</label>
+    <input id="input_taskFrom" type="text" name="title" ng-model="newTask.title" required>
+    <span ng-show="taskForm.title.$error.required" class="help-inline">
+        Required</span>
+  </div>
+
+  <button ng-click="saveTask()" ng-disabled="taskForm.$invalid"
+          class="btn btn-primary">Save</button>
+    <a href="javascript:;" onclick="hide('taskForm')" class="btn">Cancel</a>
+</form>
+
+</div>
+
+
+<div class="row">
+    <div class="span12">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="row-fluid">
+                        <th>title</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+        <tr class="row-fluid" ng-repeat="task in tasklist.tasks | filter:query | orderBy:orderProp">
+                            <td ><a href="#/projects/{{tasklist.projectId}}/tasks/{{task.id}}">{{task.title}}</a>
+                            <td>{{task.status}}</td>
+                            <td>
+                                delete                                       
+                            </td>
+                        </tr>
+    
+                </tbody>
+            </table>
+           
+    </div>
+</div>
