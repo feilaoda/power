@@ -64,7 +64,7 @@ function ProjectDetailCtrl($scope, $http, $location,  $routeParams, Project, Tas
   });
 
   $scope.taskDone = function(tasklistId, task){
-    $http({method: 'POST', url: "/tasks/"+task.id+"/changes", data: {value: task.status}}).
+    $http({method: 'POST', url: "/tasks/"+task.id+"/changes", data: {status: task.status}}).
       success(function(data, status) {
         if(data.stat == "ok"){
           hide("taskForm"+tasklistId);

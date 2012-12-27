@@ -96,7 +96,7 @@
     __defineProperty(TasksController,  "changes", function() {
       var _this = this;
       return App.Task.find(this.params.taskId, function(error, task) {
-        var status;
+        var attrs, status;
         if (error || task === null) {
           return _this.render({
             json: {
@@ -105,14 +105,16 @@
             }
           });
         }
-        if (_this.params.value === 'done') {
-          status = 'done';
-        } else {
-          status = 'todo';
+        attrs = {};
+        if (_this.params.status !== void 0) {
+          if (_this.params.status === 'done') {
+            status = 'done';
+          } else {
+            status = 'todo';
+          }
+          attrs['status'] = status;
         }
-        return task.updateAttributes({
-          status: status
-        }, function(error) {
+        return task.updateAttributes(attrs, function(error) {
           if (error) {
             return _this.render({
               json: {

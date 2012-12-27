@@ -1,3 +1,15 @@
+html, body
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  vertical-align: baseline;
+  background: transparent;
+
+
+input[type="radio"], input[type="checkbox"]
+  vertical-align: baseline;
+
 form .fields
   list-style-type: none
   input
@@ -5,9 +17,69 @@ form .fields
   textarea
     min-width: 400px
     min-height: 200px
+form
+  margin: 0;
+
+.control-group input.input-text
+  width: 570px;
+  margin-bottom: 10px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  outline: 0;
+  resize: none;
+  font-size: 16px;
+  line-height: 1.3;
+  height: 20px;
+  padding: 5px;
 
 .display
   display: none
-.done-true
+
+.status-done
   text-decoration: line-through
   color: grey
+
+.page-header h1
+  font-size: 24px;
+  color: black;
+  line-height: 28px;
+  font-weight: bold;
+
+.header
+  margin: 0 0 10px;
+
+.footer
+  border-top: 1px solid #ddd;
+  padding: 20px 0 0;
+  margin: 20px 0 20px 0;
+
+li.tasklist
+  margin-bottom: 20px;
+  position: relative;
+
+.tasklist ul li
+  margin-bottom: 5px;
+  padding-right: 100px;
+  vertical-align: baseline;
+  position: relative;
+
+a.button
+  color: #0093B8;
+
+.hide-actions
+  position: absolute
+  left: -110px
+  z-index: 95
+  background: white
+  display: block
+  border-radius: 10px 0 0 10px
+  -webkit-box-shadow: -1px 0 2px rgba(0, 0, 0, 0.2)
+  -moz-box-shadow: -1px 0 2px rgba(0,0,0,0.2)
+  box-shadow: -1px 0 2px rgba(0, 0, 0, 0.2)
+
+.hide-actions a
+  display: inline-block
+  padding: 0 3px 3px
+  font-size: 12px
+  color: #887

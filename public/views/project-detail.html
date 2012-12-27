@@ -1,76 +1,78 @@
 <div class="page-header">
-    <h3>{{ project.title }}</h3>
-    <div>
-  <h4><a href="#/projects">Back to projects</a></h4>
-  </div>
-
+    <h1>{{ project.title }}</h1>
 </div>
 
+<ul class="breadcrumb">
+        <li><a href="/#/projects">Projects</a> <span class="divider">/</span></li>
+        <li><a href="/#/projects/{{project.id}}">{{project.title}}</a></li>
+</ul>
 
-
-<a href="javascript:;" onclick="show('tasklistForm')" class="btn">Add a new Tasklist</a>
-
-<div id="tasklistForm" class="row well width8 display">
-
-<form name="tasklistForm">
-  <div class="control-group" ng-class="{error: tasklistForm.title.$invalid}">
-    <label>Title</label>
-    <input type="hidden" name="authenticity_token" ng-model="csrfToken">
-    <input id="input_tasklistForm" type="text" name="title" ng-model="newTasklist.title" required>
-    <span ng-show="tasklistForm.title.$error.required" class="help-inline">
-        Required</span>
-  </div>
-
-  <button ng-click="saveTaskList()" ng-disabled="tasklistForm.title.$invalid"
-          class="btn btn-primary">Save</button>
-  <a href="javascript:;" onclick="hide('tasklistForm')" class="btn">Cancel</a>
-</form>
-
+<div class="header" id="add_tasklistForm" >
+  <a href="javascript:;" onclick="show('tasklistForm')" class="button">Add a new Tasklist</a>
 </div>
 
+<div id="tasklistForm" class="well width8 display">
 
-<div class="row">
-    <div class="span12">
-            <table class="table table-striped">
-                <thead>
-                    <tr class="row-fluid">
-                        <th>Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                <tr class="row-fluid" ng-repeat="tasklist in tasklists | orderBy:orderProp"  >
-                            <td ><a href="#/projects/{{projectId}}/tasklists/{{tasklist.id}}">{{tasklist.title}}</a>
-                        <ul>
-                            <li ng-repeat="task in tasklist.tasks" id="task{{task.id}}">
-                                <input type="checkbox" ng-model="task.status" ng-true-value="done" ng-false-value="todo" ng-click="taskDone(tasklist.id, task)" class="ng-pristine ng-valid" >
-                                <span class="status-{{task.status}}"> {{task.title}} </span> 
-                            </li>
-                        </ul>   
-                        <div>
-                            <a href="javascript:;" onclick="show('taskForm{{tasklist.id}}')" id="add_taskForm{{tasklist.id}}" >Add a new Task</a>
-                            <div id="taskForm{{tasklist.id}}" class="row well width8 display">
-                            <form name="taskForm{{tasklist.id}}">
-                              <div class="control-group" ng-class="{error:taskForm{{tasklist.id}}.title.$invalid}">
-                                <label>Title</label>
-                                <input id="input_taskForm{{tasklist.id}}" type="text" name="title" ng-model="tasks[tasklist.id].title" required>
-                                <span ng-show="true" class="help-inline">
-                                    Required</span>
-                              </div>
-                              
-                              <button ng-click="saveTask(tasklist.id)" ng-disabled="taskForm{{tasklist.id}}.title.$invalid"
-                                      class="btn btn-primary">Save</button>
-                              <a href="javascript:;" onclick="hide('taskForm{{tasklist.id}}')" class="btn">Cancel</a>
-                            </form>
-
-                            </div>
-                        </div>
-
-
-                 </tr>
-    
-                </tbody>
-            </table>
-           
+  <form name="tasklistForm">
+    <div class="control-group" ng-class="{error: tasklistForm.title.$invalid}">
+      <label>Title</label>
+      <input type="hidden" name="authenticity_token" ng-model="csrfToken">
+      <input id="input_tasklistForm" type="text" name="title" ng-model="newTasklist.title" class="input-xxlarge input-text" required>
+      <span ng-show="tasklistForm.title.$error.required" class="help-inline">
+          Required</span>
     </div>
+
+    <button ng-click="saveTaskList()" ng-disabled="tasklistForm.title.$invalid"
+            class="btn btn-primary">Save</button>
+    <a href="javascript:;" onclick="hide('tasklistForm')" class="btn">Cancel</a>
+  </form>
+
 </div>
+
+<ul class="nav nav-list">
+  <li class="tasklist" ng-repeat="tasklist in tasklists | orderBy:orderProp" >
+    <div class="hide-actions" style="left: -80px;">
+          <a class="delete" ng-click="delete()">Delete</a>
+          <a class="edit" ng-click="edit()">Edit</a>
+    </div>
+    <div class="header">
+      <a href="#/projects/{{projectId}}/tasklists/{{tasklist.id}}"><strong>{{tasklist.title}}</strong></a>
+    </div>
+    <ul class="nav nav-list">
+      <li ng-repeat="task in tasklist.tasks" id="task{{task.id}}">
+        <div class="hide-actions" style="left: -80px;">
+          <a class="delete" ng-click="delete()">Delete</a>
+          <a class="edit" ng-click="edit()">Edit</a>
+        </div>
+        <div>
+          <input type="checkbox" ng-model="task.status" ng-true-value="done" ng-false-value="todo" 
+            ng-click="taskDone(tasklist.id, task)" class="ng-pristine ng-valid" >
+          <span class="status-{{task.status}}"> <a href="#/projects/{{projectId}}/tasks/{{task.id}}">{{task.title}}</a>
+          </span>
+        </div>
+      </li>
+      <li>
+        <span>
+          <a class="button" href onclick="show('taskForm{{tasklist.id}}')" id="add_taskForm{{tasklist.id}}" >Add a new Task</a>
+          <div id="taskForm{{tasklist.id}}" class="well width8 display">
+            <form name="taskForm{{tasklist.id}}">
+              <div class="control-group" ng-class="{error:taskForm{{tasklist.id}}.title.$invalid}">
+                <label>Title</label>
+                <input id="input_taskForm{{tasklist.id}}" type="text" name="title" ng-model="tasks[tasklist.id].title" class="input-xxlarge input-text" required>
+                <span ng-show="true" class="help-inline">
+                    Required</span>
+              </div>
+              
+              <button ng-click="saveTask(tasklist.id)" ng-disabled="taskForm{{tasklist.id}}.title.$invalid"
+                      class="btn btn-primary">Save</button>
+              <a href="javascript:;" onclick="hide('taskForm{{tasklist.id}}')" class="btn">Cancel</a>
+            </form>
+          </div>
+        </span>
+      </li>
+
+    </ul>   
+  </li>
+</ul>
+
+

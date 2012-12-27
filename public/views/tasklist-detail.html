@@ -5,7 +5,11 @@
     </div>
 </div>
 
-
+<ul class="breadcrumb">
+        <li><a href="/#/projects">Projects</a> <span class="divider">/</span></li>
+        <li><a href="/#/projects/{{project.id}}">{{project.title}}</a> <span class="divider">/</span></li>
+        <li><a href="/#/projects/{{project.id}}/tasklists/{{tasklistId}}">{{project.title}}</a></li>
+</ul>
 
 <a href="javascript:;" onclick="show('taskForm')" class="btn">Add a new Task</a>
 

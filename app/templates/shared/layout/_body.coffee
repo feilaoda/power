@@ -14,9 +14,7 @@ section id: 'flash', role: 'banner', ->
   div class: 'container', ->
     partial 'layout/flash'
 
-
-
-section id: 'content', role: 'main', ->
+section id: 'content', ->
   div class: 'container', ->
     text '{{outlet}}\n'
     # yields 'body'
@@ -24,9 +22,7 @@ section id: 'content', role: 'main', ->
       if hasContentFor 'sidebar'
         yields 'sidebar'
 section id: 'content', role: 'main', ->
-  div class: 'container', ->
+  div class: 'container',  ->
     div 'ng-view', ->
+      
 
-footer id: 'footer', class: 'footer', role: 'contentinfo', ->
-  div class: 'container', ->
-    partial 'layout/footer'

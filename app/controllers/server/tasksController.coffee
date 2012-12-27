@@ -34,11 +34,14 @@ class App.TasksController extends App.ApplicationController
     App.Task.find @params.taskId, (error, task) =>
       if error or task == null
         return @render json:{stat: 'fail', error: '404'}
-      if @params.value == 'done'
-        status = 'done'
-      else  
-        status = 'todo'
-      task.updateAttributes {status: status}, (error) =>
+      attrs = {}
+      if @params.status != undefined
+        if @params.status == 'done'
+          status = 'done'
+        else  
+          status = 'todo'
+        attrs['status'] = status
+      task.updateAttributes attrs, (error) =>
         if error
           return @render json:{stat: 'fail', error: 'save task error'}
         @render json:{stat: 'ok'}

@@ -14,4 +14,6 @@ html 'ng-app': 'power', ->
     #script "App.bootstrap(#{JSON.stringify(@bootstrapData, null, [])})" if @bootstrapData
     script "App.bootstrap([])" if @bootstrapData
 
-    
+    footer id: 'footer', class: 'footer', role: 'contentinfo', ->
+      div class: 'container', ->
+        partial 'layout/footer'

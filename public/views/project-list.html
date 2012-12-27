@@ -8,9 +8,12 @@
 
  
 
-<a href="javascript:;" onclick="show('projectForm')" class="btn">Add a new Project</a>
 
-<div id="projectForm" class="row well width8 display">
+<div class="header" id="add_tasklistForm" >
+<a id="add_projectForm" href="javascript:;" onclick="show('projectForm')" class="button">Add a new Project</a>
+</div>
+
+<div id="projectForm" class="well width8 display">
 
 <form name="projectForm">
   <div class="control-group" ng-class="{error: projectForm.title.$invalid}">
