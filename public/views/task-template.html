@@ -1,0 +1,14 @@
+
+<div class="hide-actions" style="left: -80px;">
+    <a class="delete" ng-click="taskDelete(task)">Delete</a>
+    <a class="edit" ng-click="taskEdit(task)">Edit</a>
+</div>
+<div>
+    <input type="checkbox" ng-model="task.status" ng-true-value="done" ng-false-value="todo" ng-click="taskDone(task)" class="ng-pristine ng-valid" >
+    <span class="status-{{task.status}}"> <a class="text" href="#/projects/{{projectId}}/tasks/{{task.id}}">{{task.title}}</a> 
+    </span>
+</div>
+<div id="taskEditForm{{task.id}}" ng-bind-html="{{editForm}}">
+    
+</div>
+</task-template>

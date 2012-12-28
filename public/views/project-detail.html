@@ -7,6 +7,12 @@
         <li><a href="/#/projects/{{project.id}}">{{project.title}}</a></li>
 </ul>
 
+
+ 
+
+
+
+
 <div class="header" id="add_tasklistForm" >
   <a href="javascript:;" onclick="show('tasklistForm')" class="button">Add a new Tasklist</a>
 </div>
@@ -31,25 +37,36 @@
 
 <ul class="nav nav-list">
   <li class="tasklist" ng-repeat="tasklist in tasklists | orderBy:orderProp" >
+    
     <div class="hide-actions" style="left: -80px;">
-          <a class="delete" ng-click="delete()">Delete</a>
-          <a class="edit" ng-click="edit()">Edit</a>
+          <a class="delete" ng-click="tasklistDelete()">Delete</a>
+          <a class="edit" ng-click="tasklistEdit()">Edit</a>
     </div>
     <div class="header">
-      <a href="#/projects/{{projectId}}/tasklists/{{tasklist.id}}"><strong>{{tasklist.title}}</strong></a>
+      <a class="text" href="#/projects/{{projectId}}/tasklists/{{tasklist.id}}"><strong>{{tasklist.title}}</strong></a>
     </div>
-    <ul class="nav nav-list">
+    <tasklist data-project="project" data-tasklist="tasklist">
+    </tasklist>
+
+    <!-- <ul class="nav nav-list">
       <li ng-repeat="task in tasklist.tasks" id="task{{task.id}}">
-        <div class="hide-actions" style="left: -80px;">
-          <a class="delete" ng-click="delete()">Delete</a>
-          <a class="edit" ng-click="edit()">Edit</a>
+        <div class="tasktemplate" project="project" tasklist="tasklist" task="task">
+        </div>
+
+        <div tasktemplate-id="{{task.id}}" tasktemplate-title="{{task.title}}"   tasktemplate-status="{{task.status}}" tasktemplate-projectId="{{task.projectId}}"
+
+         <div class="hide-actions" style="left: -80px;">
+          <a class="delete" ng-click="taskDelete(task)">Delete</a>
+          <a class="edit" ng-click="taskEdit(task)">Edit</a>
         </div>
         <div>
           <input type="checkbox" ng-model="task.status" ng-true-value="done" ng-false-value="todo" 
-            ng-click="taskDone(tasklist.id, task)" class="ng-pristine ng-valid" >
-          <span class="status-{{task.status}}"> <a href="#/projects/{{projectId}}/tasks/{{task.id}}">{{task.title}}</a>
+            ng-click="taskDone(task)" class="ng-pristine ng-valid" >
+          <span class="status-{{task.status}}"> <a class="text" href="#/projects/{{projectId}}/tasks/{{task.id}}">{{task.title}}</a>
           </span>
-        </div>
+        </div>  
+
+
       </li>
       <li>
         <span>
@@ -71,7 +88,7 @@
         </span>
       </li>
 
-    </ul>   
+    </ul> -->
   </li>
 </ul>
 

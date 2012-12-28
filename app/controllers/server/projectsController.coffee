@@ -53,10 +53,8 @@ class App.ProjectsController extends App.ApplicationController
     _this = this
     projectId = @params.id
     tasklists = {}
-    console.log("projectId is: " + projectId)
   
     App.Project.find projectId, (err, project) =>
-      console.log(err, project.get('title'))
       if err or project == null
         return @render json:{stat: 'fail', error: '404'}
       else
@@ -94,14 +92,8 @@ class App.ProjectsController extends App.ApplicationController
                 if tasks.length > 0
                   tasklists[tasklistId]['tasks'] = tasks
 
-                # tl = tasklists[tasklistId]
-                # if tl != undefined
-                #   tl['tasks'] = data
-                #   tl.set('tasks', data)
-                #   console.log(tl)
           
           json_data = {project: {id: projectId}, tasklists: tasklists}        
-          # console.log("task tasklistId: ", tasklists, json_data)
           
           _this.render json: {project: _this.project, tasklists: tasklists}  , status: 200
       )

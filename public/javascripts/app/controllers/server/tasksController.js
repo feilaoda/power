@@ -36,7 +36,6 @@
 
     __defineProperty(TasksController,  "show", function() {
       var _this = this;
-      console.log(this.params);
       return App.Task.find(this.params.id, function(error, task) {
         if (error || task === null) {
           return _this.render({
@@ -89,6 +88,46 @@
               }
             });
           }
+        });
+      });
+    });
+
+    __defineProperty(TasksController,  "destroy", function() {
+      var _this = this;
+      console.log(this.params);
+      return App.Task.find(this.params.id, function(error, task) {
+        if (error || task === null) {
+          return _this.render({
+            json: {
+              stat: 'fail',
+              error: '404'
+            }
+          });
+        }
+        _this.task = task;
+        return App.Project.find(_this.params.projectId, function(error, project) {
+          if (error || project === null || _this.params.projectId !== project.id) {
+            return _this.render({
+              json: {
+                stat: 'fail',
+                error: '404'
+              }
+            });
+          }
+          return _this.task.destroy(function(error) {
+            if (error) {
+              return _this.render({
+                json: {
+                  stat: 'fail'
+                }
+              });
+            }
+            return _this.render({
+              json: {
+                stat: 'ok'
+              }
+            });
+          });
         });
       });
     });

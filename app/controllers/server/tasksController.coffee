@@ -9,7 +9,6 @@ class App.TasksController extends App.ApplicationController
 
 
   show: ->
-    console.log(@params)
     App.Task.find @params.id, (error, task) =>
       if error or task == null
         return @render json:{stat: 'fail', error: '404'}
@@ -30,6 +29,23 @@ class App.TasksController extends App.ApplicationController
         else
           @render json:{stat: 'ok', task: @task}
         
+
+  destroy: ->
+    console.log(@params)
+    App.Task.find @params.id, (error, task) =>
+      if error or task == null
+        return @render json:{stat: 'fail', error: '404'}
+      @task = task
+      App.Project.find @params.projectId, (error, project) =>
+        if error or project == null or @params.projectId != project.id
+          return @render json:{stat: 'fail', error: '404'}
+
+        @task.destroy (error) =>
+          if error
+            return @render json:{stat: 'fail'}
+          return @render json:{stat: 'ok'}
+        
+
   changes: ->
     App.Task.find @params.taskId, (error, task) =>
       if error or task == null

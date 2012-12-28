@@ -23,24 +23,26 @@ class App.TasklistsController extends App.ApplicationController
         
 
   show: ->
-    # App.Project.find @params.projectId, (error, project) =>
-    #   if error or project.length <= 0
-    #     @render json:{stat: 'fail', error: '404'}
-    App.Tasklist.find @params.id, (error, tasklist) =>
-      if error or tasklist == null
+    App.Project.find @params.projectId, (error, project) =>
+      if error or project == null
         return @render json:{stat: 'fail', error: '404'}
-      console.log("tasklist ", tasklist)
-      @tasklist = tasklist
-      App.Task.where(tasklistId: @params.id).all (error, tasks) =>
-        if error
-          @render json:{stat: 'fail', error: '404'}
 
-        json_data = @tasklist.toJSON()
-        console.log(tasks)
-        json_tasks = []
-        for t in tasks
-          console.log(t.toJSON())
-          json_tasks.push(t.toJSON())
+      @project = project
+      App.Tasklist.find @params.id, (error, tasklist) =>
+        if error or tasklist == null
+          return @render json:{stat: 'fail', error: '404'}
+        console.log("tasklist ", tasklist)
+        @tasklist = tasklist
+        App.Task.where(tasklistId: @params.id).all (error, tasks) =>
+          if error
+            @render json:{stat: 'fail', error: '404'}
 
-        json_data['tasks'] = json_tasks
-        @render json:{stat: 'ok', tasklist: json_data}
+          json_data = @tasklist.toJSON()
+          console.log(tasks)
+          json_tasks = []
+          for t in tasks
+            console.log(t.toJSON())
+            json_tasks.push(t.toJSON())
+
+          json_data['tasks'] = json_tasks
+          @render json:{stat: 'ok', project:_this.project, tasklist: json_data}

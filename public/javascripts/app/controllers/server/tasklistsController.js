@@ -74,8 +74,8 @@
 
     __defineProperty(TasklistsController,  "show", function() {
       var _this = this;
-      return App.Tasklist.find(this.params.id, function(error, tasklist) {
-        if (error || tasklist === null) {
+      return App.Project.find(this.params.projectId, function(error, project) {
+        if (error || project === null) {
           return _this.render({
             json: {
               stat: 'fail',
@@ -83,34 +83,46 @@
             }
           });
         }
-        console.log("tasklist ", tasklist);
-        _this.tasklist = tasklist;
-        return App.Task.where({
-          tasklistId: _this.params.id
-        }).all(function(error, tasks) {
-          var json_data, json_tasks, t, _i, _len;
-          if (error) {
-            _this.render({
+        _this.project = project;
+        return App.Tasklist.find(_this.params.id, function(error, tasklist) {
+          if (error || tasklist === null) {
+            return _this.render({
               json: {
                 stat: 'fail',
                 error: '404'
               }
             });
           }
-          json_data = _this.tasklist.toJSON();
-          console.log(tasks);
-          json_tasks = [];
-          for (_i = 0, _len = tasks.length; _i < _len; _i++) {
-            t = tasks[_i];
-            console.log(t.toJSON());
-            json_tasks.push(t.toJSON());
-          }
-          json_data['tasks'] = json_tasks;
-          return _this.render({
-            json: {
-              stat: 'ok',
-              tasklist: json_data
+          console.log("tasklist ", tasklist);
+          _this.tasklist = tasklist;
+          return App.Task.where({
+            tasklistId: _this.params.id
+          }).all(function(error, tasks) {
+            var json_data, json_tasks, t, _i, _len;
+            if (error) {
+              _this.render({
+                json: {
+                  stat: 'fail',
+                  error: '404'
+                }
+              });
             }
+            json_data = _this.tasklist.toJSON();
+            console.log(tasks);
+            json_tasks = [];
+            for (_i = 0, _len = tasks.length; _i < _len; _i++) {
+              t = tasks[_i];
+              console.log(t.toJSON());
+              json_tasks.push(t.toJSON());
+            }
+            json_data['tasks'] = json_tasks;
+            return _this.render({
+              json: {
+                stat: 'ok',
+                project: _this.project,
+                tasklist: json_data
+              }
+            });
           });
         });
       });

@@ -72,8 +72,9 @@ module.exports =
       # '/vendor/javascripts/bootstrap/bootstrap-typeahead'
       # '/vendor/javascripts/prettify'
 
-      '/vendor/javascripts/angular'
-      '/vendor/javascripts/angular-resource'
+      '/vendor/javascripts/angular.min'
+      '/vendor/javascripts/angular-resource.min'
+      '/vendor/javascripts/angular-sanitize.min'
     ]
 
     development: [

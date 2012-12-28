@@ -212,11 +212,11 @@ body {
   background-color: #ffffff;
 }
 a {
-  color: #000000;
+  color: #0093b8;
   text-decoration: none;
 }
 a:hover {
-  color: #136691;
+  color: #004252;
   text-decoration: underline;
 }
 .img-rounded {
@@ -2983,13 +2983,13 @@ input[type="submit"].btn.btn-mini {
 .btn-link {
   border-color: transparent;
   cursor: pointer;
-  color: #000000;
+  color: #0093b8;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
 }
 .btn-link:hover {
-  color: #136691;
+  color: #004252;
   text-decoration: underline;
   background-color: transparent;
 }
@@ -3320,7 +3320,7 @@ input[type="submit"].btn.btn-mini {
 .nav-list > .active > a:hover {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
-  background-color: #000000;
+  background-color: #0093b8;
 }
 .nav-list [class^="icon-"],
 .nav-list [class*=" icon-"] {
@@ -3400,7 +3400,7 @@ input[type="submit"].btn.btn-mini {
 .nav-pills > .active > a,
 .nav-pills > .active > a:hover {
   color: #ffffff;
-  background-color: #000000;
+  background-color: #0093b8;
 }
 .nav-stacked > li {
   float: none;
@@ -3454,13 +3454,13 @@ input[type="submit"].btn.btn-mini {
   border-radius: 6px;
 }
 .nav .dropdown-toggle .caret {
-  border-top-color: #000000;
-  border-bottom-color: #000000;
+  border-top-color: #0093b8;
+  border-bottom-color: #0093b8;
   margin-top: 6px;
 }
 .nav .dropdown-toggle:hover .caret {
-  border-top-color: #136691;
-  border-bottom-color: #136691;
+  border-top-color: #004252;
+  border-bottom-color: #004252;
 }
 /* move down carets for tabs */
 .nav-tabs .dropdown-toggle .caret {
@@ -4631,7 +4631,7 @@ input[type="submit"].btn.btn-mini {
   transition: all 0.2s ease-in-out;
 }
 a.thumbnail:hover {
-  border-color: #000000;
+  border-color: #0093b8;
   -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
   -moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
   box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
