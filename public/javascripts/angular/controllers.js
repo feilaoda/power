@@ -249,7 +249,6 @@ function TaskTemplateCtrl($scope, $http, $routeParams, Task){
 
    $scope.taskUpdate = function(task){
       var title = $scope.title;
-      alert($scope.title);
       if(title == "" || title == null){
         return;
       }
@@ -257,7 +256,7 @@ function TaskTemplateCtrl($scope, $http, $routeParams, Task){
       $http({method: 'PUT', url: "/tasks/"+task.id, data: {title: title, projectId:task.projectId, tasklistId: task.tasklistId}}).
         success(function(json, status) {
           if(json.stat == "ok"){
-            $scope.task.title = $scope.oldtitle;
+            $scope.task.title = $scope.title;
             hide("taskEditForm"+$scope.task.id);
           }
           
