@@ -29,7 +29,7 @@ power.directive('tasklist', function(){
       replace: false,
       transclude: true,
       scope: {task:'=', tasklist:'=', project:'=', title:'@taskTitle'},
-      templateUrl:'views/task-template.html'+'?t='+ now.getTime(),
+      templateUrl:'views/task-template.html', //+'?t='+ now.getTime(),
       controller: TaskTemplateCtrl,
       link: function(scope, element, attrs) {
 
