@@ -10,41 +10,29 @@ var power = angular.module('power', ['projectFilters', 'projectServices', 'taskl
       otherwise({redirectTo: '/projects'});
 }]);
 
+var now = new Date();
 
 power.directive('tasklist', function(){
     return {
       restrict: 'E',
       replace: false,
       transclude: true,
-      scope: {tasklist:'=', project:'='},
+      scope: {tasklist:'=', tasklists:'=', project:'=', title:'@tasklistTitle'},
       templateUrl:'views/tasklist-template.html' ,
       controller: TasklistTemplateCtrl,
-      // The linking function will add behavior to the template
       link: function(scope, element, attrs) {
       }
-    }
+    };
 }).directive('task', function(){
     return {
       restrict: 'E',
       replace: false,
       transclude: true,
-      scope: {task:'=', tasklist:'=', project:'='},
-      templateUrl:'views/task-template.html' ,
+      scope: {task:'=', tasklist:'=', project:'=', title:'@taskTitle'},
+      templateUrl:'views/task-template.html'+'?t='+ now.getTime(),
       controller: TaskTemplateCtrl,
-      // The linking function will add behavior to the template
       link: function(scope, element, attrs) {
+
       }
-    }
-}).directive('taskEditTemplate', function(){
-    return {
-      restrict: 'C',
-      replace: false,
-      transclude: true,
-      scope: {task:'=task', tasklist:'=tasklist', project:'=project'},
-      templateUrl:'views/task-edit-template.html' ,
-      controller: TaskEditTemplateCtrl,
-      // The linking function will add behavior to the template
-      link: function(scope, element, attrs) {
-      }
-    }
+    };
 });

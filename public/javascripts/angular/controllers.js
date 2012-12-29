@@ -72,69 +72,14 @@ function ProjectDetailCtrl($scope, $http, $location,  $routeParams, Project, Tas
     $scope.newTasklist = new TaskList();
     $scope.project = json.project;
     $scope.tasks = {};
-    $scope.tasklists = json.tasklists;
-    
+    $scope.tasklists = [];
     for(var k in json.tasklists){
       var v = json.tasklists[k];
-      $scope.tasks[v.id] = new Task();
+      $scope.tasklists.push(json.tasklists[k]);
     }
 
      
   });
-
-  // $scope.taskDone = function(task){
-  //   $http({method: 'POST', url: "/tasks/"+task.id+"/changes", data: {projectId: $scope.projectId, status: task.status}}).
-  //     success(function(data, status) {
-  //       if(data.stat == "ok"){
-
-  //       }
-        
-  //     }).
-  //     error(function(data, status) {
-       
-  //   });
-  // };
-
-  // $scope.taskDelete = function(task){
-  //   var r=confirm("Are you sure you want to delete this task?");
-  //   if (r!=true)
-  //   {
-  //     return;
-  //   }
-
-  //   var tasklistId = task.tasklistId;
-  //   var taskId = task.id;
-  //   $http({method: 'DELETE', url: "/tasks/"+task.id, data:{projectId: $scope.projectId}}).
-  //     success(function(json, status) {
-  //       if(json.stat == "ok"){
-  //         var tls = $scope.tasklists[tasklistId];
-  //         var index = findArrayIndex(tls.tasks, taskId);
-  //         if (index != -1){
-  //           Array.remove(tls.tasks, index);
-  //         }
-          
-  //       }
-        
-  //     }).
-  //     error(function(json, status) {
-       
-  //   });
-  // };
-
-  // $scope.taskEdit = function(task){
-  //   var tasklistId = task.id;
-  //   $http({method: 'POST', url: "/tasks/"+task.id+"/changes", data: {status: task.status}}).
-  //     success(function(data, status) {
-  //       if(data.stat == "ok"){
-  //         hide("taskForm"+tasklistId);
-  //         //$("#taskForm"+tasklistId).hide();
-  //       }
-        
-  //     }).
-  //     error(function(data, status) {
-       
-  //   });
-  // };
 
   $scope.saveTaskList = function(){
 
@@ -147,94 +92,45 @@ function ProjectDetailCtrl($scope, $http, $location,  $routeParams, Project, Tas
     TaskList.save(post_data, function(json){
         if(json.stat == "ok")
         {
-          $("#tasklistForm").hide();
-          $scope.tasks[json.tasklist.id] = new Task();
-          $scope.tasklists[json.tasklist.id] = json.tasklist;
+          hide("tasklistForm");
+          // $scope.tasklists[json.tasklist.id] = json.tasklist;
+          $scope.tasklists.push(json.tasklist);
         }
       });
   };
-
-  $scope.saveTask = function(tasklistId){
-    
-    var post_data = {title: $scope.tasks[tasklistId].title, 
-        projectId: $scope.projectId, tasklistId: tasklistId };
-
-    if($scope.tasks[tasklistId].title==undefined){
-      return;
-    }
-
-    Task.save(post_data, function(json){
-        if(json.stat == "ok"){
-          $scope.tasks[tasklistId].title = undefined;
-          hide("taskForm"+tasklistId);
-
-          if($scope.tasklists[tasklistId].tasks == undefined){
-            $scope.tasklists[tasklistId].tasks = [json.task];
-          }else
-          {
-            $scope.tasklists[tasklistId].tasks.push(json.task);
-          }
-        }
-    });
-
-  };
-
-
-
+  
 }
 
  
 
 function TaskListDetailCtrl($scope, $routeParams, TaskList, Task) {
-  $scope.projectId = $routeParams.projectId;
-  $scope.tasklistId = $routeParams.tasklistId;
-
-
   TaskList.get({projectId: $routeParams.projectId, tasklistId: $routeParams.tasklistId}, function(json) {
       if(json.stat == 'ok'){
         $scope.tasklist = json.tasklist;
         $scope.project = json.project;
-        $scope.newTask = new Task();
       }else{
 
       }
   });
 
-  // $scope.saveTask = function(){
-  //   var post_data = {title: $scope.newTask.title, 
-  //       projectId: $scope.projectId, tasklistId: $scope.tasklistId };
-  //   if($scope.newTask.title==undefined){
-  //     return;
-  //   }
-
-  //   Task.save(post_data, function(json){
-  //       //callback
-  //       if(json.stat == "ok"){
-  //         $scope.task = new Task();
-  //         hide("taskForm");
-  //         if($scope.tasklist.tasks == undefined){
-  //           $scope.tasklist.tasks = [json.task];
-  //         }else
-  //         {
-  //           $scope.tasklist.tasks.push(json.task);
-  //         }
-  //       }
-  //   });
-  // };
-
 }
 
 function TaskDetailCtrl($scope, $routeParams, Task) {
-  $scope.projectId = $routeParams.projectId;
   Task.get({projectId: $routeParams.projectId, taskId: $routeParams.taskId}, function(json) {
-    $scope.task = json.task;
+    if(json.stat == 'ok'){
+      $scope.project = json.project;
+      $scope.task = json.task;
+    }else{
+
+    }
   });
 
 }
 
 
-function TasklistTemplateCtrl($scope, $http,  $routeParams, Task){
+function TasklistTemplateCtrl($scope, $http, $routeParams, Task){
   $scope.newTask = new Task();
+
 
   $scope.taskSave = function(){
     var post_data = {title: $scope.newTask.title, 
@@ -242,10 +138,8 @@ function TasklistTemplateCtrl($scope, $http,  $routeParams, Task){
     if($scope.newTask.title==undefined){
       return;
     }
-
     Task.save(post_data, function(json){
-        //callback
-        if(json.stat == "ok"){
+      if(json.stat == "ok"){
           $scope.newTask = new Task();
           hide("taskForm"+$scope.tasklist.id);
           if($scope.tasklist.tasks == undefined){
@@ -258,48 +152,60 @@ function TasklistTemplateCtrl($scope, $http,  $routeParams, Task){
     });
   };
 
+  $scope.tasklistDelete = function(){
+      var r=confirm("Are you sure you want to delete this tasklist?");
+      if (r!=true)
+      {
+        return;
+      }
+      var tasklistId = $scope.tasklist.id;
+      var projectId = $scope.project.id;
+      $http({method: 'DELETE', url: "/tasklists/"+$scope.tasklist.id, data:{projectId: $scope.project.id}}).
+        success(function(json, status) {
+          if(json.stat == "ok"){
+            if($scope.tasklists == null){
+              window.location = "#/projects/"+projectId;
+            }
+            else{
+              var tls = $scope.tasklists;
+              var index = findArrayIndex(tls, $scope.tasklist.id);
+              if (index != -1){
+                Array.remove(tls, index);
+              }
+            }
+          }
+        }).
+        error(function(json, status) {
+         
+      });
+    };
+
+
+  $scope.tasklistUpdate = function(){
+      var title = $scope.title;
+      $http({method: 'PUT', url: "/tasklists/"+$scope.tasklist.id, data: {title: $scope.title, projectId: $scope.tasklist.projectId}}).
+        success(function(json, status) {
+          if(json.stat == "ok"){
+            $scope.tasklist.title = $scope.title;
+            hide("tasklistEditForm"+$scope.tasklist.id);
+          }
+        }).
+        error(function(json, status) {
+         
+      });
+  };
+
+
 }
 
 
-function TaskEditTemplateCtrl($scope, $http,  $routeParams, Task){
-  $scope.newTask = new Task();
-
- 
-
-
-  // $scope.taskEdit = function(){
-  //   var post_data = {title: $scope.newTask.title, 
-  //       projectId: $scope.project.id, tasklistId: $scope.tasklist.id };
-  //   if($scope.newTask.title==undefined){
-  //     return;
-  //   }
-
-  //   Task.save(post_data, function(json){
-  //       //callback
-  //       if(json.stat == "ok"){
-  //         $scope.newTask = new Task();
-  //         hide("taskForm"+$scope.tasklist.id);
-  //         if($scope.tasklist.tasks == undefined){
-  //           $scope.tasklist.tasks = [json.task];
-  //         }else
-  //         {
-  //           $scope.tasklist.tasks.push(json.task);
-  //         }
-  //       }
-  //   });
-  // };
-
-}
 
 
 
+function TaskTemplateCtrl($scope, $http, $routeParams, Task){
 
-function TaskTemplateCtrl($scope, $http,  $routeParams, Task){
-  $scope.newTask = new Task();
-  $scope.editForm = '';
-  
   $scope.taskDone = function(task){
-      $http({method: 'POST', url: "/tasks/"+task.id+"/changes", data: {projectId: $scope.project.id, status: task.status}}).
+      $http({method: 'PUT', url: "/tasks/"+task.id, data: {projectId: $scope.project.id, status: task.status}}).
         success(function(data, status) {
           if(data.stat == "ok"){
 
@@ -310,21 +216,27 @@ function TaskTemplateCtrl($scope, $http,  $routeParams, Task){
       });
     };
 
-  $scope.taskDelete = function(task){
+  $scope.taskDelete = function(){
       var r=confirm("Are you sure you want to delete this task?");
       if (r!=true)
       {
         return;
       }
-      var tasklistId = task.tasklistId;
-      var taskId = task.id;
-      $http({method: 'DELETE', url: "/tasks/"+task.id, data:{projectId: $scope.project.id}}).
+      var tasklistId = $scope.task.tasklistId;
+      var taskId = $scope.task.id;
+      var projectId = $scope.task.id;
+      $http({method: 'DELETE', url: "/tasks/"+taskId, data:{projectId: projectId}}).
         success(function(json, status) {
           if(json.stat == "ok"){
-            var tls = $scope.tasklist;
-            var index = findArrayIndex(tls.tasks, taskId);
-            if (index != -1){
-              Array.remove(tls.tasks, index);
+            if($scope.tasklist == null){
+              window.location = "#/projects/"+$scope.project.id+"/tasklists/"+tasklistId;
+            }
+            else{
+              var tls = $scope.tasklist;
+              var index = findArrayIndex(tls.tasks, taskId);
+              if (index != -1){
+                Array.remove(tls.tasks, index);
+              }
             }
           }
         }).
@@ -333,20 +245,20 @@ function TaskTemplateCtrl($scope, $http,  $routeParams, Task){
       });
     };
 
-   $scope.taskEdit = function(task){
-      //$("#taskEditForm"+task.id).html('<div class="taskEditTemplate" task="task" tasklist="tasklist" project="project"></div>');
-      $scope.editForm = '<div class="taskEditTemplate" task="task" tasklist="tasklist" project="project"></div>';
-
-    };
 
 
    $scope.taskUpdate = function(task){
-      var tasklistId = task.id;
-      $http({method: 'POST', url: "/tasks/"+task.id+"/changes", data: {title: task.title}}).
+      var title = $scope.title;
+      alert($scope.title);
+      if(title == "" || title == null){
+        return;
+      }
+
+      $http({method: 'PUT', url: "/tasks/"+task.id, data: {title: title, projectId:task.projectId, tasklistId: task.tasklistId}}).
         success(function(json, status) {
           if(json.stat == "ok"){
-            hide("taskForm"+tasklistId);
-            //$("#taskForm"+tasklistId).hide();
+            $scope.task.title = $scope.oldtitle;
+            hide("taskEditForm"+$scope.task.id);
           }
           
         }).

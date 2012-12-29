@@ -4,5 +4,15 @@
     <h4><a href="#/projects/{{projectId}}/" onclick="show('taskForm')" >Back to project</a></h4>
     </div>
     
+   
 </div>
 
+<ul class="breadcrumb">
+        <li><a href="/#/projects">Projects</a> <span class="divider">/</span></li>
+        <li><a href="/#/projects/{{project.id}}">{{project.title}}</a> <span class="divider">/</span></li>
+        <li><a href="/#/projects/{{project.id}}/tasks/{{task.id}}">{{task.title}}</a></li>
+</ul>
+<div class="relative">
+<task data-task="task" data-project="project"  task-title="{{task.title}}">
+</task>
+</div>

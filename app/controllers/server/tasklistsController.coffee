@@ -46,3 +46,33 @@ class App.TasklistsController extends App.ApplicationController
 
           json_data['tasks'] = json_tasks
           @render json:{stat: 'ok', project:_this.project, tasklist: json_data}
+
+
+
+  update: ->
+    App.Tasklist.find @params.id, (error, tasklist) =>
+      if error or tasklist == null
+        return @render json:{stat: 'fail', error: '404'}
+      attrs = {}
+
+      if @params.title != undefined
+        attrs['title'] = @params.title
+      tasklist.updateAttributes attrs, (error) =>
+        if error
+          return @render json:{stat: 'fail', error: 'save tasklist error'}
+        @render json:{stat: 'ok'}
+
+  destroy: ->
+    console.log(@params)
+    App.Tasklist.find @params.id, (error, tasklist) =>
+      if error or tasklist == null
+        return @render json:{stat: 'fail', error: '404'}
+      @tasklist = tasklist
+      App.Project.find @params.projectId, (error, project) =>
+        if error or project == null or @tasklist.projectId != project.id
+          return @render json:{stat: 'fail', error: '404'}
+
+        @tasklist.destroy (error) =>
+          if error
+            return @render json:{stat: 'fail'}
+          return @render json:{stat: 'ok'}

@@ -1,6 +1,28 @@
-<ul class="nav nav-list">
+<div id="tasklist{{tasklist.id}}" data-tasklist-id="{{tasklist.id}}">
+    <div class="hoverable">
+        <div class="hide-actions" style="left: -80px;">
+            <a class="delete" ng-click="tasklistDelete()">Delete</a>
+            <a class="edit" onclick="show('tasklistEditForm{{tasklist.id}}')">Edit</a>
+        </div>
+        <div class="header">
+          <a class="text" href="#/projects/{{project.id}}/tasklists/{{tasklist.id}}"><strong>{{tasklist.title}}</strong></a>
+        </div>
+    </div>
+    <div id="tasklistEditForm{{tasklist.id}}" class="well width8 display">
+        <form name="tasklistEditForm{{tasklist.id}}">
+            <div class="control-group" ng-class="{error: tasklistEditForm{{tasklist.id}}.name.$invalid}">
+                <label>Title</label>
+                <input id="input_taskFrom" type="text" name="title" ng-model="title" class="input-xxlarge input-text"  required>
+                <span ng-show="tasklistEditForm{{tasklist.id}}.title.$error.required" class="help-inline">Required</span>
+            </div>
+            <button ng-click="tasklistUpdate()" ng-disabled="tasklistEditForm{{tasklist.id}}.$invalid" class="btn btn-primary">Save</button>
+            <a href onclick="hide('tasklistEditForm{{tasklist.id}}')" class="btn">Cancel</a>
+        </form>
+    </div>
+
+    <ul class="nav nav-list">
     <li ng-repeat="task in tasklist.tasks" id="task{{task.id}}"> 
-        <task data-task="task" data-tasklist="tasklist" data-project="project">
+        <task data-task="task" data-tasklist="tasklist" data-project="project" task-title="{{task.title}}">
         </task>
     </li>
     <li>
@@ -11,7 +33,7 @@
             <form name="taskForm{{tasklist.id}}">
                 <div class="control-group" ng-class="{error: taskForm{{tasklist.id}}.name.$invalid}">
                     <label>Title</label>
-                    <input id="input_taskFrom" type="text" name="title" ng-model="newTask.title" class="input-xxlarge input-text"  required>
+                    <input id="input_taskForm{{tasklist.id}}" type="text" name="title" ng-model="newTask.title" class="input-xxlarge input-text"  required>
                     <span ng-show="taskForm{{tasklist.id}}.title.$error.required" class="help-inline">Required</span>
                 </div>
                 <button ng-click="taskSave()" ng-disabled="taskForm{{tasklist.id}}.$invalid" class="btn btn-primary">Save</button>
@@ -19,4 +41,5 @@
             </form>
         </div>
     </li>
-</ul>
+    </ul>
+</div>

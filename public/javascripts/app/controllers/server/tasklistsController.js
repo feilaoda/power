@@ -128,6 +128,80 @@
       });
     });
 
+    __defineProperty(TasklistsController,  "update", function() {
+      var _this = this;
+      return App.Tasklist.find(this.params.id, function(error, tasklist) {
+        var attrs;
+        if (error || tasklist === null) {
+          return _this.render({
+            json: {
+              stat: 'fail',
+              error: '404'
+            }
+          });
+        }
+        attrs = {};
+        if (_this.params.title !== void 0) {
+          attrs['title'] = _this.params.title;
+        }
+        return tasklist.updateAttributes(attrs, function(error) {
+          if (error) {
+            return _this.render({
+              json: {
+                stat: 'fail',
+                error: 'save tasklist error'
+              }
+            });
+          }
+          return _this.render({
+            json: {
+              stat: 'ok'
+            }
+          });
+        });
+      });
+    });
+
+    __defineProperty(TasklistsController,  "destroy", function() {
+      var _this = this;
+      console.log(this.params);
+      return App.Tasklist.find(this.params.id, function(error, tasklist) {
+        if (error || tasklist === null) {
+          return _this.render({
+            json: {
+              stat: 'fail',
+              error: '404'
+            }
+          });
+        }
+        _this.tasklist = tasklist;
+        return App.Project.find(_this.params.projectId, function(error, project) {
+          if (error || project === null || _this.tasklist.projectId !== project.id) {
+            return _this.render({
+              json: {
+                stat: 'fail',
+                error: '404'
+              }
+            });
+          }
+          return _this.tasklist.destroy(function(error) {
+            if (error) {
+              return _this.render({
+                json: {
+                  stat: 'fail'
+                }
+              });
+            }
+            return _this.render({
+              json: {
+                stat: 'ok'
+              }
+            });
+          });
+        });
+      });
+    });
+
     return TasklistsController;
 
   })(App.ApplicationController);

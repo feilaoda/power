@@ -58,12 +58,11 @@ form
   margin: 20px 0 20px 0;
 
 
+.relative
+  margin-bottom: 20px
+  position: relative
 
-.tasklist
-  margin-bottom: 20px;
-  position: relative;
-
-.tasklist ul li
+.relative ul li
   margin-bottom: 5px;
   padding-right: 100px;
   vertical-align: baseline;
@@ -79,9 +78,10 @@ a.button
 .hide-actions
   position: absolute
   left: -110px
+  width: 90px
   z-index: 95
-  background: white
-  display: block
+  background: transparent
+  display: none
   border-radius: 10px 0 0 10px
   -webkit-box-shadow: -1px 0 2px rgba(0, 0, 0, 0.2)
   -moz-box-shadow: -1px 0 2px rgba(0,0,0,0.2)

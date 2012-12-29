@@ -4,9 +4,7 @@
     this.resources('tasklists');
     this.resources('users');
     this.resources('projects');
-    this.resources('tasks', function() {
-      return this.post('changes');
-    });
+    this.resources('tasks');
     this.namespace('api', function() {
       return this.match('projects', {
         to: 'projects#all'

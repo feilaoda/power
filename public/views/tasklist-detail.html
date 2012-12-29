@@ -8,53 +8,8 @@
         <li><a href="/#/projects/{{project.id}}/tasklists/{{tasklistId}}">{{tasklist.title}}</a></li>
 </ul>
 
-<div class="tasklist">
-    <div class="hide-actions" style="left: -80px;">
-          <a class="delete" ng-click="delete()">Delete</a>
-          <a class="edit" ng-click="edit()">Edit</a>
-    </div>
-    <div class="header">
-      <a class="text" href="#/projects/{{projectId}}/tasklists/{{tasklist.id}}"><strong>{{tasklist.title}}</strong></a>
-    </div>
-
-    <tasklist  data-project="project" data-tasklist="tasklist">
+<div class="relative">
+    <tasklist data-tasklist="tasklist" data-project="project" tasklist-title="{{tasklist.title}}" >
     </tasklist>
-
-   <!--  <ul class="nav nav-list">
-      <li ng-repeat="task in tasklist.tasks" id="task{{task.id}}">
-       
-       <div class="hide-actions" style="left: -80px;">
-          <a class="delete" ng-click="delete(task.id)">Delete</a>
-          <a class="edit" ng-click="edit(task.id)">Edit</a>
-        </div>
-        <div>
-          <input type="checkbox" ng-model="task.status" ng-true-value="done" ng-false-value="todo" 
-            ng-click="taskDone(tasklist.id, task)" class="ng-pristine ng-valid" >
-          <span class="status-{{task.status}}"> <a class="text" href="#/projects/{{projectId}}/tasks/{{task.id}}">{{task.title}}</a>
-          </span>
-        </div> 
-      </li>
-      <li>
-        <span>
-          <a class="button" href onclick="show('taskForm')" id="add_taskForm" >Add a new Task</a>
-
-            <div id="taskForm" class="well width8 display">
-                <form name="taskForm">
-                  <div class="control-group" ng-class="{error: taskForm.name.$invalid}">
-                    <label>Title</label>
-                    <input id="input_taskFrom" type="text" name="title" ng-model="newTask.title" required>
-                    <span ng-show="taskForm.title.$error.required" class="help-inline">
-                        Required</span>
-                  </div>
-
-                  <button ng-click="saveTask()" ng-disabled="taskForm.$invalid"
-                          class="btn btn-primary">Save</button>
-                    <a href="javascript:;" onclick="hide('taskForm')" class="btn">Cancel</a>
-                </form>
-            </div>
-        </span>
-      </li>
-
-    </ul>   -->
 </div>
  

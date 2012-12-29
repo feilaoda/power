@@ -10,3 +10,13 @@ function hide(id){
   $("#add_"+id).show();
   return false;
 }
+$("div.hoverable").live({
+mouseenter: 
+  function () {
+    $(this).find(".hide-actions").show();
+  },
+mouseleave:
+function () {
+    $(this).find(".hide-actions").hide();
+  }
+});

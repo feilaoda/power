@@ -36,8 +36,8 @@
 
     __defineProperty(TasksController,  "show", function() {
       var _this = this;
-      return App.Task.find(this.params.id, function(error, task) {
-        if (error || task === null) {
+      return App.Project.find(this.params.projectId, function(error, project) {
+        if (error || project === null) {
           return _this.render({
             json: {
               stat: 'fail',
@@ -45,11 +45,23 @@
             }
           });
         }
-        return _this.render({
-          json: {
-            stat: 'ok',
-            task: task
+        _this.project = project;
+        return App.Task.find(_this.params.id, function(error, task) {
+          if (error || task === null || task.projectId !== _this.project.id) {
+            return _this.render({
+              json: {
+                stat: 'fail',
+                error: '404'
+              }
+            });
           }
+          return _this.render({
+            json: {
+              stat: 'ok',
+              project: _this.project,
+              task: task
+            }
+          });
         });
       });
     });
@@ -106,7 +118,7 @@
         }
         _this.task = task;
         return App.Project.find(_this.params.projectId, function(error, project) {
-          if (error || project === null || _this.params.projectId !== project.id) {
+          if (error || project === null || _this.task.projectId !== project.id) {
             return _this.render({
               json: {
                 stat: 'fail',
@@ -132,9 +144,9 @@
       });
     });
 
-    __defineProperty(TasksController,  "changes", function() {
+    __defineProperty(TasksController,  "update", function() {
       var _this = this;
-      return App.Task.find(this.params.taskId, function(error, task) {
+      return App.Task.find(this.params.id, function(error, task) {
         var attrs, status;
         if (error || task === null) {
           return _this.render({
@@ -152,6 +164,9 @@
             status = 'todo';
           }
           attrs['status'] = status;
+        }
+        if (_this.params.title !== void 0) {
+          attrs['title'] = _this.params.title;
         }
         return task.updateAttributes(attrs, function(error) {
           if (error) {
