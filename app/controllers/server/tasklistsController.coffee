@@ -12,7 +12,7 @@ class App.TasklistsController extends App.ApplicationController
     @tasklist = App.Tasklist.build(title: @params.title)
     App.Project.find @params.projectId, (error, project) =>
       if error or project == null
-        return @render text:{stat: 'fail', error: '404'}
+        return @render text:{stat: 'fail', error: '404:project'}
 
       @tasklist.set('projectId', project.get('id'))
       @tasklist.save (err) =>
@@ -25,17 +25,17 @@ class App.TasklistsController extends App.ApplicationController
   show: ->
     App.Project.find @params.projectId, (error, project) =>
       if error or project == null
-        return @render json:{stat: 'fail', error: '404'}
+        return @render json:{stat: 'fail', error: '404:project'}
 
       @project = project
       App.Tasklist.find @params.id, (error, tasklist) =>
         if error or tasklist == null
-          return @render json:{stat: 'fail', error: '404'}
+          return @render json:{stat: 'fail', error: '404:tasklist'}
         console.log("tasklist ", tasklist)
         @tasklist = tasklist
         App.Task.where(tasklistId: @params.id).all (error, tasks) =>
           if error
-            @render json:{stat: 'fail', error: '404'}
+            @render json:{stat: 'fail', error: '404:task'}
 
           json_data = @tasklist.toJSON()
           console.log(tasks)
@@ -52,7 +52,7 @@ class App.TasklistsController extends App.ApplicationController
   update: ->
     App.Tasklist.find @params.id, (error, tasklist) =>
       if error or tasklist == null
-        return @render json:{stat: 'fail', error: '404'}
+        return @render json:{stat: 'fail', error: '404:tasklist'}
       attrs = {}
 
       if @params.title != undefined
@@ -66,11 +66,11 @@ class App.TasklistsController extends App.ApplicationController
     console.log(@params)
     App.Tasklist.find @params.id, (error, tasklist) =>
       if error or tasklist == null
-        return @render json:{stat: 'fail', error: '404'}
+        return @render json:{stat: 'fail', error: '404:tasklist'}
       @tasklist = tasklist
       App.Project.find @params.projectId, (error, project) =>
-        if error or project == null or @tasklist.projectId != project.id
-          return @render json:{stat: 'fail', error: '404'}
+        if error or project == null or @tasklist.get('projectId').toString() != project.get('id').toString()
+          return @render json:{stat: 'fail', error: '404:project'}
 
         @tasklist.destroy (error) =>
           if error

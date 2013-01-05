@@ -1,6 +1,5 @@
-(function() {
-  var __hasProp = {}.hasOwnProperty,
-    __extends =   function(child, parent) {
+var __hasProp = {}.hasOwnProperty,
+  __extends =   function(child, parent) {
     if (typeof parent.__extend == 'function') return parent.__extend(child);
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } 
     function ctor() { this.constructor = child; } 
@@ -11,35 +10,35 @@
     return child; 
 };
 
-  App.User = (function(_super) {
-    var User;
+App.User = (function(_super) {
+  var User;
 
-    function User() {
-      return User.__super__.constructor.apply(this, arguments);
-    }
+  function User() {
+    return User.__super__.constructor.apply(this, arguments);
+  }
 
-    User = __extends(User, _super);
+  User = __extends(User, _super);
 
-    User.field('username', {
-      type: 'String'
-    });
+  User.field('username', {
+    type: 'String'
+  });
 
-    User.field('email', {
-      type: 'String'
-    });
+  User.field('email', {
+    type: 'String'
+  });
 
-    User.field('password', {
-      type: 'String'
-    });
+  User.field('password', {
+    type: 'String'
+  });
 
-    User.field('createTime', {
-      type: 'Date'
-    });
+  User.timestamps();
 
-    User.timestamps();
+  User.hasMany('projects');
 
-    return User;
+  User.hasMany('tasklists');
 
-  })(Tower.Model);
+  User.hasMany('tasks');
 
-}).call(this);
+  return User;
+
+})(Tower.Model);

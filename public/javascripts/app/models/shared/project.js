@@ -1,6 +1,5 @@
-(function() {
-  var __hasProp = {}.hasOwnProperty,
-    __extends =   function(child, parent) {
+var __hasProp = {}.hasOwnProperty,
+  __extends =   function(child, parent) {
     if (typeof parent.__extend == 'function') return parent.__extend(child);
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } 
     function ctor() { this.constructor = child; } 
@@ -11,27 +10,31 @@
     return child; 
 };
 
-  App.Project = (function(_super) {
-    var Project;
+App.Project = (function(_super) {
+  var Project;
 
-    function Project() {
-      return Project.__super__.constructor.apply(this, arguments);
-    }
+  function Project() {
+    return Project.__super__.constructor.apply(this, arguments);
+  }
 
-    Project = __extends(Project, _super);
+  Project = __extends(Project, _super);
 
-    Project.field('title', {
-      type: 'String'
-    });
+  Project.field('title', {
+    type: 'String'
+  });
 
-    Project.hasMany('tasklists');
+  Project.hasMany('tasklists');
 
-    Project.hasMany('tasks');
+  Project.hasMany('tasks');
 
-    Project.timestamps();
+  Project.timestamps();
 
-    return Project;
+  Project.belongTo('master', {
+    type: 'User'
+  });
 
-  })(Tower.Model);
+  Project.hasMany('users');
 
-}).call(this);
+  return Project;
+
+})(Tower.Model);

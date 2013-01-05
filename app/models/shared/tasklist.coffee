@@ -5,3 +5,5 @@ class App.Tasklist extends Tower.Model
   @hasMany 'tasks' 
   
   @timestamps()
+
+  @belongsTo 'user', type: 'User'

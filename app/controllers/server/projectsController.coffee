@@ -56,7 +56,7 @@ class App.ProjectsController extends App.ApplicationController
   
     App.Project.find projectId, (err, project) =>
       if err or project == null
-        return @render json:{stat: 'fail', error: '404'}
+        return @render json:{stat: 'fail', error: '404:project'}
       else
         @project = project
 
@@ -74,7 +74,7 @@ class App.ProjectsController extends App.ApplicationController
               tasklistId = tasklist.get('id')
               # console.log(tasklist.get('title'), tasklistId)
               tasklists[tasklistId] = tasklist.toJSON()
-              App.Task.where(tasklistId: tasklistId).all   parallel()
+              App.Task.where(tasklistId: tasklistId, status: 'todo').all   parallel()
             return
           else
             return []

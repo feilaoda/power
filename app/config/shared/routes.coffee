@@ -4,10 +4,12 @@ Tower.Route.draw ->
   @resources 'users'
   @resources 'projects' 
   @resources 'tasks'
+
   # @resources 'tasks', ->
   #   @post 'changes'
 
   # @match '(/*path)', to: 'application#index'
+  
   @namespace 'api', ->
     @match 'projects', to: 'projects#all',
         'projects/:id', to: 'projects#show'

@@ -77,7 +77,7 @@ angular.module('taskServices', ['ngResource']).
 angular.module('userServices', ['ngResource']).
     factory('User', function($resource){
         var User = $resource('users/:userId', {}, {
-            query: {method:'GET', params:{userId: ''}, isArray:true}
+            query: {method:'GET', params:{userId: ''}}
         });
 
 

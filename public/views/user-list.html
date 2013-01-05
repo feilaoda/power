@@ -1,0 +1,79 @@
+
+
+
+
+<div class="page-header">
+    <h1>Index of project</h1>
+</div>
+
+ 
+
+
+<div class="header" id="add_userForm" >
+<a  href="javascript:;" onclick="show('userForm')" class="button">Add a new User</a>
+</div>
+
+<div id="userForm" class="well width8 display">
+
+<form name="userForm">
+  <div class="control-group" ng-class="{error: userForm.title.$invalid}">
+    <label>Username</label>
+    <input id="input_userForm" type="text" name="username" ng-model="newUser.username" required>
+   
+    <span ng-show="userForm.username.$error.required" class="help-inline">
+        Required</span>
+  </div>
+
+  <div class="control-group" >
+    <label>email</label>
+    <input type="text" name="email" ng-model="newUser.email" required>
+  </div>
+
+  <div class="control-group" >
+    <label>Password</label>
+    <input type="password" name="password" ng-model="newUser.password" required >
+  </div>
+
+    <div class="control-group" >
+    <label>Repeat Password</label>
+    <input type="password" name="repassword" ng-model="newUser.repassword" required >
+  </div>
+
+
+  <button ng-click="save()" ng-disabled="userForm.username.$invalid"
+          class="btn btn-primary">Save</button>
+  <a href="javascript:;" onclick="hide('userForm')" class="btn">Cancel</a>
+</form>
+
+</div>
+
+
+
+<div class="row">
+    <div class="span12">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="row-fluid">
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                <tr class="row-fluid" ng-repeat="user in users | filter:query | orderBy:orderProp">
+                <td ><a href="#/users/{{user.id}}">{{user.username}}</a>
+                <td>{{user.email}}</td>
+                <td>
+                    <a href ng-click="delete(user.id)">delete</a>
+                </td>
+                </tr>
+    
+                </tbody>
+            </table>
+           
+    </div>
+</div>
+
+
+

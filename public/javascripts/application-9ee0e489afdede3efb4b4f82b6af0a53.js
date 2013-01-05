@@ -1,8 +1,5 @@
-(function() {
 
-  global.App = Tower.Application.create();
-
-}).call(this);
+global.App = Tower.Application.create();
 
 
 (function() {
@@ -120,26 +117,23 @@
 }).call(this);
 
 
-(function() {
 
-  Tower.Route.draw(function() {
-    this.resources('tasklists');
-    this.resources('users');
-    this.resources('projects');
-    this.resources('tasks');
-    this.namespace('api', function() {
-      return this.match('projects', {
-        to: 'projects#all'
-      }, 'projects/:id', {
-        to: 'projects#show'
-      });
-    });
-    return this.match('/', {
-      to: 'application#welcome'
+Tower.Route.draw(function() {
+  this.resources('tasklists');
+  this.resources('users');
+  this.resources('projects');
+  this.resources('tasks');
+  this.namespace('api', function() {
+    return this.match('projects', {
+      to: 'projects#all'
+    }, 'projects/:id', {
+      to: 'projects#show'
     });
   });
-
-}).call(this);
+  return this.match('/', {
+    to: 'application#welcome'
+  });
+});
 
 
 (function() {
@@ -180,83 +174,7 @@
 }).call(this);
 
 
-(function() {
-  var __hasProp = {}.hasOwnProperty,
-    __extends =   function(child, parent) {
-    if (typeof parent.__extend == 'function') return parent.__extend(child);
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } 
-    function ctor() { this.constructor = child; } 
-    ctor.prototype = parent.prototype; 
-    child.prototype = new ctor; 
-    child.__super__ = parent.prototype; 
-    if (typeof parent.extended == 'function') parent.extended(child); 
-    return child; 
-};
-
-  App.Project = (function(_super) {
-    var Project;
-
-    function Project() {
-      return Project.__super__.constructor.apply(this, arguments);
-    }
-
-    Project = __extends(Project, _super);
-
-    Project.field('title', {
-      type: 'String'
-    });
-
-    Project.hasMany('tasklists');
-
-    Project.hasMany('tasks');
-
-    Project.timestamps();
-
-    return Project;
-
-  })(Tower.Model);
-
-}).call(this);
-
-
-(function() {
-
-  App.ProjectsEditView = Ember.View.extend({
-    templateName: 'projects/edit',
-    resourceBinding: 'controller.resource',
-    submit: function(event) {
-      this.get('resource').save();
-      Tower.router.transitionTo('projects.index');
-      return false;
-    }
-  });
-
-}).call(this);
-
-
-(function() {
-
-  App.ProjectsIndexView = Ember.View.extend({
-    templateName: 'projects/index'
-  });
-
-}).call(this);
-
-
-(function() {
-
-  App.ProjectsShowView = Ember.View.extend({
-    templateName: 'projects/show'
-  });
-
-}).call(this);
-
-
-var __defineProperty = function(clazz, key, value) {
-  if (typeof clazz.__defineProperty == 'function') return clazz.__defineProperty(key, value);
-  return clazz.prototype[key] = value;
-},
-  __hasProp = {}.hasOwnProperty,
+var __hasProp = {}.hasOwnProperty,
   __extends =   function(child, parent) {
     if (typeof parent.__extend == 'function') return parent.__extend(child);
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } 
@@ -268,230 +186,37 @@ var __defineProperty = function(clazz, key, value) {
     return child; 
 };
 
-App.ProjectsController = (function(_super) {
-  var ProjectsController;
+App.Project = (function(_super) {
+  var Project;
 
-  function ProjectsController() {
-    return ProjectsController.__super__.constructor.apply(this, arguments);
+  function Project() {
+    return Project.__super__.constructor.apply(this, arguments);
   }
 
-  ProjectsController = __extends(ProjectsController, _super);
+  Project = __extends(Project, _super);
 
-  ProjectsController.scope('all');
-
-  __defineProperty(ProjectsController,  "destroy", function() {
-    return this.get('resource').destroy();
+  Project.field('title', {
+    type: 'String'
   });
 
-  return ProjectsController;
+  Project.hasMany('tasklists');
 
-})(Tower.Controller);
+  Project.hasMany('tasks');
 
+  Project.timestamps();
 
-(function() {
-  var __hasProp = {}.hasOwnProperty,
-    __extends =   function(child, parent) {
-    if (typeof parent.__extend == 'function') return parent.__extend(child);
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } 
-    function ctor() { this.constructor = child; } 
-    ctor.prototype = parent.prototype; 
-    child.prototype = new ctor; 
-    child.__super__ = parent.prototype; 
-    if (typeof parent.extended == 'function') parent.extended(child); 
-    return child; 
-};
-
-  App.User = (function(_super) {
-    var User;
-
-    function User() {
-      return User.__super__.constructor.apply(this, arguments);
-    }
-
-    User = __extends(User, _super);
-
-    User.field('username', {
-      type: 'String'
-    });
-
-    User.field('email', {
-      type: 'String'
-    });
-
-    User.field('password', {
-      type: 'String'
-    });
-
-    User.field('createTime', {
-      type: 'Date'
-    });
-
-    User.timestamps();
-
-    return User;
-
-  })(Tower.Model);
-
-}).call(this);
-
-
-(function() {
-
-  App.UsersEditView = Ember.View.extend({
-    templateName: 'users/edit',
-    resourceBinding: 'controller.resource',
-    submit: function(event) {
-      this.get('resource').save();
-      Tower.router.transitionTo('users.index');
-      return false;
-    }
+  Project.belongTo('master', {
+    type: 'User'
   });
 
-}).call(this);
+  Project.hasMany('users');
+
+  return Project;
+
+})(Tower.Model);
 
 
-(function() {
-
-  App.UsersIndexView = Ember.View.extend({
-    templateName: 'users/index'
-  });
-
-}).call(this);
-
-
-(function() {
-
-  App.UsersShowView = Ember.View.extend({
-    templateName: 'users/show'
-  });
-
-}).call(this);
-
-
-(function() {
-  var __defineProperty = function(clazz, key, value) {
-  if (typeof clazz.__defineProperty == 'function') return clazz.__defineProperty(key, value);
-  return clazz.prototype[key] = value;
-},
-    __hasProp = {}.hasOwnProperty,
-    __extends =   function(child, parent) {
-    if (typeof parent.__extend == 'function') return parent.__extend(child);
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } 
-    function ctor() { this.constructor = child; } 
-    ctor.prototype = parent.prototype; 
-    child.prototype = new ctor; 
-    child.__super__ = parent.prototype; 
-    if (typeof parent.extended == 'function') parent.extended(child); 
-    return child; 
-};
-
-  App.UsersController = (function(_super) {
-    var UsersController;
-
-    function UsersController() {
-      return UsersController.__super__.constructor.apply(this, arguments);
-    }
-
-    UsersController = __extends(UsersController, _super);
-
-    UsersController.scope('all');
-
-    __defineProperty(UsersController,  "destroy", function() {
-      return this.get('resource').destroy();
-    });
-
-    return UsersController;
-
-  })(Tower.Controller);
-
-}).call(this);
-
-
-(function() {
-  var __hasProp = {}.hasOwnProperty,
-    __extends =   function(child, parent) {
-    if (typeof parent.__extend == 'function') return parent.__extend(child);
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } 
-    function ctor() { this.constructor = child; } 
-    ctor.prototype = parent.prototype; 
-    child.prototype = new ctor; 
-    child.__super__ = parent.prototype; 
-    if (typeof parent.extended == 'function') parent.extended(child); 
-    return child; 
-};
-
-  App.Task = (function(_super) {
-    var Task;
-
-    function Task() {
-      return Task.__super__.constructor.apply(this, arguments);
-    }
-
-    Task = __extends(Task, _super);
-
-    Task.field('title', {
-      type: 'String'
-    });
-
-    Task.field('status', {
-      type: 'String'
-    });
-
-    Task.belongsTo('project', {
-      type: 'Project'
-    });
-
-    Task.belongsTo('tasklist', {
-      type: 'Tasklist'
-    });
-
-    Task.timestamps();
-
-    return Task;
-
-  })(Tower.Model);
-
-}).call(this);
-
-
-(function() {
-
-  App.TasksEditView = Ember.View.extend({
-    templateName: 'tasks/edit',
-    resourceBinding: 'controller.resource',
-    submit: function(event) {
-      this.get('resource').save();
-      Tower.router.transitionTo('tasks.index');
-      return false;
-    }
-  });
-
-}).call(this);
-
-
-(function() {
-
-  App.TasksIndexView = Ember.View.extend({
-    templateName: 'tasks/index'
-  });
-
-}).call(this);
-
-
-(function() {
-
-  App.TasksShowView = Ember.View.extend({
-    templateName: 'tasks/show'
-  });
-
-}).call(this);
-
-
-var __defineProperty = function(clazz, key, value) {
-  if (typeof clazz.__defineProperty == 'function') return clazz.__defineProperty(key, value);
-  return clazz.prototype[key] = value;
-},
-  __hasProp = {}.hasOwnProperty,
+var __hasProp = {}.hasOwnProperty,
   __extends =   function(child, parent) {
     if (typeof parent.__extend == 'function') return parent.__extend(child);
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } 
@@ -503,105 +228,41 @@ var __defineProperty = function(clazz, key, value) {
     return child; 
 };
 
-App.TasksController = (function(_super) {
-  var TasksController;
+App.User = (function(_super) {
+  var User;
 
-  function TasksController() {
-    return TasksController.__super__.constructor.apply(this, arguments);
+  function User() {
+    return User.__super__.constructor.apply(this, arguments);
   }
 
-  TasksController = __extends(TasksController, _super);
+  User = __extends(User, _super);
 
-  TasksController.scope('all');
-
-  __defineProperty(TasksController,  "destroy", function() {
-    return this.get('resource').destroy();
+  User.field('username', {
+    type: 'String'
   });
 
-  return TasksController;
-
-})(Tower.Controller);
-
-
-(function() {
-  var __hasProp = {}.hasOwnProperty,
-    __extends =   function(child, parent) {
-    if (typeof parent.__extend == 'function') return parent.__extend(child);
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } 
-    function ctor() { this.constructor = child; } 
-    ctor.prototype = parent.prototype; 
-    child.prototype = new ctor; 
-    child.__super__ = parent.prototype; 
-    if (typeof parent.extended == 'function') parent.extended(child); 
-    return child; 
-};
-
-  App.Tasklist = (function(_super) {
-    var Tasklist;
-
-    function Tasklist() {
-      return Tasklist.__super__.constructor.apply(this, arguments);
-    }
-
-    Tasklist = __extends(Tasklist, _super);
-
-    Tasklist.field('title', {
-      type: 'String'
-    });
-
-    Tasklist.belongsTo('project', {
-      type: 'Project'
-    });
-
-    Tasklist.hasMany('tasks');
-
-    Tasklist.timestamps();
-
-    return Tasklist;
-
-  })(Tower.Model);
-
-}).call(this);
-
-
-(function() {
-
-  App.TasklistsEditView = Ember.View.extend({
-    templateName: 'tasklists/edit',
-    resourceBinding: 'controller.resource',
-    submit: function(event) {
-      this.get('resource').save();
-      Tower.router.transitionTo('tasklists.index');
-      return false;
-    }
+  User.field('email', {
+    type: 'String'
   });
 
-}).call(this);
-
-
-(function() {
-
-  App.TasklistsIndexView = Ember.View.extend({
-    templateName: 'tasklists/index'
+  User.field('password', {
+    type: 'String'
   });
 
-}).call(this);
+  User.timestamps();
+
+  User.hasMany('projects');
+
+  User.hasMany('tasklists');
+
+  User.hasMany('tasks');
+
+  return User;
+
+})(Tower.Model);
 
 
-(function() {
-
-  App.TasklistsShowView = Ember.View.extend({
-    templateName: 'tasklists/show'
-  });
-
-}).call(this);
-
-
-var __defineProperty = function(clazz, key, value) {
-  if (typeof clazz.__defineProperty == 'function') return clazz.__defineProperty(key, value);
-  return clazz.prototype[key] = value;
-},
-  __hasProp = {}.hasOwnProperty,
+var __hasProp = {}.hasOwnProperty,
   __extends =   function(child, parent) {
     if (typeof parent.__extend == 'function') return parent.__extend(child);
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } 
@@ -613,39 +274,100 @@ var __defineProperty = function(clazz, key, value) {
     return child; 
 };
 
-App.TasklistsController = (function(_super) {
-  var TasklistsController;
+App.Task = (function(_super) {
+  var Task;
 
-  function TasklistsController() {
-    return TasklistsController.__super__.constructor.apply(this, arguments);
+  function Task() {
+    return Task.__super__.constructor.apply(this, arguments);
   }
 
-  TasklistsController = __extends(TasklistsController, _super);
+  Task = __extends(Task, _super);
 
-  TasklistsController.scope('all');
-
-  __defineProperty(TasklistsController,  "destroy", function() {
-    return this.get('resource').destroy();
+  Task.field('title', {
+    type: 'String'
   });
 
-  return TasklistsController;
+  Task.field('status', {
+    type: 'String'
+  });
 
-})(Tower.Controller);
+  Task.belongsTo('project', {
+    type: 'Project'
+  });
+
+  Task.belongsTo('tasklist', {
+    type: 'Tasklist'
+  });
+
+  Task.timestamps();
+
+  Task.belongsTo('user', {
+    type: 'User'
+  });
+
+  return Task;
+
+})(Tower.Model);
 
 
+var __hasProp = {}.hasOwnProperty,
+  __extends =   function(child, parent) {
+    if (typeof parent.__extend == 'function') return parent.__extend(child);
+    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } 
+    function ctor() { this.constructor = child; } 
+    ctor.prototype = parent.prototype; 
+    child.prototype = new ctor; 
+    child.__super__ = parent.prototype; 
+    if (typeof parent.extended == 'function') parent.extended(child); 
+    return child; 
+};
+
+App.Tasklist = (function(_super) {
+  var Tasklist;
+
+  function Tasklist() {
+    return Tasklist.__super__.constructor.apply(this, arguments);
+  }
+
+  Tasklist = __extends(Tasklist, _super);
+
+  Tasklist.field('title', {
+    type: 'String'
+  });
+
+  Tasklist.belongsTo('project', {
+    type: 'Project'
+  });
+
+  Tasklist.hasMany('tasks');
+
+  Tasklist.timestamps();
+
+  Tasklist.belongsTo('user', {
+    type: 'User'
+  });
+
+  return Tasklist;
+
+})(Tower.Model);
+
+
+var now = new Date();
+
+var version = '?v='+ now.getTime();
 
 var power = angular.module('power', ['projectFilters', 'projectServices', 'tasklistServices', 'taskServices', 'userServices']).
   config(['$routeProvider', function($routeProvider) {
   $routeProvider.
-      when('/projects', {templateUrl: 'views/project-list.html',   controller: ProjectListCtrl}).
-      when('/projects/:projectId', {templateUrl: 'views/project-detail.html', controller: ProjectDetailCtrl}).
-      when('/projects/:projectId/tasklists/:tasklistId', {templateUrl: 'views/tasklist-detail.html', controller: TaskListDetailCtrl}).
-      when('/projects/:projectId/tasks/:taskId', {templateUrl: 'views/task-detail.html', controller: TaskDetailCtrl}).
+      when('/projects', {templateUrl: 'views/project-list.html'  + version,   controller: ProjectListCtrl}).
+      when('/projects/:projectId', {templateUrl: 'views/project-detail.html' + version, controller: ProjectDetailCtrl}).
+      when('/projects/:projectId/tasklists/:tasklistId', {templateUrl: 'views/tasklist-detail.html'  + version, controller: TaskListDetailCtrl}).
+      when('/projects/:projectId/tasks/:taskId', {templateUrl: 'views/task-detail.html' + version, controller: TaskDetailCtrl}).
       when('/users', {templateUrl: 'views/user-list.html',   controller: UserListCtrl}).
       otherwise({redirectTo: '/projects'});
 }]);
 
-var now = new Date();
+
 
 power.directive('tasklist', function(){
     return {
@@ -653,7 +375,7 @@ power.directive('tasklist', function(){
       replace: false,
       transclude: true,
       scope: {tasklist:'=', tasklists:'=', project:'=', title:'@tasklistTitle'},
-      templateUrl:'views/tasklist-template.html' ,
+      templateUrl:'views/tasklist-template.html' + version ,
       controller: TasklistTemplateCtrl,
       link: function(scope, element, attrs) {
       }
@@ -664,7 +386,7 @@ power.directive('tasklist', function(){
       replace: false,
       transclude: true,
       scope: {task:'=', tasklist:'=', project:'=', title:'@taskTitle'},
-      templateUrl:'views/task-template.html', //+'?t='+ now.getTime(),
+      templateUrl:'views/task-template.html' + version,
       controller: TaskTemplateCtrl,
       link: function(scope, element, attrs) {
 
@@ -707,9 +429,7 @@ function ProjectListCtrl($scope, Project) {
   $scope.orderProp = '-id';
 
   $scope.save = function() {
-    
     var post_data = {title: $scope.newProject.title};
-    alert(post_data.title);
     Project.save(post_data, function(json) {
         if(json.stat == 'ok'){
           hide("projectForm");
@@ -720,8 +440,11 @@ function ProjectListCtrl($scope, Project) {
   };
 
   $scope.delete = function(id){
-
-
+    var r=confirm("Are you sure you want to delete this project?");
+      if (r!=true)
+      {
+        return;
+      }
 
     Project.remove({id:id}, function(json){
       if(json.stat == 'ok'){
@@ -733,6 +456,28 @@ function ProjectListCtrl($scope, Project) {
 }
 
 function UserListCtrl($scope, User) {
+  $scope.newUser = new User();
+  $scope.users = {};
+
+  User.query(function(json){
+    if(json.stat == 'ok')
+    {
+      json.users.forEach(function(user){
+        $scope.users[user.id] = user;
+      });
+    }
+  });
+
+  $scope.save = function() {
+    var post_data = {username: $scope.newUser.username, email: $scope.newUser.email, password:$scope.newUser.password};
+    User.save(post_data, function(json) {
+        if(json.stat == 'ok'){
+          hide("userForm");
+          $scope.users[json.user.id] = json.user;
+          $scope.newUser = new User();
+        }
+    });
+  };
 
 }
 
@@ -794,6 +539,7 @@ function TaskDetailCtrl($scope, $routeParams, Task) {
   Task.get({projectId: $routeParams.projectId, taskId: $routeParams.taskId}, function(json) {
     if(json.stat == 'ok'){
       $scope.project = json.project;
+      $scope.tasklist = json.tasklist;
       $scope.task = json.task;
     }else{
 
@@ -1024,7 +770,7 @@ angular.module('taskServices', ['ngResource']).
 angular.module('userServices', ['ngResource']).
     factory('User', function($resource){
         var User = $resource('users/:userId', {}, {
-            query: {method:'GET', params:{userId: ''}, isArray:true}
+            query: {method:'GET', params:{userId: ''}}
         });
 
 

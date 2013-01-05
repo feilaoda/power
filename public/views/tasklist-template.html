@@ -21,10 +21,12 @@
     </div>
 
     <ul class="nav nav-list">
-    <li ng-repeat="task in tasklist.tasks" id="task{{task.id}}"> 
+    <li ng-repeat="task in tasklist.tasks | filter:{status:'todo'} " id="task{{task.id}}"> 
         <task data-task="task" data-tasklist="tasklist" data-project="project" task-title="{{task.title}}">
         </task>
     </li>
+   
+
     <li>
         <div id="add_taskForm{{tasklist.id}}" >
             <a class="button" href onclick="show('taskForm{{tasklist.id}}')" >Add a new Task</a>
@@ -41,5 +43,11 @@
             </form>
         </div>
     </li>
+
+    <li ng-repeat="task in tasklist.tasks | filter:{status:'done'}" id="task{{task.id}}"> 
+        <task data-task="task" data-tasklist="tasklist" data-project="project" task-title="{{task.title}}">
+        </task>
+    </li>
+
     </ul>
 </div>

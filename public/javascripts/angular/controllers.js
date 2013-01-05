@@ -32,9 +32,7 @@ function ProjectListCtrl($scope, Project) {
   $scope.orderProp = '-id';
 
   $scope.save = function() {
-    
     var post_data = {title: $scope.newProject.title};
-    alert(post_data.title);
     Project.save(post_data, function(json) {
         if(json.stat == 'ok'){
           hide("projectForm");
@@ -45,8 +43,11 @@ function ProjectListCtrl($scope, Project) {
   };
 
   $scope.delete = function(id){
-
-
+    var r=confirm("Are you sure you want to delete this project?");
+      if (r!=true)
+      {
+        return;
+      }
 
     Project.remove({id:id}, function(json){
       if(json.stat == 'ok'){
@@ -58,6 +59,28 @@ function ProjectListCtrl($scope, Project) {
 }
 
 function UserListCtrl($scope, User) {
+  $scope.newUser = new User();
+  $scope.users = {};
+
+  User.query(function(json){
+    if(json.stat == 'ok')
+    {
+      json.users.forEach(function(user){
+        $scope.users[user.id] = user;
+      });
+    }
+  });
+
+  $scope.save = function() {
+    var post_data = {username: $scope.newUser.username, email: $scope.newUser.email, password:$scope.newUser.password};
+    User.save(post_data, function(json) {
+        if(json.stat == 'ok'){
+          hide("userForm");
+          $scope.users[json.user.id] = json.user;
+          $scope.newUser = new User();
+        }
+    });
+  };
 
 }
 
@@ -119,6 +142,7 @@ function TaskDetailCtrl($scope, $routeParams, Task) {
   Task.get({projectId: $routeParams.projectId, taskId: $routeParams.taskId}, function(json) {
     if(json.stat == 'ok'){
       $scope.project = json.project;
+      $scope.tasklist = json.tasklist;
       $scope.task = json.task;
     }else{
 
