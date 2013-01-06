@@ -78,6 +78,15 @@ a.text:hover {
 a.button {
   color: #0093b8;
 }
+a.title {
+  color: #303030;
+  line-height: 20px;
+  font-size: 15px;
+  font-family: "Segoe UI", helvetica, arial, sans-serif;
+}
+.errors {
+  color: #f00;
+}
 .hide-actions {
   position: absolute;
   left: -110px;
@@ -95,4 +104,16 @@ a.button {
   padding: 0 3px 3px;
   font-size: 12px;
   color: #887;
+}
+.nav-tabs > .active-p-project > a,
+.nav-tabs > .active-t-topic > a,
+.nav-tabs > .active-s-settings > a,
+.nav-tabs > .active-p-project > a:hover,
+.nav-tabs > .active-t-topic > a:hover,
+.nav-tabs > .active-s-settings > a:hover {
+  color: #bbb;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-bottom-color: transparent;
+  cursor: default;
 }

@@ -28,7 +28,7 @@ module.exports =
       # '/app/views/client/tasklists/index'
       # '/app/views/client/tasklists/show'
       # '/app/controllers/client/tasklistsController'
-      
+      '/app/models/shared/member'
       '/angular/app'
       '/angular/controllers'
       '/angular/services'
@@ -105,3 +105,5 @@ module.exports =
     # development: [
     #   # '/vendor/stylesheets/mocha'
     # ]
+
+  

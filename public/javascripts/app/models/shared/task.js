@@ -1,5 +1,6 @@
-var __hasProp = {}.hasOwnProperty,
-  __extends =   function(child, parent) {
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends =   function(child, parent) {
     if (typeof parent.__extend == 'function') return parent.__extend(child);
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } 
     function ctor() { this.constructor = child; } 
@@ -10,37 +11,39 @@ var __hasProp = {}.hasOwnProperty,
     return child; 
 };
 
-App.Task = (function(_super) {
-  var Task;
+  App.Task = (function(_super) {
+    var Task;
 
-  function Task() {
-    return Task.__super__.constructor.apply(this, arguments);
-  }
+    function Task() {
+      return Task.__super__.constructor.apply(this, arguments);
+    }
 
-  Task = __extends(Task, _super);
+    Task = __extends(Task, _super);
 
-  Task.field('title', {
-    type: 'String'
-  });
+    Task.field('title', {
+      type: 'String'
+    });
 
-  Task.field('status', {
-    type: 'String'
-  });
+    Task.field('status', {
+      type: 'String'
+    });
 
-  Task.belongsTo('project', {
-    type: 'Project'
-  });
+    Task.belongsTo('project', {
+      type: 'Project'
+    });
 
-  Task.belongsTo('tasklist', {
-    type: 'Tasklist'
-  });
+    Task.belongsTo('tasklist', {
+      type: 'Tasklist'
+    });
 
-  Task.timestamps();
+    Task.timestamps();
 
-  Task.belongsTo('user', {
-    type: 'User'
-  });
+    Task.belongsTo('user', {
+      type: 'User'
+    });
 
-  return Task;
+    return Task;
 
-})(Tower.Model);
+  })(Tower.Model);
+
+}).call(this);

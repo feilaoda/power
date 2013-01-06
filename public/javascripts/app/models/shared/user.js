@@ -1,5 +1,6 @@
-var __hasProp = {}.hasOwnProperty,
-  __extends =   function(child, parent) {
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends =   function(child, parent) {
     if (typeof parent.__extend == 'function') return parent.__extend(child);
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } 
     function ctor() { this.constructor = child; } 
@@ -10,35 +11,37 @@ var __hasProp = {}.hasOwnProperty,
     return child; 
 };
 
-App.User = (function(_super) {
-  var User;
+  App.User = (function(_super) {
+    var User;
 
-  function User() {
-    return User.__super__.constructor.apply(this, arguments);
-  }
+    function User() {
+      return User.__super__.constructor.apply(this, arguments);
+    }
 
-  User = __extends(User, _super);
+    User = __extends(User, _super);
 
-  User.field('username', {
-    type: 'String'
-  });
+    User.field('username', {
+      type: 'String'
+    });
 
-  User.field('email', {
-    type: 'String'
-  });
+    User.field('email', {
+      type: 'String'
+    });
 
-  User.field('password', {
-    type: 'String'
-  });
+    User.field('password', {
+      type: 'String'
+    });
 
-  User.timestamps();
+    User.timestamps();
 
-  User.hasMany('projects');
+    User.hasMany('projects');
 
-  User.hasMany('tasklists');
+    User.hasMany('tasklists');
 
-  User.hasMany('tasks');
+    User.hasMany('tasks');
 
-  return User;
+    return User;
 
-})(Tower.Model);
+  })(Tower.Model);
+
+}).call(this);

@@ -5,7 +5,7 @@
 </div>
     <div>
         <input type="checkbox" ng-model="task.status" ng-true-value="done" ng-false-value="todo" ng-click="taskDone(task)" class="ng-pristine ng-valid" >
-        <span class="status-{{task.status}}"> <a class="text" href="#/projects/{{project.id}}/tasks/{{task.id}}">{{task.title}}</a> 
+        <span class="status-{{task.status}}"> <a class="title" href="#/projects/{{project.id}}/tasks/{{task.id}}">{{task.title}}</a> 
         </span>
         <div id="taskEditForm{{task.id}}" class="well width8 display">
             <form name="taskEditForm{{task.id}}">

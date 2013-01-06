@@ -96,3 +96,14 @@ angular.module('userServices', ['ngResource']).
 
     });
 
+angular.module('memberServices', ['ngResource']).
+    factory('Member', function($resource){
+        var Member = $resource('members/:userId', {}, {
+            get: {method:'GET', params:{userId: ''}},
+            query: {method:'GET', params:{userId: ''}}
+        });
+
+
+        return Member;
+
+    });

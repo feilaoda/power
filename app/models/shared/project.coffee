@@ -3,8 +3,8 @@ class App.Project extends Tower.Model
 
   @hasMany 'tasklists' 
   @hasMany 'tasks'
+  @hasMany 'members'
   
   @timestamps()
 
   @belongsTo 'master', type: 'User'
-  @hasMany 'users'

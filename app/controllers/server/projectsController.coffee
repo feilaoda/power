@@ -16,8 +16,8 @@ class App.ProjectsController extends App.ApplicationController
   #     @project = project
 
   index: ->
-    App.Project.all (err, projects) =>
-      if err
+    App.Project.all (error, projects) =>
+      if error
         @render json:{stat: 'fail'}
       else
         @render json:{stat: 'ok', projects:projects}
@@ -30,9 +30,9 @@ class App.ProjectsController extends App.ApplicationController
 
     @project.save (error) =>
       if error
-        @render json:{stat: 'fail'}
+        return @render json:{stat: 'fail'}
       else
-        @render json:{stat: 'ok', project: @project}
+        return @render json:{stat: 'ok', project: @project}
         
   destroy: ->
     App.Project.find @params.id, (error, project) =>
@@ -44,21 +44,32 @@ class App.ProjectsController extends App.ApplicationController
         console.log("destroy task", error)
       project.destroy (error) =>
         if error
-          @render json:{stat: 'fail'}
+          @render json:{stat: 'fail', error: error}
         else
           @render json:{stat: 'ok', project: project}
 
+  member: ->
+    App.Project.find @params.id, (error, project) =>
+      if error or project == null
+        return @render json:{stat: '404', error: 'project not found'}
+      @project = project
+      App.Member.where(projectId:@params.id).all  (error, members) =>
+        if error
+          return @render json:{stat: 'fail', error: error}
+        return @render json:{stat: 'ok', project: @project, members: members}
 
   show: ->
     _this = this
     projectId = @params.id
     tasklists = {}
   
-    App.Project.find projectId, (err, project) =>
+    App.Project.find @params.id, (err, project) =>
       if err or project == null
-        return @render json:{stat: 'fail', error: '404:project'}
+        return @render json:{stat: '404', error: 'project not found'}
       else
         @project = project
+      if @params.single == 'true'
+        return @render json:{stat: 'ok', project: project}
 
       Step(
         ->
@@ -95,7 +106,21 @@ class App.ProjectsController extends App.ApplicationController
           
           json_data = {project: {id: projectId}, tasklists: tasklists}        
           
-          _this.render json: {project: _this.project, tasklists: tasklists}  , status: 200
+          _this.render json: {stat: 'ok', project: _this.project, tasklists: tasklists}  , status: 200
       )
     
     return
+
+
+  update: ->
+    App.Project.find @params.id, (error, project) =>
+      if error or project == null
+        return @render json:{stat: '404', error: 'project not found'}
+      attrs = {}
+
+      if @params.title != undefined
+        attrs['title'] = @params.title
+      project.updateAttributes attrs, (error) =>
+        if error
+          return @render json:{stat: 'fail', error: error}
+        @render json:{stat: 'ok'}

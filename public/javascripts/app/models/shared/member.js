@@ -11,32 +11,34 @@
     return child; 
 };
 
-  App.Project = (function(_super) {
-    var Project;
+  App.Member = (function(_super) {
+    var Member;
 
-    function Project() {
-      return Project.__super__.constructor.apply(this, arguments);
+    function Member() {
+      return Member.__super__.constructor.apply(this, arguments);
     }
 
-    Project = __extends(Project, _super);
+    Member = __extends(Member, _super);
 
-    Project.field('title', {
+    Member.field('username', {
       type: 'String'
     });
 
-    Project.hasMany('tasklists');
+    Member.field('email', {
+      type: 'String'
+    });
 
-    Project.hasMany('tasks');
+    Member.belongsTo('project', {
+      type: 'Project'
+    });
 
-    Project.hasMany('members');
-
-    Project.timestamps();
-
-    Project.belongsTo('master', {
+    Member.belongsTo('user', {
       type: 'User'
     });
 
-    return Project;
+    Member.hasMany('projects');
+
+    return Member;
 
   })(Tower.Model);
 

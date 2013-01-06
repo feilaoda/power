@@ -1,0 +1,93 @@
+<navbar data-project="project" active="settings"></navbar>
+
+<div class="relative">
+    <div class="hoverable">
+        <div class="hide-actions" style="left: -80px;">
+            <a class="delete" ng-click="projectDelete()">Delete</a>
+            <a class="edit" onclick="show('projectEditForm')">Edit</a>
+        </div>
+        <div class="header">
+          <i class="icon-edit"></i> <a class="text" href="#/projects/{{project.id}}"> <strong>{{project.title}}</strong></a>
+        </div>
+    </div>
+</div>
+
+<div class="content-container">
+<div id="projectEditForm" class="well width8 display">
+
+<form name="projectEditForm">
+  <div class="control-group" ng-class="{error: projectEditForm.title.$invalid}">
+    <label>Title</label>
+    <input id="input_projectForm" type="text" name="title" ng-model="title" required>
+    <span ng-show="projectEditForm.title.$error.required" class="help-inline">
+        Required</span>
+  </div>
+
+  <button ng-click="save()" ng-disabled="projectEditForm.title.$invalid"
+          class="btn btn-primary">Save</button>
+  <a href="javascript:;" onclick="hide('projectEditForm')" class="btn">Cancel</a>
+</form>
+
+</div>
+</div>
+
+
+
+
+
+<div class="content-container">
+
+
+<div class="header" id="add_memberForm" >
+<a href="javascript:;" onclick="show('memberForm')" class="button">Add a new Member</a>
+</div>
+
+<div id="memberForm" class="well width8 display">
+
+<form name="memberForm">
+  <div class="control-group" ng-class="{error: memberForm.email.$invalid}">
+    <label>User email</label>
+    <input id="input_memberForm" type="text" name="email" ng-model="newProjectUser.email" required>
+    
+    <span class="errors help-inline" ng-model="errors">{{errors}}</span>
+  </div>
+
+  <button ng-click="memberSave()" ng-disabled="memberForm.email.$invalid"
+          class="btn btn-primary">Add</button>
+  <a href="javascript:;" onclick="hide('memberForm')" class="btn">Cancel</a>
+</form>
+
+</div>
+
+
+
+<div class="row">
+    <div class="span12">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="row-fluid">
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                <tr class="row-fluid" ng-repeat="member in members |  orderBy:orderProp">
+                <td >{{member.username}}
+                
+                <td>{{member.email}}</td>
+                <td>
+                    <a href ng-click="memberRemove(member.id)">Remove</a>
+                </td>
+                </tr>
+    
+                </tbody>
+            </table>
+           
+    </div>
+</div>
+
+
+
+</div>

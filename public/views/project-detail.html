@@ -1,42 +1,16 @@
-<div class="page-header">
-    <h1>{{ project.title }}</h1>
-</div>
+<navbar data-project="project" active="project"></navbar>
 
 <ul class="breadcrumb">
-        <li><a href="/#/projects">Projects</a> <span class="divider">/</span></li>
-        <li><a href="/#/projects/{{project.id}}">{{project.title}}</a></li>
+        <li><a href="/#/projects/{{project.id}}">{{project.title}}</a><span class="divider">›</span></li>
 </ul>
-
-
- 
 
 
 <div class="content-container">
 
-  <div class="header" id="add_tasklistForm" >
-    <a href="javascript:;" onclick="show('tasklistForm')" class="button">Add a new Tasklist</a>
-  </div>
-  <div id="tasklistForm" class="well width8 display">
-    <form name="tasklistForm">
-      <div class="control-group" ng-class="{error: tasklistForm.title.$invalid}">
-        <label>Title</label>
-        <input type="hidden" name="authenticity_token" ng-model="csrfToken">
-        <input id="input_tasklistForm" type="text" name="title" ng-model="newTasklist.title" class="input-xxlarge input-text" required>
-        <span ng-show="tasklistForm.title.$error.required" class="help-inline">
-            Required</span>
-      </div>
-      <button ng-click="saveTaskList()" ng-disabled="tasklistForm.title.$invalid"
-              class="btn btn-primary">Save</button>
-      <a href="javascript:;" onclick="hide('tasklistForm')" class="btn">Cancel</a>
-    </form>
-  </div>
+<project data-project="project" data-tasklists="tasklists" project-title="{{project.title}}">
+  
 
-  <ul class="nav nav-list">
-    <li class="relative" ng-repeat="tasklist in tasklists | orderBy:orderProp" >
-      <tasklist data-tasklist="tasklist" data-project="project" tasklist-title="{{tasklist.title}}" >
-      </tasklist>
-    </li>
-  </ul>
+</project>
   
 </div>
 

@@ -1,11 +1,8 @@
-<div class="page-header">
-    <h1>{{ tasklist.title }}</h1>
-</div>
+<navbar data-project="project" active="project"></navbar>
 
 <ul class="breadcrumb">
-        <li><a href="/#/projects">Projects</a> <span class="divider">/</span></li>
-        <li><a href="/#/projects/{{project.id}}">{{project.title}}</a> <span class="divider">/</span></li>
-        <li><a href="/#/projects/{{project.id}}/tasklists/{{tasklistId}}">{{tasklist.title}}</a></li>
+        <li><a href="/#/projects/{{project.id}}">{{project.title}}</a> <span class="divider">›</span></li>
+        <li><a href="/#/projects/{{project.id}}/tasklists/{{tasklist.id}}">{{tasklist.title}}</a></li>
 </ul>
 <div class="content-container">
 <div class="relative">

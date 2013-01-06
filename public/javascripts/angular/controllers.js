@@ -88,26 +88,26 @@ function UserListCtrl($scope, User) {
 
 function ProjectDetailCtrl($scope, $http, $location,  $routeParams, Project, TaskList, Task) {
   $scope.orderProp = 'id';
+  $scope.newTasklist = new TaskList();
 
   Project.get({id: $routeParams.projectId}, function(json) {
-    $scope.model = json;
-    $scope.projectId = $routeParams.projectId;
-    $scope.newTasklist = new TaskList();
-    $scope.project = json.project;
-    $scope.tasks = {};
-    $scope.tasklists = [];
-    for(var k in json.tasklists){
-      var v = json.tasklists[k];
-      $scope.tasklists.push(json.tasklists[k]);
+    if(json.stat == 'ok'){
+      // $scope.projectId = $routeParams.projectId;
+      $scope.project = json.project;
+      // $scope.tasks = {};
+      $scope.tasklists = [];
+      for(var k in json.tasklists){
+        var v = json.tasklists[k];
+        $scope.tasklists.push(json.tasklists[k]);
+      }
     }
-
      
   });
 
   $scope.saveTaskList = function(){
 
     var post_data = {title: $scope.newTasklist.title, 
-      projectId: $scope.projectId};
+      projectId: $scope.project.id};
     if($scope.newTasklist.title==undefined){
       return;
     }
@@ -151,6 +151,27 @@ function TaskDetailCtrl($scope, $routeParams, Task) {
 
 }
 
+function ProjectTemplateCtrl($scope, $http, $routeParams, Project, TaskList, Task){
+
+  $scope.saveTaskList = function(){
+
+    var post_data = {title: $scope.newTasklist.title, 
+      projectId: $scope.projectId};
+    if($scope.newTasklist.title==undefined){
+      return;
+    }
+      
+    TaskList.save(post_data, function(json){
+        if(json.stat == "ok")
+        {
+          hide("tasklistForm");
+          // $scope.tasklists[json.tasklist.id] = json.tasklist;
+          $scope.tasklists.push(json.tasklist);
+        }
+      });
+  };
+
+}
 
 function TasklistTemplateCtrl($scope, $http, $routeParams, Task){
   $scope.newTask = new Task();
@@ -290,5 +311,92 @@ function TaskTemplateCtrl($scope, $http, $routeParams, Task){
       });
   };
   
+
+}
+
+
+
+function TopicListCtrl($scope, $http, $routeParams, Project){
+
+
+
+}
+
+function TopicDetailCtrl($scope, $http, $routeParams, Project){
+
+
+
+}
+
+function ProjectSettingsCtrl($scope, $http, $routeParams, Project, Member){
+  $scope.errors = "";
+  $scope.newProjectUser = new Member();
+
+  $scope.members = [];
+ 
+  $http({method: 'GET', url: "/projects/"+$routeParams.projectId+"/members"}).
+        success(function(json, status) {
+          if(json.stat == 'ok'){
+            $scope.project = json.project;
+            $scope.title = $scope.project.title;
+            $scope.members = json.members;
+          }          
+        }).
+        error(function(json, status) {
+         
+      });
+
+  $scope.save = function() {
+    var title = $scope.title;
+    $http({method: 'PUT', url: "/projects/"+$scope.project.id, data: {title: $scope.title}}).
+      success(function(json, status) {
+        if(json.stat == "ok"){
+          $scope.project.title = $scope.title;
+          hide("projectEditForm");
+        }
+      }).
+      error(function(json, status) {
+       
+    });
+
+
+  };
+
+
+  $scope.memberSave = function() {
+    $scope.errors = "";
+    var post_data = {projectId: $scope.project.id, email: $scope.newProjectUser.email};
+    Member.save(post_data, function(json) {
+        if(json.stat == 'ok'){
+          hide("memberForm");
+          $scope.members.push(json.member);
+          $scope.newMember = new Member();
+        }else{
+          $scope.errors = json.error;
+        }
+    });
+  };
+
+
+  $scope.memberRemove = function(memberId){
+      var r=confirm("Are you sure you want to remove the member?");
+      if (r!=true)
+      {
+        return;
+      }
+      var projectId = $scope.project.id;
+      $http({method: 'DELETE', url: "/members/"+memberId, data:{projectId: projectId}}).
+        success(function(json, status) {
+          if(json.stat == "ok"){
+              var index = findArrayIndex($scope.members, memberId);
+              if (index != -1){
+                Array.remove($scope.members, index);
+              }
+          }
+        }).
+        error(function(json, status) {
+         
+      });
+    };
 
 }
