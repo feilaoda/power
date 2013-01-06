@@ -1,16 +1,22 @@
-<div id="task{{task.id}}" class="hoverable" data-task-id="{{task.id}}">
-<div class="hide-actions" style="left: -80px;">
-    <a class="delete" ng-click="taskDelete()">Delete</a>
-    <a class="edit" onclick="show('taskEditForm{{task.id}}')">Edit</a>
-</div>
-    <div>
+<div id="task{{task.id}}" class="hoverable"  data-task-id="{{task.id}}">
+    
+    <div >
+        <div class="hide-actions" style="left: -80px;">
+            <a class="delete" ng-click="taskDelete()">Delete</a>
+            <a class="edit" onclick="show('taskEditForm{{task.id}}')">Edit</a>
+        </div>
+
         <input type="checkbox" ng-model="task.status" ng-true-value="done" ng-false-value="todo" ng-click="taskDone(task)" class="ng-pristine ng-valid" >
         <span class="status-{{task.status}}"> <a class="title" href="#/projects/{{project.id}}/tasks/{{task.id}}">{{task.title}}</a> 
         </span>
-        <div id="taskEditForm{{task.id}}" class="well width8 display">
+        
+
+    </div>
+
+    <div id="taskEditForm{{task.id}}" class="well width8 display">
             <form name="taskEditForm{{task.id}}">
                 <div class="control-group" ng-class="{error: taskEditForm{{task.id}}.name.$invalid}">
-                    <label>Title</label>
+                    <label></label>
                     <input id="input_taskForm{{tasklist.id}}" type="text" name="title" ng-model="title" class="input-xxlarge input-text"  required>
                     <span ng-show="taskEditForm{{task.id}}.title.$error.required" class="help-inline">Required</span>
                 </div>
@@ -18,5 +24,5 @@
                 <a href onclick="hide('taskEditForm{{task.id}}')" class="btn">Cancel</a>
             </form>
         </div>
-    </div>
+    
 </div>
