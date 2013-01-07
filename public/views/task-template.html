@@ -1,15 +1,29 @@
-<div id="task{{task.id}}" class="hoverable"  data-task-id="{{task.id}}">
+<div id="task{{task.id}}" class="hoverable"  data-task-id="{{task.id}}" date-task-finishedAt="{{task.finishedAt}}">
     
     <div >
-        <div class="hide-actions" style="left: -80px;">
+        <div class="hide hide-actions" style="left: -80px;">
             <a class="delete" ng-click="taskDelete()">Delete</a>
             <a class="edit" onclick="show('taskEditForm{{task.id}}')">Edit</a>
         </div>
 
         <input type="checkbox" ng-model="task.status" ng-true-value="done" ng-false-value="todo" ng-click="taskDone(task)" class="ng-pristine ng-valid" >
-        <span class="status-{{task.status}}"> <a class="title" href="#/projects/{{project.id}}/tasks/{{task.id}}">{{task.title}}</a> 
-        </span>
+       
         
+        <span ng-switch on="task.status">
+            <span ng-switch-when="todo">
+                <span class="status-{{task.status}}"> <a class="title" href="#/projects/{{project.id}}/tasks/{{task.id}}">{{task.title}}</a> 
+                </span>
+                <span class="inline assign-{{task.status}}" >
+                    <a rel="popover" id="assignTask{{task.id}}" href="javascript:;" data-html="true" data-content="<div class='input-append date'  data-date='12-02-2012' data-date-format='dd-mm-yyyy'></div>"  data-title="Assign this task to:" data-original-title="Assign this task to:" data-date="{{task.planedAt || ''}}" data-date-format="yyyy-mm-dd" ng-click="assign()" >{{showAssign()}}</a>
+                </span>
+            </span>
+            <span ng-switch-default>
+                <span class="status-{{task.status}}"> <a class="title" href="#/projects/{{project.id}}/tasks/{{task.id}}">{{task.title}}</a> 
+                </span>
+                
+                <span class="inline assign-{{task.status}}">{{showComplete()}}</span>
+            </span>
+        </span>
 
     </div>
 

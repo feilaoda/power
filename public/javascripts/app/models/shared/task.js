@@ -28,6 +28,14 @@
       type: 'String'
     });
 
+    Task.field('planedAt', {
+      type: 'Date'
+    });
+
+    Task.field('completedAt', {
+      type: 'Date'
+    });
+
     Task.belongsTo('project', {
       type: 'Project'
     });

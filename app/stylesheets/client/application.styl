@@ -40,8 +40,29 @@ form
   display: none
 
 .status-done
-  text-decoration: line-through
+  a.title
+    color: #b0b0b0
+    text-decoration: line-through
   color: grey
+  
+.assign-done
+  color: #b0b0b0
+  font-size: 12px
+ 
+.assign-todo
+  a
+    color: #887
+  font-size: 12px
+  line-height: 16px
+  padding: 0 7px
+  background: #EEE
+  border: 1px solid transparent
+  color: #666
+  white-space: nowrap
+  -webkit-border-radius: 12px
+  -moz-border-radius: 12px
+  border-radius: 12px
+  
 
 .page-header h1
   font-size: 24px;
@@ -57,7 +78,8 @@ form
   padding: 20px 0 0;
   margin: 20px 0 20px 0;
 
-
+.inline
+  display: inline-block
 
 .relative
   margin-bottom: 20px
@@ -98,6 +120,8 @@ a.title
   padding: 0 3px 3px
   font-size: 12px
   color: #887
+.hide-done
+  display: none
 
 .nav-tabs > .active-p-project > a, .nav-tabs > .active-t-topic > a, .nav-tabs > .active-s-settings > a, .nav-tabs > .active-p-project > a:hover, .nav-tabs > .active-t-topic > a:hover, .nav-tabs > .active-s-settings > a:hover {
 color: #BBB;
@@ -106,3 +130,6 @@ border: 1px solid #DDD;
 border-bottom-color: transparent;
 cursor: default;
 }
+
+.show
+  display: block;

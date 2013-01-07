@@ -48,9 +48,14 @@ power.directive('project', function(){
       scope: {task:'=', tasklist:'=', project:'=', title:'@taskTitle'},
       templateUrl:'views/task-template.html' + version,
       controller: TaskTemplateCtrl,
-      link: function(scope, element, attrs) {
-
-      }
+      // compile: function compile(element, attrs, transclude) {
+      //   return {
+      //     pre: function preLink(scope, element, attrs, controller) {  },
+      //     post: function postLink(scope, element, attrs, controller) {  }
+      //   }
+      // },
+      // link: function(scope, element, attrs) {
+      // }
     };
 }).directive('navbar', function(){
     return {

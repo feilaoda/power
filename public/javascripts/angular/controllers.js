@@ -249,6 +249,86 @@ function TasklistTemplateCtrl($scope, $http, $routeParams, Task){
 
 function TaskTemplateCtrl($scope, $http, $routeParams, Task){
 
+
+  $scope.assigned = function(){
+    // if ($scope.task.updatedAt != undefined){
+    //   return 'show';
+    // }
+    // else
+    {
+      return 'hide';
+    }
+  };
+
+  $scope.showAssign = function(){
+    if ($scope.task != undefined){
+      var as = "";
+      if($scope.task.userName != undefined){
+          as = $scope.task.userName;
+      }
+      
+      if($scope.task.planedAt != undefined){
+        var planedAt = new Date($scope.task.planedAt);
+        as += " " + dateToYMD(planedAt);
+      }else{
+        as = "Unassigned";
+      }
+      return as;
+    }else{
+      return 'Unassigned';
+    }
+  };
+
+  $scope.showComplete = function(){
+    var as = "";
+    if ($scope.task != undefined){
+      var username = "";
+      if($scope.task.userName != undefined){
+          username = $scope.task.userName;
+      }
+      if($scope.task.completedAt != undefined){
+        var completedAt = new Date($scope.task.completedAt);
+        as ="(Completed by " + username + " on " + dateToYMD(completedAt) + ")"; 
+      }
+    }
+    return as;
+  };
+  // $scope.taskAssign = showAssign();
+  
+
+  $scope.assign = function(){
+    var taskId = $scope.task.id;
+    var id = "#assignTask"+taskId;
+    $(id).datepicker('show')
+      .on('changeDate', function(ev){
+        var planedAt = "";
+        if(ev.date != undefined){
+          var dt = new Date(ev.date);
+          planedAt = dateToYMD(ev.date);
+        }else{
+          $scope.task.planedAt = undefined;
+        }
+        
+        $http({method: 'PUT', url: "/tasks/"+$scope.task.id, data: {projectId: $scope.project.id, planedAt: planedAt}}).
+          success(function(data, status) {
+            if(data.stat == "ok"){
+              $(id).text($scope.task.planedAt);
+              // $(id).show();
+              // $(id).removeClass('hide');
+              $(id).datepicker('hide');
+            }
+          }).
+          error(function(data, status) {
+           
+        });
+
+        
+       
+    });
+  };
+
+
+
   $scope.taskDone = function(task){
       $http({method: 'PUT', url: "/tasks/"+task.id, data: {projectId: $scope.project.id, status: task.status}}).
         success(function(data, status) {

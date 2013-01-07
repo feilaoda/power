@@ -1,6 +1,8 @@
 class App.TasksController extends App.ApplicationController
   @param 'title'
-
+  @param 'planedAt', type: 'Date'
+  @param 'completedAt', type: 'Date'
+   
   @scope 'all'
 
   @beforeAction 'setContentType'
@@ -46,7 +48,7 @@ class App.TasksController extends App.ApplicationController
         return @render json:{stat: '404', error: 'task  not found'}
       @task = task
       App.Project.find @params.projectId, (error, project) =>
-        if error or project == null or @task.get('projectId').toString() != @params.projectId
+        if error or project == null
           return @render json:{stat: '404', error: 'project  not found'}
 
         @task.destroy (error) =>
@@ -56,6 +58,7 @@ class App.TasksController extends App.ApplicationController
         
 
   update: ->
+    now = new Date()
     App.Task.find @params.id, (error, task) =>
       if error or task == null
         return @render json:{stat: '404', error: 'task  not found'}
@@ -63,15 +66,19 @@ class App.TasksController extends App.ApplicationController
       if @params.status != undefined
         if @params.status == 'done'
           status = 'done'
-        else  
+          completedAt = now.getTime()
+          attrs['completedAt'] = completedAt
+        else
           status = 'todo'
-        now = new Date()
-        updatedAt = now.getTime()
-        attrs['updatedAt'] = updatedAt
+        
+        
         attrs['status'] = status
       if @params.title != undefined
         attrs['title'] = @params.title
+      if @params.planedAt != undefined
+        planedAt = new Date(@params.planedAt)
+        attrs['planedAt'] = planedAt
       task.updateAttributes attrs, (error) =>
         if error
           return @render json:{stat: 'fail', error: error}
-        @render json:{stat: 'ok'}
+        @render json:{stat: 'ok', task: task}

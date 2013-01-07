@@ -26,6 +26,14 @@
 
     TasksController.param('title');
 
+    TasksController.param('planedAt', {
+      type: 'Date'
+    });
+
+    TasksController.param('completedAt', {
+      type: 'Date'
+    });
+
     TasksController.scope('all');
 
     TasksController.beforeAction('setContentType');
@@ -132,7 +140,7 @@
         }
         _this.task = task;
         return App.Project.find(_this.params.projectId, function(error, project) {
-          if (error || project === null || _this.task.get('projectId').toString() !== _this.params.projectId) {
+          if (error || project === null) {
             return _this.render({
               json: {
                 stat: '404',
@@ -160,9 +168,11 @@
     });
 
     __defineProperty(TasksController,  "update", function() {
-      var _this = this;
+      var now,
+        _this = this;
+      now = new Date();
       return App.Task.find(this.params.id, function(error, task) {
-        var attrs, now, status, updatedAt;
+        var attrs, completedAt, planedAt, status;
         if (error || task === null) {
           return _this.render({
             json: {
@@ -175,16 +185,19 @@
         if (_this.params.status !== void 0) {
           if (_this.params.status === 'done') {
             status = 'done';
+            completedAt = now.getTime();
+            attrs['completedAt'] = completedAt;
           } else {
             status = 'todo';
           }
-          now = new Date();
-          updatedAt = now.getTime();
-          attrs['updatedAt'] = updatedAt;
           attrs['status'] = status;
         }
         if (_this.params.title !== void 0) {
           attrs['title'] = _this.params.title;
+        }
+        if (_this.params.planedAt !== void 0) {
+          planedAt = new Date(_this.params.planedAt);
+          attrs['planedAt'] = planedAt;
         }
         return task.updateAttributes(attrs, function(error) {
           if (error) {
@@ -197,7 +210,8 @@
           }
           return _this.render({
             json: {
-              stat: 'ok'
+              stat: 'ok',
+              task: task
             }
           });
         });
