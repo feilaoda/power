@@ -189,6 +189,7 @@
             attrs['completedAt'] = completedAt;
           } else {
             status = 'todo';
+            attrs['completedAt'] = null;
           }
           attrs['status'] = status;
         }
@@ -196,25 +197,79 @@
           attrs['title'] = _this.params.title;
         }
         if (_this.params.planedAt !== void 0) {
-          planedAt = new Date(_this.params.planedAt);
+          planedAt = null;
+          if (_this.params.planedAt !== "") {
+            planedAt = new Date(_this.params.planedAt);
+          }
           attrs['planedAt'] = planedAt;
         }
-        return task.updateAttributes(attrs, function(error) {
-          if (error) {
-            return _this.render({
-              json: {
-                stat: 'fail',
-                error: error
+        if (_this.params.userId !== void 0) {
+          if (_this.params.userId === "") {
+            attrs['userId'] = null;
+            attrs['username'] = null;
+            return task.updateAttributes(attrs, function(error) {
+              if (error) {
+                return _this.render({
+                  json: {
+                    stat: 'fail',
+                    error: error
+                  }
+                });
               }
+              return _this.render({
+                json: {
+                  stat: 'ok',
+                  task: task
+                }
+              });
+            });
+          } else {
+            return App.User.find(_this.params.userId, function(error, user) {
+              if (error || user === null) {
+                return _this.render({
+                  json: {
+                    stat: '404',
+                    error: 'user not found'
+                  }
+                });
+              }
+              attrs['userId'] = user.get('id');
+              attrs['username'] = user.get('username');
+              task.updateAttributes(attrs, function(error) {});
+              if (error) {
+                return _this.render({
+                  json: {
+                    stat: 'fail',
+                    error: error
+                  }
+                });
+              }
+              return _this.render({
+                json: {
+                  stat: 'ok',
+                  task: task
+                }
+              });
             });
           }
-          return _this.render({
-            json: {
-              stat: 'ok',
-              task: task
+        } else {
+          return task.updateAttributes(attrs, function(error) {
+            if (error) {
+              return _this.render({
+                json: {
+                  stat: 'fail',
+                  error: error
+                }
+              });
             }
+            return _this.render({
+              json: {
+                stat: 'ok',
+                task: task
+              }
+            });
           });
-        });
+        }
       });
     });
 

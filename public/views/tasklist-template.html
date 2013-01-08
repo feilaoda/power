@@ -1,6 +1,7 @@
+
 <div id="tasklist{{tasklist.id}}" data-tasklist-id="{{tasklist.id}}">
     <div class="hoverable">
-        <div class="hide-actions" style="left: -80px;">
+        <div class="hide hide-actions" style="left: -80px;">
             <a class="delete" ng-click="tasklistDelete()">Delete</a>
             <a class="edit" onclick="show('tasklistEditForm{{tasklist.id}}')">Edit</a>
         </div>
@@ -22,7 +23,7 @@
 
     <ul class="nav nav-list">
     <li ng-repeat="task in tasklist.tasks | filter:{status:'todo'} " id="task{{task.id}}"> 
-        <task data-task="task" data-tasklist="tasklist" data-project="project" task-title="{{task.title}}">
+        <task data-task="task" data-tasklist="tasklist" data-project="project" data-members="members" task-title="{{task.title}}">
         </task>
     </li>
    

@@ -81,42 +81,11 @@
     });
 
     __defineProperty(ProjectsController,  "destroy", function() {
-      var _this = this;
-      return App.Project.find(this.params.id, function(error, project) {
-        if (error || project === null) {
-          return _this.render({
-            json: {
-              stat: 'fail'
-            }
-          });
+      return this.render({
+        json: {
+          stat: 'fail',
+          error: "not supported"
         }
-        App.Tasklist.where({
-          projectId: _this.params.id
-        }).destroy(function(error) {
-          return console.log("destroy tasklist", error);
-        });
-        App.Task.where({
-          projectId: _this.params.id
-        }).destroy(function(error) {
-          return console.log("destroy task", error);
-        });
-        return project.destroy(function(error) {
-          if (error) {
-            return _this.render({
-              json: {
-                stat: 'fail',
-                error: error
-              }
-            });
-          } else {
-            return _this.render({
-              json: {
-                stat: 'ok',
-                project: project
-              }
-            });
-          }
-        });
       });
     });
 

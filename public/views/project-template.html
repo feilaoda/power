@@ -19,7 +19,7 @@
 
   <ul class="nav nav-list">
     <li class="relative" ng-repeat="tasklist in tasklists | orderBy:orderProp" >
-      <tasklist data-tasklist="tasklist" data-project="project" tasklist-title="{{tasklist.title}}" >
+      <tasklist data-tasklist="tasklist" data-project="project" data-members="members" tasklist-title="{{tasklist.title}}" >
       </tasklist>
     </li>
   </ul>

@@ -23,13 +23,29 @@
 	
 	var Datepicker = function(element, options){
 		this.element = $(element);
+		this.options = options;
 		this.format = DPGlobal.parseFormat(options.format||this.element.data('date-format')||'mm/dd/yyyy');
-		this.picker = $(DPGlobal.template)
-							.appendTo('body')
+		this.datepicker = $(DPGlobal.datepickerTemplate)
 							.on({
 								click: $.proxy(this.click, this),
 								mousedown: $.proxy(this.mousedown, this)
 							});
+		this.selectpicker = this.fillSelect().on({
+							change: $.proxy(this.selectChange, this),
+							mousedown: $.proxy(this.selectMousedown, this)
+						});
+		this.picker = $(DPGlobal.template)
+							.append(this.selectpicker)
+							.append(this.datepicker)
+							.appendTo('body');
+							
+
+		// this.picker = $(DPGlobal.template)
+		// 					.appendTo('body')
+		// 					.on({
+		// 						click: $.proxy(this.click, this),
+		// 						mousedown: $.proxy(this.mousedown, this)
+		// 					});
 		this.isInput = this.element.is('input');
 		this.component = this.element.is('.date') ? this.element.find('.add-on') : false;
 		
@@ -77,6 +93,7 @@
 		this.startViewMode = this.viewMode;
 		this.weekStart = options.weekStart||this.element.data('date-weekstart')||0;
 		this.weekEnd = this.weekStart === 0 ? 6 : this.weekStart - 1;
+		this.fillTitle();
 		this.fillDow();
 		this.fillMonths();
 		this.update();
@@ -158,7 +175,34 @@
 			this.viewDate = new Date(this.date.getFullYear(), this.date.getMonth(), 1, 0, 0, 0, 0);
 			this.fill();
 		},
+
+		fillSelect: function(){
+			var html = '<label class="title"><strong>'+this.options.selectTitle+'</strong></label>';
+			var select = "<select>";
+			for(var k in this.options.select){
+		        var v = this.options.select[k];
+		        if(k == this.options.selectDefault){
+		        	select += '<option value="'+k+'" selected="true">'+v+'</option>';
+		        }else{
+		        	select += '<option value="'+k+'" >'+v+'</option>';
+		        }
+		    }
+			select += '<option value="">Unassigned</option>';
+			select += '</select>';
+			// $(select)
+			// return  $(select).on({
+			// 					change: $.proxy(this.selectChange, this),
+			// 					mousedown: $.proxy(this.selectMousedown, this)
+			// 				})
+			html += select ;
+			return $(html);
+			// this.picker.find('.datepicker-select').append(html);
+		},
 		
+		fillTitle: function(){
+			this.picker.find('.datepicker-days .title').append("<strong>Set the due date</strong><hr/>");
+		},
+
 		fillDow: function(){
 			var dowCnt = this.weekStart;
 			var html = '<tr>';
@@ -166,6 +210,7 @@
 				html += '<th class="dow">'+DPGlobal.dates.daysMin[(dowCnt++)%7]+'</th>';
 			}
 			html += '</tr>';
+			
 			this.picker.find('.datepicker-days thead').append(html);
 		},
 		
@@ -267,11 +312,11 @@
 						if (target.is('.month')) {
 							var month = target.parent().find('span').index(target);
 							this.viewDate.setMonth(month);
-						}else if(target.is('.no-date')){
+						}else if(target.is('.no-due-date')){
 							this.date = undefined;
 							this.element.trigger({
 								type: 'changeDate',
-								date: this.date,
+								date: undefined,
 								viewMode: DPGlobal.modes[this.viewMode].clsName
 							});
 							return;
@@ -315,7 +360,20 @@
 				}
 			}
 		},
+
+		selectChange: function(e){
+			var value = $(e.target).val();
+			this.element.trigger({
+								type: 'changeSelect',
+								value: value,
+								viewMode: DPGlobal.modes[this.viewMode].clsName
+							});
+		},
 		
+		selectMousedown: function(e){
+			e.stopPropagation();
+		},
+
 		mousedown: function(e){
 			e.stopPropagation();
 			e.preventDefault();
@@ -329,7 +387,7 @@
 		}
 	};
 	
-	$.fn.datepicker = function ( option, val ) {
+	$.fn.datepicker = function (option, val ) {
 		return this.each(function () {
 			var $this = $(this),
 				data = $this.data('datepicker'),
@@ -337,7 +395,11 @@
 			if (!data) {
 				$this.data('datepicker', (data = new Datepicker(this, $.extend({}, $.fn.datepicker.defaults,options))));
 			}
-			if (typeof option === 'string') data[option](val);
+			if (typeof option === 'string') {
+				data[option](val);
+			}else if(typeof val === 'string'){
+				data[val]();
+			}
 		});
 	};
 
@@ -440,10 +502,37 @@
 							'</tr>'+
 						'</thead>',
 		contTemplate: '<tbody><tr><td colspan="7"></td></tr></tbody>',
-		footTemplate: '<section><span class="no-date" ><a href="javascript:;">No date</a></span></section>'
+		footTemplate: '<label><div class="no-date"><span class="no-due-date"><a href="javascript:;">No due date</a><span></div></label>'
 	};
-	DPGlobal.template = '<div class="datepicker dropdown-menu">'+
+	DPGlobal.selectTemplate = '<label class="datepicker-select"></label>';
+	DPGlobal.datepickerTemplate = '<div class="datepicker-days">'+
+									'<label class="title"></label>'+
+								'<table class=" table-condensed">'+
+									DPGlobal.headTemplate+
+									'<tbody></tbody>'+
+								'</table>'+
+							'</div>'+
+							'<div class="datepicker-months">'+
+								'<label class="title"></label>'+
+								'<table class="table-condensed">'+
+									DPGlobal.headTemplate+
+									DPGlobal.contTemplate+
+								'</table>'+
+							'</div>'+
+							'<div class="datepicker-years">'+
+								'<label class="title"></label>'+
+								'<table class="table-condensed">'+
+									DPGlobal.headTemplate+
+									DPGlobal.contTemplate+
+								'</table>'+
+							'</div>'+
+							DPGlobal.footTemplate;
+	DPGlobal.template = '<div class="datepicker dropdown-menu">'+							
+						'</div>';
+
+	DPGlobal.template1 = '<div class="datepicker dropdown-menu">'+
 							'<div class="datepicker-days">'+
+								
 								'<table class=" table-condensed">'+
 									DPGlobal.headTemplate+
 									'<tbody></tbody>'+

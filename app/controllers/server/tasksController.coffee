@@ -70,15 +70,36 @@ class App.TasksController extends App.ApplicationController
           attrs['completedAt'] = completedAt
         else
           status = 'todo'
-        
-        
+          attrs['completedAt'] = null
         attrs['status'] = status
       if @params.title != undefined
         attrs['title'] = @params.title
       if @params.planedAt != undefined
-        planedAt = new Date(@params.planedAt)
+        planedAt = null
+        if @params.planedAt != ""
+          planedAt = new Date(@params.planedAt)
         attrs['planedAt'] = planedAt
-      task.updateAttributes attrs, (error) =>
-        if error
-          return @render json:{stat: 'fail', error: error}
-        @render json:{stat: 'ok', task: task}
+  
+      if @params.userId != undefined
+        if @params.userId == ""
+          attrs['userId'] = null
+          attrs['username'] = null
+          task.updateAttributes attrs, (error) =>
+            if error
+              return @render json:{stat: 'fail', error: error}
+            return @render json:{stat: 'ok', task: task}
+        else
+          App.User.find @params.userId,(error, user)=>
+            if error or user == null
+              return @render json:{stat: '404', error: 'user not found'}
+            attrs['userId'] = user.get('id')
+            attrs['username'] = user.get('username')
+            task.updateAttributes attrs, (error) =>
+            if error
+              return @render json:{stat: 'fail', error: error}
+            return @render json:{stat: 'ok', task: task}
+      else
+        task.updateAttributes attrs, (error) =>
+          if error
+            return @render json:{stat: 'fail', error: error}
+          @render json:{stat: 'ok', task: task}

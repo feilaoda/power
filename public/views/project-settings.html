@@ -2,12 +2,12 @@
 
 <div class="relative">
     <div class="hoverable">
-        <div class="hide-actions" style="left: -80px;">
+        <div class="hide hide-actions" style="left: -80px;">
             <a class="delete" ng-click="projectDelete()">Delete</a>
-            <a class="edit" onclick="show('projectEditForm')">Edit</a>
+            <a class="edit"  href="javascript:;" onclick="show('projectEditForm')">Edit</a>
         </div>
         <div class="header">
-          <i class="icon-edit"></i> <a class="text" href="#/projects/{{project.id}}"> <strong>{{project.title}}</strong></a>
+          <i class="icon-edit"></i> <a class="text" href="javascript:;" onclick="show('projectEditForm')"> <strong>{{project.title}}</strong></a>
         </div>
     </div>
 </div>
@@ -39,7 +39,7 @@
 
 
 <div class="header" id="add_memberForm" >
-<a href="javascript:;" onclick="show('memberForm')" class="button">Add a new Member</a>
+<a href="javascript:;" onclick="show('memberForm')" class="button">Add a member</a>
 </div>
 
 <div id="memberForm" class="well width8 display">

@@ -104,6 +104,17 @@ function ProjectDetailCtrl($scope, $http, $location,  $routeParams, Project, Tas
      
   });
 
+  $http({method: 'GET', url: "/projects/"+$routeParams.projectId+"/members"}).
+        success(function(json, status) {
+          if(json.stat == 'ok'){
+            $scope.members = json.members;
+          }          
+        }).
+        error(function(json, status) {
+         
+      });
+
+
   $scope.saveTaskList = function(){
 
     var post_data = {title: $scope.newTasklist.title, 
@@ -126,7 +137,17 @@ function ProjectDetailCtrl($scope, $http, $location,  $routeParams, Project, Tas
 
  
 
-function TaskListDetailCtrl($scope, $routeParams, TaskList, Task) {
+function TaskListDetailCtrl($scope, $http, $routeParams, TaskList, Task) {
+  $http({method: 'GET', url: "/projects/"+$routeParams.projectId+"/members"}).
+        success(function(json, status) {
+          if(json.stat == 'ok'){
+            $scope.members = json.members;
+          }          
+        }).
+        error(function(json, status) {
+         
+        });
+
   TaskList.get({projectId: $routeParams.projectId, tasklistId: $routeParams.tasklistId}, function(json) {
       if(json.stat == 'ok'){
         $scope.tasklist = json.tasklist;
@@ -136,9 +157,23 @@ function TaskListDetailCtrl($scope, $routeParams, TaskList, Task) {
       }
   });
 
+ 
+
+
+
 }
 
-function TaskDetailCtrl($scope, $routeParams, Task) {
+function TaskDetailCtrl($scope, $http, $routeParams, Task) {
+  $http({method: 'GET', url: "/projects/"+$routeParams.projectId+"/members"}).
+        success(function(json, status) {
+          if(json.stat == 'ok'){
+            $scope.members = json.members;
+          }          
+        }).
+        error(function(json, status) {
+         
+        });
+        
   Task.get({projectId: $routeParams.projectId, taskId: $routeParams.taskId}, function(json) {
     if(json.stat == 'ok'){
       $scope.project = json.project;
@@ -250,6 +285,7 @@ function TasklistTemplateCtrl($scope, $http, $routeParams, Task){
 function TaskTemplateCtrl($scope, $http, $routeParams, Task){
 
 
+
   $scope.assigned = function(){
     // if ($scope.task.updatedAt != undefined){
     //   return 'show';
@@ -260,33 +296,63 @@ function TaskTemplateCtrl($scope, $http, $routeParams, Task){
     }
   };
 
+  $scope.showAssignUser = function(){
+    if($scope.task == undefined || $scope.task.username == undefined || $scope.task.username == null){
+        return undefined;
+    }
+    return $scope.task.username
+  }
+  $scope.showAssignPlanedDate = function(){
+    if($scope.task == undefined || $scope.task.planedAt == undefined || $scope.task.planedAt == null){
+        return undefined;
+    }
+    var planedAt = new Date($scope.task.planedAt);
+    return dateToYMD(planedAt);
+  }
+
   $scope.showAssign = function(){
-    if ($scope.task != undefined){
-      var as = "";
-      if($scope.task.userName != undefined){
-          as = $scope.task.userName;
-      }
-      
-      if($scope.task.planedAt != undefined){
-        var planedAt = new Date($scope.task.planedAt);
-        as += " " + dateToYMD(planedAt);
-      }else{
-        as = "Unassigned";
-      }
-      return as;
-    }else{
+    var username = $scope.showAssignUser();
+    var planedAt = $scope.showAssignPlanedDate();
+    if(username == undefined && planedAt == undefined){
       return 'Unassigned';
     }
+    var assignString = "";
+    if(username != undefined){
+      assignString += username;
+    }
+    if(planedAt != undefined){
+      if(username != undefined){
+        assignString += " · "
+      }
+      assignString += planedAt;
+    }
+    return assignString;
+    // if ($scope.task != undefined){
+    //   var as = "";
+    //   if($scope.task.username != undefined){
+    //       as = $scope.task.username;
+    //   }
+      
+    //   if($scope.task.planedAt != undefined && $scope.task.planedAt != null){
+    //     var planedAt = new Date($scope.task.planedAt);
+    //     as += " " + dateToYMD(planedAt);
+    //   }else{
+    //     as = "Unassigned";
+    //   }
+    //   return as;
+    // }else{
+    //   return 'Unassigned';
+    // }
   };
 
   $scope.showComplete = function(){
     var as = "";
     if ($scope.task != undefined){
       var username = "";
-      if($scope.task.userName != undefined){
-          username = $scope.task.userName;
+      if($scope.task.username != undefined && $scope.task.username != null){
+          username = $scope.task.username;
       }
-      if($scope.task.completedAt != undefined){
+      if($scope.task.completedAt != undefined && $scope.task.completedAt != null){
         var completedAt = new Date($scope.task.completedAt);
         as ="(Completed by " + username + " on " + dateToYMD(completedAt) + ")"; 
       }
@@ -299,31 +365,63 @@ function TaskTemplateCtrl($scope, $http, $routeParams, Task){
   $scope.assign = function(){
     var taskId = $scope.task.id;
     var id = "#assignTask"+taskId;
-    $(id).datepicker('show')
+    if($(id).hasClass("pop")){
+      return;
+    }
+    $(id).addClass("pop");
+    var members = {};
+
+    $scope.members.forEach(function(member){
+      members[member.userId] = member.username;
+    });
+    members[""] = "";
+    var userId="";
+    if($scope.task.userId != undefined && $scope.task.userId != null){
+      userId = $scope.task.userId;
+    }
+    $(id).datepicker({select:members, selectTitle:"Assign this task to:", selectDefault:userId},'show')
       .on('changeDate', function(ev){
         var planedAt = "";
         if(ev.date != undefined){
           var dt = new Date(ev.date);
           planedAt = dateToYMD(ev.date);
-        }else{
-          $scope.task.planedAt = undefined;
         }
         
         $http({method: 'PUT', url: "/tasks/"+$scope.task.id, data: {projectId: $scope.project.id, planedAt: planedAt}}).
           success(function(data, status) {
             if(data.stat == "ok"){
-              $(id).text($scope.task.planedAt);
-              // $(id).show();
-              // $(id).removeClass('hide');
+              if (planedAt == ""){
+                $scope.task.planedAt = undefined;
+              }
+              else{
+                $scope.task.planedAt = planedAt;
+              }
               $(id).datepicker('hide');
             }
           }).
           error(function(data, status) {
-           
         });
 
-        
-       
+    }).on('changeSelect', function(ev){
+      var userId = ev.value;
+      if(userId == null || userId == undefined){
+        userId = "";
+      }
+      $http({method: 'PUT', url: "/tasks/"+$scope.task.id, data: {projectId: $scope.project.id, userId: userId}}).
+          success(function(data, status) {
+            if(data.stat == "ok"){
+              if (data.task == undefined || data.task.username == undefined || data.task.username == null){
+                $scope.task.username = undefined;
+              }
+              else{
+                $scope.task.username = data.task.username;
+              }
+              $(id).datepicker('hide');
+            }
+          }).
+          error(function(data, status) {
+        });
+
     });
   };
 
@@ -333,7 +431,7 @@ function TaskTemplateCtrl($scope, $http, $routeParams, Task){
       $http({method: 'PUT', url: "/tasks/"+task.id, data: {projectId: $scope.project.id, status: task.status}}).
         success(function(data, status) {
           if(data.stat == "ok"){
-
+            $scope.task.completedAt = data.task.completedAt;
           }
         }).
         error(function(data, status) {

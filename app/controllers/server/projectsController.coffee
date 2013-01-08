@@ -35,18 +35,19 @@ class App.ProjectsController extends App.ApplicationController
         return @render json:{stat: 'ok', project: @project}
         
   destroy: ->
-    App.Project.find @params.id, (error, project) =>
-      if error or project == null
-        return @render json:{stat: 'fail'}
-      App.Tasklist.where(projectId: @params.id).destroy (error) =>
-        console.log("destroy tasklist", error)
-      App.Task.where(projectId: @params.id).destroy (error) =>
-        console.log("destroy task", error)
-      project.destroy (error) =>
-        if error
-          @render json:{stat: 'fail', error: error}
-        else
-          @render json:{stat: 'ok', project: project}
+    @render json:{stat: 'fail', error: "not supported"}
+    # App.Project.find @params.id, (error, project) =>
+    #   if error or project == null
+    #     return @render json:{stat: 'fail'}
+    #   App.Tasklist.where(projectId: @params.id).destroy (error) =>
+    #     console.log("destroy tasklist", error)
+    #   App.Task.where(projectId: @params.id).destroy (error) =>
+    #     console.log("destroy task", error)
+    #   project.destroy (error) =>
+    #     if error
+    #       @render json:{stat: 'fail', error: error}
+    #     else
+    #       @render json:{stat: 'ok', project: project}
 
   member: ->
     App.Project.find @params.id, (error, project) =>

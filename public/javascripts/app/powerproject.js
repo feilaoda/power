@@ -30,20 +30,20 @@ function () {
   }
 });
 
-$("a[rel=popover]").popover({trigger: 'manual'})
-    .click(function() {
-        if($(this).hasClass('pop')) {
-            $(this)
-                .popover('hide')
-                .removeClass('pop');
-        } else {
-            var response = 'Success';
-            $(this)
-                .attr('data-content', response)
-                .popover('show')
-                .addClass('pop');
-        }
-    });
+// $("a[rel=popover]").popover({trigger: 'manual'})
+//     .click(function() {
+//         if($(this).hasClass('pop')) {
+//             $(this)
+//                 .popover('hide')
+//                 .removeClass('pop');
+//         } else {
+//             var response = 'Success';
+//             $(this)
+//                 .attr('data-content', response)
+//                 .popover('show')
+//                 .addClass('pop');
+//         }
+//     });
 
       // .popover('show')
       // .click(function(e) {

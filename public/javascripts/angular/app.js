@@ -23,7 +23,7 @@ power.directive('project', function(){
       restrict: 'E',
       replace: false,
       transclude: true,
-      scope: {tasklists:'=', project:'=', title:'@projectTitle'},
+      scope: {tasklists:'=', project:'=', members:'=', title:'@projectTitle'},
       templateUrl:'views/project-template.html' + version ,
       controller: ProjectTemplateCtrl,
       link: function(scope, element, attrs) {
@@ -34,7 +34,7 @@ power.directive('project', function(){
       restrict: 'E',
       replace: false,
       transclude: true,
-      scope: {tasklist:'=', tasklists:'=', project:'=', title:'@tasklistTitle'},
+      scope: {tasklist:'=', tasklists:'=', project:'=', members:'=',  title:'@tasklistTitle'},
       templateUrl:'views/tasklist-template.html' + version ,
       controller: TasklistTemplateCtrl,
       link: function(scope, element, attrs) {
@@ -45,7 +45,7 @@ power.directive('project', function(){
       restrict: 'E',
       replace: false,
       transclude: true,
-      scope: {task:'=', tasklist:'=', project:'=', title:'@taskTitle'},
+      scope: {task:'=', tasklist:'=', project:'=', members:'=', title:'@taskTitle'},
       templateUrl:'views/task-template.html' + version,
       controller: TaskTemplateCtrl,
       // compile: function compile(element, attrs, transclude) {

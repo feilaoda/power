@@ -2,7 +2,8 @@
 .datepicker {
 	top: 0;
 	left: 0;
-	padding: 4px 10px;
+	width: 180px;
+	padding: 10px 10px;
 	margin-top: 1px;
 	.border-radius(4px);
 	&:before {
@@ -29,6 +30,9 @@
 	>div {
 		display: none;
 	}
+	select{
+		width: 100%;
+	}
 	table{
 		width: 100%;
 		margin: 0;
@@ -38,6 +42,7 @@
 		text-align: center;
 		width: 20px;
 		height: 20px;
+		padding: 4px 2px;
 		.border-radius(4px);
 	}
 	td {
@@ -58,7 +63,7 @@
 		}
 		span {
 			display: block;
-			width: 47px;
+			width: 30px;
 			height: 54px;
 			line-height: 54px;
 			float: left;
@@ -81,7 +86,7 @@
 	
 	th {
 		&.switch {
-			width: 145px;
+			width: 105px;
 		}
 		&.next,
 		&.prev {
@@ -95,9 +100,28 @@
 			background: @grayLighter;
 		}
 	}
+	.title{
+		font-weight: bold;
+		color: black;
+	}
+	.no-date{
+		text-align: center;
+	}
+	hr {
+		display: block;
+		height: 1px;
+		border: 0;
+		border-top: 1px solid #CCC;
+		margin: 1em 0;
+		margin-top: 3px !important;
+		padding: 0;
+	}
 	/*.dow {
 		border-top: 1px solid #ddd !important;
 	}*/
+}
+.datepicker-days{
+	margin-top: 15px;
 }
 .input-append,
 .input-prepend {
