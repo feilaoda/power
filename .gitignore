@@ -19,7 +19,12 @@
 /wiki
 /pkg
 /public/assets
-
+/public/asset-manifest.json
+/public/stylesheets/application-*.css
+/public/stylesheets/vendor-*.css
+/public/javascripts/application-*.js
+/public/javascripts/vendor-*.js
+/public/javascripts/development-*.js
 # Suggested ignores for pesky problem commiters
 # *~
 # *.diff
