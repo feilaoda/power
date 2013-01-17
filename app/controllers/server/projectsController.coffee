@@ -9,6 +9,9 @@ class App.ProjectsController extends App.ApplicationController
   setContentType: ->
     @headers['Content-Type'] = "application/json; charset=UTF-8"
 
+
+
+
   # loadProject: ->
   #   App.Project.find @params.id, (error, project) =>
   #     if error or project == null

@@ -1,6 +1,7 @@
 # Tower.debug = Tower.env == 'development'
 
 App.bootstrap = (data) ->
+  App.Session.load(data.sessions) if data.sessions
   App.Tasklist.load(data.tasklists) if data.tasklists
   App.Task.load(data.tasks) if data.tasks
   App.User.load(data.users) if data.users
@@ -13,6 +14,8 @@ App.bootstrap = (data) ->
     Tower.StoreTransportAjax.defaults.async = false
     
   App.initialize()
+  
+    
   App.listen()
 
   # Force rendering before dom ready (better UX with ember)

@@ -16,6 +16,7 @@ module.exports =
     edit: "Editing %{name}"
 
   links:
+    sessions: "Sessions"
     tasklists: "Tasklists"
     tasks: "Tasks"
     users: "Users"

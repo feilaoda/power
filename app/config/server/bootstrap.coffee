@@ -12,6 +12,11 @@ App.configure ->
   @use (request, response, next) ->
     response.removeHeader('X-Powered-By')
     next()
+
+  Tower.Auth.initialize ->
+    @provider 'github', url: '127.0.0.1:3000'
+    #@provider 'google'
+
   @use Tower.MiddlewareAgent
   @use Tower.MiddlewareLocation
   # if Tower.httpCredentials && Tower.branch != 'development'

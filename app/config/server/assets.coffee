@@ -29,12 +29,18 @@ module.exports =
       # '/app/views/client/tasklists/show'
       # '/app/controllers/client/tasklistsController'
       '/app/models/shared/member'
+      '/app/models/shared/token'
       '/angular/app'
       '/angular/controllers'
       '/angular/services'
       '/angular/filters'
       '/app/powerproject'
       
+      '/app/models/shared/session'
+      '/app/views/client/sessions/form'
+      '/app/views/client/sessions/index'
+      '/app/views/client/sessions/show'
+      '/app/controllers/client/sessionsController'
     ]
 
     # lib: [
@@ -87,6 +93,7 @@ module.exports =
       '/test/cases/models/shared/userTest'
       '/test/cases/models/shared/taskTest'
       '/test/cases/models/shared/tasklistTest'
+      '/test/cases/models/shared/sessionTest'
     ]
 
   stylesheets:

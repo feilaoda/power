@@ -27,6 +27,11 @@ App.requireDirectory('./test/factories')
 _.series [
   (callback) =>
     _(20).timesAsync callback, (next) =>
+      Tower.Factory.create 'session', (error, record) =>
+        console.log _.stringify(record)
+        next()
+  (callback) =>
+    _(20).timesAsync callback, (next) =>
       Tower.Factory.create 'tasklist', (error, record) =>
         console.log _.stringify(record)
         next()

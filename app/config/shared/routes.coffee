@@ -1,4 +1,5 @@
 Tower.Route.draw ->
+  @resources 'sessions'
   
   @resources 'tasklists'
   @resources 'users'
@@ -10,7 +11,7 @@ Tower.Route.draw ->
   #   @post 'changes'
 
   # @match '(/*path)', to: 'application#index'
-  
+  @match '/auth/:provider/callback', to: 'sessions#create'
   @match 'projects/:id/members', to: 'projects#member',
 
   @namespace 'api', ->

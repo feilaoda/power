@@ -172,6 +172,198 @@ Tower.View.cache = {
   <dd>{{createTime}}</dd>\
 </dl>\
 {{/with}}'),
+  'sessions/edit': Ember.Handlebars.compile('{{#if getFlash.error}}<div class="alert alert-error">\
+  <a class="close" data-dismiss="alert" href="#">\
+    x\
+  </a>\
+  <h1>Error!</h1>\
+  <h4>{{getFlash.error}}</h4>\
+</div>\
+{{/if}}{{#if getFlash.success}}<div class="alert alert-success">\
+  <a class="close" data-dismiss="alert" href="#">\
+    x\
+  </a>\
+  <h1>Success!</h1>\
+  <h4>{{getFlash.success}}</h4>\
+</div>\
+{{/if}}{{#if getFlash.info}}<div class="alert alert-info">\
+  <a class="close" data-dismiss="alert" href="#">\
+    x\
+  </a>\
+  <h1>Important!</h1>\
+  <h4>{{getFlash.info}}</h4>\
+</div>\
+{{/if}}{{#with resource}}<form>\
+  <fieldset>\
+    <ul class="fields">\
+      <li class="control-group">\
+        <div class="controls">\
+          <label>Provider:</label>\
+{{view Ember.TextField valueBinding="provider"}}{{#with errors}}          <span class="help-inline error">{{provider}}</span>\
+{{/with}}        </div>\
+      </li>\
+      <li class="control-group">\
+        <div class="controls">\
+          <label>Uid:</label>\
+{{view Ember.TextField valueBinding="uid"}}{{#with errors}}          <span class="help-inline error">{{uid}}</span>\
+{{/with}}        </div>\
+      </li>\
+      <li class="control-group">\
+        <div class="controls">\
+          <label>Username:</label>\
+{{view Ember.TextField valueBinding="username"}}{{#with errors}}          <span class="help-inline error">{{username}}</span>\
+{{/with}}        </div>\
+      </li>\
+      <li>\
+        <a {{action submit target="resource"}}>Submit</a>\
+      </li>\
+    </ul>\
+  </fieldset>\
+</form>\
+{{/with}}'),
+  'sessions/index': Ember.Handlebars.compile('{{#if getFlash.error}}<div class="alert alert-error">\
+  <a class="close" data-dismiss="alert" href="#">\
+    x\
+  </a>\
+  <h1>Error!</h1>\
+  <h4>{{getFlash.error}}</h4>\
+</div>\
+{{/if}}{{#if getFlash.success}}<div class="alert alert-success">\
+  <a class="close" data-dismiss="alert" href="#">\
+    x\
+  </a>\
+  <h1>Success!</h1>\
+  <h4>{{getFlash.success}}</h4>\
+</div>\
+{{/if}}{{#if getFlash.info}}<div class="alert alert-info">\
+  <a class="close" data-dismiss="alert" href="#">\
+    x\
+  </a>\
+  <h1>Important!</h1>\
+  <h4>{{getFlash.info}}</h4>\
+</div>\
+{{/if}}<table summary="Table for Sessions" role="grid" class="table">\
+  <thead>\
+    <tr scope="row">\
+      <th abbr="provider" role="columnheader" scope="col" class="sortable asc" aria-sort="asc" aria-selected="aria-selected">\
+        <a href="?sort=+">\
+          <span>Provider</span>\
+        </a>\
+      </th>\
+      <th abbr="uid" role="columnheader" scope="col" class="sortable asc" aria-sort="asc" aria-selected="aria-selected">\
+        <a href="?sort=+">\
+          <span>Uid</span>\
+        </a>\
+      </th>\
+      <th abbr="username" role="columnheader" scope="col" class="sortable asc" aria-sort="asc" aria-selected="aria-selected">\
+        <a href="?sort=+">\
+          <span>Username</span>\
+        </a>\
+      </th>\
+    </tr>\
+  </thead>\
+  <tbody>\
+{{#each session in App.sessionsController.all}}    <tr class="session" scope="row" role="row">\
+      <td role="gridcell">{{session.provider}}</td>\
+      <td role="gridcell">{{session.uid}}</td>\
+      <td role="gridcell">{{session.username}}</td>\
+      <td role="gridcell">\
+        <a {{action showSession session href=true}}>Show</a>\
+        <span>|</span>\
+        <a {{action editSession session href=true}}>Edit</a>\
+        <span>|</span>\
+        <a {{action destroySession session}}>Destroy</a>\
+      </td>\
+    </tr>\
+{{/each}}  </tbody>\
+  <tfoot>\
+    <tr scope="row">\
+      <td colspan="6" role="gridcell">\
+        <a {{action newSession session href=true}}>New Session</a>\
+      </td>\
+    </tr>\
+  </tfoot>\
+</table>\
+'),
+  'sessions/new': Ember.Handlebars.compile('{{#if getFlash.error}}<div class="alert alert-error">\
+  <a class="close" data-dismiss="alert" href="#">\
+    x\
+  </a>\
+  <h1>Error!</h1>\
+  <h4>{{getFlash.error}}</h4>\
+</div>\
+{{/if}}{{#if getFlash.success}}<div class="alert alert-success">\
+  <a class="close" data-dismiss="alert" href="#">\
+    x\
+  </a>\
+  <h1>Success!</h1>\
+  <h4>{{getFlash.success}}</h4>\
+</div>\
+{{/if}}{{#if getFlash.info}}<div class="alert alert-info">\
+  <a class="close" data-dismiss="alert" href="#">\
+    x\
+  </a>\
+  <h1>Important!</h1>\
+  <h4>{{getFlash.info}}</h4>\
+</div>\
+{{/if}}{{#with resource}}<form>\
+  <fieldset>\
+    <ul class="fields">\
+      <li class="control-group">\
+        <div class="controls">\
+          <label>Provider:</label>\
+{{view Ember.TextField valueBinding="provider"}}{{#with errors}}          <span class="help-inline error">{{provider}}</span>\
+{{/with}}        </div>\
+      </li>\
+      <li class="control-group">\
+        <div class="controls">\
+          <label>Uid:</label>\
+{{view Ember.TextField valueBinding="uid"}}{{#with errors}}          <span class="help-inline error">{{uid}}</span>\
+{{/with}}        </div>\
+      </li>\
+      <li class="control-group">\
+        <div class="controls">\
+          <label>Username:</label>\
+{{view Ember.TextField valueBinding="username"}}{{#with errors}}          <span class="help-inline error">{{username}}</span>\
+{{/with}}        </div>\
+      </li>\
+      <li>\
+        <a {{action submit target="resource"}}>Submit</a>\
+      </li>\
+    </ul>\
+  </fieldset>\
+</form>\
+{{/with}}'),
+  'sessions/show': Ember.Handlebars.compile('{{#if getFlash.error}}<div class="alert alert-error">\
+  <a class="close" data-dismiss="alert" href="#">\
+    x\
+  </a>\
+  <h1>Error!</h1>\
+  <h4>{{getFlash.error}}</h4>\
+</div>\
+{{/if}}{{#if getFlash.success}}<div class="alert alert-success">\
+  <a class="close" data-dismiss="alert" href="#">\
+    x\
+  </a>\
+  <h1>Success!</h1>\
+  <h4>{{getFlash.success}}</h4>\
+</div>\
+{{/if}}{{#if getFlash.info}}<div class="alert alert-info">\
+  <a class="close" data-dismiss="alert" href="#">\
+    x\
+  </a>\
+  <h1>Important!</h1>\
+  <h4>{{getFlash.info}}</h4>\
+</div>\
+{{/if}}{{#with resource}}<dl class="content">\
+  <dt>Provider:</dt>\
+  <dd>{{provider}}</dd>\
+  <dt>Uid:</dt>\
+  <dd>{{uid}}</dd>\
+  <dt>Username:</dt>\
+  <dd>{{username}}</dd>\
+</dl>\
+{{/with}}'),
   'tasklists/edit': Ember.Handlebars.compile('{{#if getFlash.error}}<div class="alert alert-error">\
   <a class="close" data-dismiss="alert" href="#">\
     x\
