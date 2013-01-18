@@ -69,7 +69,7 @@ class App.TasklistsController extends App.ApplicationController
         return @render json:{stat: '404', error: 'tasklist not found'}
       @tasklist = tasklist
       App.Project.find @params.projectId, (error, project) =>
-        if error or project == null or @tasklist.get('projectId').toString() != project.get('id').toString()
+        if error or project == null
           return @render json:{stat: '404', error: 'project not found'}
 
         @tasklist.destroy (error) =>

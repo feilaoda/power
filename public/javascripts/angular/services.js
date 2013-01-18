@@ -28,7 +28,7 @@ angular.module('tasklistServices', ['ngResource']).
             get: {method:'GET', params:{tasklistId: ''}},
             query: {method:'GET', params:{tasklistId: ''}, isArray:true},
             update: {method: 'PUT'},
-            save: {method: 'POST', params:{id:''}},
+            save: {method: 'POST', params:{tasklistId:''}},
         });
 
         TaskList.prototype.save = function(cb){

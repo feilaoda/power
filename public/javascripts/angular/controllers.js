@@ -99,7 +99,9 @@ function ProjectDetailCtrl($scope, $http, $location,  $routeParams, Project, Tas
       for(var k in json.tasklists){
         var v = json.tasklists[k];
         $scope.tasklists.push(json.tasklists[k]);
+
       }
+      $scope.project.tasklists = $scope.tasklists;
     }
      
   });
@@ -191,7 +193,7 @@ function ProjectTemplateCtrl($scope, $http, $routeParams, Project, TaskList, Tas
   $scope.saveTaskList = function(){
 
     var post_data = {title: $scope.newTasklist.title, 
-      projectId: $scope.projectId};
+      projectId: $scope.project.id};
     if($scope.newTasklist.title==undefined){
       return;
     }
@@ -243,12 +245,12 @@ function TasklistTemplateCtrl($scope, $http, $routeParams, Task){
       $http({method: 'DELETE', url: "/tasklists/"+$scope.tasklist.id, data:{projectId: $scope.project.id}}).
         success(function(json, status) {
           if(json.stat == "ok"){
-            if($scope.tasklists == null){
+            if($scope.project.tasklists == null){
               window.location = "#/projects/"+projectId;
             }
             else{
-              var tls = $scope.tasklists;
-              var index = findArrayIndex(tls, $scope.tasklist.id);
+              var tls = $scope.project.tasklists;
+              var index = findArrayIndex(tls, tasklistId);
               if (index != -1){
                 Array.remove(tls, index);
               }
