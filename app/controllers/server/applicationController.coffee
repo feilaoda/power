@@ -10,7 +10,7 @@ class App.ApplicationController extends Tower.Controller
 
   @beforeAction 'bootstrap'#, only: 'welcome'
 
-  @beforeAction 'authCheck'
+  #@beforeAction 'authCheck'
   authCheck: ->
     userId = @request.cookies.user
     if userId == null || userId == undefined
@@ -33,9 +33,9 @@ class App.ApplicationController extends Tower.Controller
     # for every model you add, you can add it to the bootstrap
     # dataset by using this async helper.
     _.series [
-      # (next) => App.Session.all (error, sessions) =>
-      #   data.sessions = sessions
-      #   next()
+      (next) => App.Session.all (error, sessions) =>
+        data.sessions = sessions
+        next()
       # (next) => App.Tasklist.all (error, tasklists) =>
       #   data.tasklists = tasklists
       #   next()
